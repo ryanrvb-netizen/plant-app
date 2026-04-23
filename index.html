@@ -1,0 +1,2044 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Plant Care</title>
+  <style>
+    :root {
+      --primary: #2d5a27;
+      --primary-light: #4a7c44;
+      --accent: #7cb342;
+      --bg: #f5f7f3;
+      --card-bg: #ffffff;
+      --text: #333333;
+      --text-light: #666666;
+      --border: #e0e5dc;
+      --water: #2196f3;
+      --success: #4caf50;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+    }
+
+    h1 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 24px;
+      font-size: 1.75rem;
+    }
+
+    .add-plant-form {
+      background: var(--card-bg);
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      margin-bottom: 24px;
+    }
+
+    .add-plant-form h2 {
+      font-size: 1.1rem;
+      margin-bottom: 16px;
+      color: var(--text);
+    }
+
+    .form-group {
+      margin-bottom: 14px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.85rem;
+      color: var(--text-light);
+      margin-bottom: 6px;
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-size: 1rem;
+      background: var(--bg);
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus {
+      outline: none;
+      border-color: var(--primary);
+    }
+
+    .care-info {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 10px;
+    }
+
+    .care-info .care-display {
+      padding: 10px;
+      font-size: 0.9rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+    }
+
+    .care-info .care-display.water { border-left: 3px solid var(--water); }
+    .care-info .care-display.light { border-left: 3px solid #ff9800; }
+    .care-info .care-display.soil { border-left: 3px solid #8d6e63; }
+
+    .care-info .care-label {
+      display: block;
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-bottom: 2px;
+    }
+
+    .care-info .care-value {
+      font-weight: 500;
+    }
+
+    .suggestion-box {
+      position: absolute;
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      z-index: 100;
+      display: none;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+
+    .suggestion-box.show {
+      display: block;
+    }
+
+    .suggestion-item {
+      padding: 10px 14px;
+      cursor: pointer;
+      transition: background 0.15s;
+    }
+
+    .suggestion-item:hover {
+      background: var(--bg);
+    }
+
+    .species-group {
+      position: relative;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    button:hover {
+      background: var(--primary-light);
+    }
+
+    .plants-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .plant-card {
+      background: var(--card-bg);
+      padding: 16px;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .plant-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 12px;
+    }
+
+    .plant-name {
+      font-weight: 600;
+      font-size: 1.1rem;
+    }
+
+    .plant-nickname {
+      color: var(--text-light);
+      font-size: 0.9rem;
+      font-style: italic;
+    }
+
+    .watered-badge {
+      background: var(--water);
+      color: white;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .watered-today {
+      background: var(--success);
+    }
+
+    .care-details {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 14px;
+    }
+
+    .care-item {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.85rem;
+      color: var(--text-light);
+    }
+
+    .care-icon {
+      font-size: 1rem;
+    }
+
+    .water-btn {
+      width: auto;
+      padding: 10px 20px;
+      background: var(--water);
+      font-size: 0.9rem;
+    }
+
+    .water-btn:hover {
+      background: #1976d2;
+    }
+
+    .water-btn.watered {
+      background: var(--success);
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 40px 20px;
+      color: var(--text-light);
+    }
+
+    .empty-icon {
+      font-size: 3rem;
+      margin-bottom: 12px;
+    }
+
+    .delete-btn {
+      background: transparent;
+      color: #999;
+      padding: 4px 8px;
+      width: auto;
+      font-size: 0.8rem;
+    }
+
+    .delete-btn:hover {
+      background: #fee;
+      color: #c00;
+    }
+
+    .care-expanded {
+      background: #f8faf6;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 14px;
+    }
+
+    .care-expanded-title {
+      font-size: 0.8rem;
+      font-weight: 600;
+      color: var(--primary);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .care-detail-row {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 8px;
+      font-size: 0.85rem;
+    }
+
+    .care-detail-row:last-child {
+      margin-bottom: 0;
+    }
+
+    .care-detail-label {
+      min-width: 80px;
+      color: var(--text-light);
+      font-weight: 500;
+    }
+
+    .care-detail-value {
+      color: var(--text);
+    }
+
+    .leaf-signals {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-top: 4px;
+    }
+
+    .leaf-signal {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 0.75rem;
+    }
+
+    .leaf-signal.underwater {
+      background: #fff3e0;
+      color: #e65100;
+    }
+
+    .leaf-signal.overwater {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>🌱 Plant Care</h1>
+    
+    <div class="add-plant-form">
+      <h2>Add New Plant</h2>
+      <div class="form-group">
+        <label for="species">Species</label>
+        <div class="species-group">
+          <input type="text" id="species" placeholder="e.g., Monstera Deliciosa" autocomplete="off">
+          <div id="suggestions" class="suggestion-box"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nickname">Nickname</label>
+        <input type="text" id="nickname" placeholder="e.g., Monty">
+      </div>
+      <div class="form-group">
+        <label>Care Needs</label>
+        <div class="care-info">
+          <div class="care-display water">
+            <span class="care-label">💧 Water</span>
+            <span id="waterDisplay" class="care-value">—</span>
+          </div>
+          <div class="care-display light">
+            <span class="care-label">☀️ Light</span>
+            <span id="lightDisplay" class="care-value">—</span>
+          </div>
+          <div class="care-display soil">
+            <span class="care-label">🪴 Soil</span>
+            <span id="soilDisplay" class="care-value">—</span>
+          </div>
+        </div>
+      </div>
+      <button onclick="addPlant()">Add Plant</button>
+    </div>
+
+    <div id="plantsList" class="plants-list"></div>
+  </div>
+
+  <script>
+    // Plant database with detailed care needs
+    const plantDatabase = {
+      'Monstera Deliciosa': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly until it flows from drainage holes, then allow to drain fully. Reduce watering in winter.',
+        soilDrynessCheck: 'Insert finger 2 inches into soil; water when top 2 inches feel dry. Monsteras prefer consistent moisture.',
+        leafSignals: { underwater: 'Leaves droop and curl inward, fenestrations stop developing', overwater: 'Yellow leaves starting from edges, brown mushy spots on leaves' },
+        waterAmount: 'thorough'
+      },
+      'Monstera Adansonii': { 
+        waterDays: 5, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. This species is thirstier than M. Deliciosa due to smaller leaves.',
+        soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry. More frequent watering needed.',
+        leafSignals: { underwater: 'Leaves droop significantly, holes may not develop fully', overwater: 'Yellow leaves, soft black stems' },
+        waterAmount: 'moderate'
+      },
+      'Monstera Obliqua': { 
+        waterDays: 4, 
+        light: 'Bright Indirect', 
+        soil: 'Very well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep consistently moist but never waterlogged. Very sensitive to overwatering.',
+        soilDrynessCheck: 'Check top inch; water when surface is barely dry. Do not let dry out completely.',
+        leafSignals: { underwater: 'Tiny leaves droop, crispy leaf edges', overwater: 'Rapid yellowing, mushy stems' },
+        waterAmount: 'light'
+      },
+      'Pothos (Epipremnum)': { 
+        waterDays: 7, 
+        light: 'Low to Bright', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly and let drain completely. Very forgiving but dislikes soggy soil.',
+        soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry. Will tolerate some neglect.',
+        leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' },
+        waterAmount: 'thorough'
+      },
+      'Golden Pothos': { 
+        waterDays: 7, 
+        light: 'Low to Bright', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water when soil is dry. Tolerates low light but variegation shows best in brighter conditions.',
+        soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.',
+        leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' },
+        waterAmount: 'thorough'
+      },
+      'Marble Queen Pothos': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, allow soil to dry between waterings. Slower growing than Golden Pothos.',
+        soilDrynessCheck: 'Feel top 2 inches; water when completely dry. Less water needed in low light.',
+        leafSignals: { underwater: 'Leaves appear dull, vines wilt', overwater: 'Yellowing leaves, soft brown stems' },
+        waterAmount: 'thorough'
+      },
+      'Neon Pothos': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Bright neon color needs good light to maintain.',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Drooping, color fades to green', overwater: 'Yellow leaves, mushy stems' },
+        waterAmount: 'thorough'
+      },
+      'Manjula Pothos': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water when soil is dry. Slower growing, needs good humidity for best leaf quality.',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Wilting, variegation fades', overwater: 'Yellow leaves, stem rot' },
+        waterAmount: 'moderate'
+      },
+      'Philodendron': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly until water flows from drainage holes. Allow top inch to dry between waterings.',
+        soilDrynessCheck: 'Check top inch; water when dry to touch. More frequent water in growing season.',
+        leafSignals: { underwater: 'Leaves droop and point downward, new leaves smaller', overwater: 'Yellow leaves, black stems, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Philodendron Brasil': { 
+        waterDays: 6, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Fast grower that drinks more water than most philodendrons.',
+        soilDrynessCheck: 'Top inch dry = water. Check more often in summer.',
+        leafSignals: { underwater: 'Vines wilt, leaves curl inward', overwater: 'Yellow leaves, mushy stems at base' },
+        waterAmount: 'thorough'
+      },
+      'Heartleaf Philodendron': { 
+        waterDays: 7, 
+        light: 'Medium', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Very tolerant of neglect but grows best with regular watering.',
+        soilDrynessCheck: 'Check top inch of soil; water when dry. Tolerates drying out better than overwatering.',
+        leafSignals: { underwater: 'Drooping vines, leaves point down', overwater: 'Yellow leaves from stem end, soft black stems' },
+        waterAmount: 'thorough'
+      },
+      'Philodendron Micans': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Velvet leaves can hold water so check soil before watering.',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Velvet leaves look dull, vines droop', overwater: 'Yellow leaves, stem rot' },
+        waterAmount: 'moderate'
+      },
+      'Philodendron Prince of Orange': {
+        waterDays: 6,
+        light: 'Medium to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep evenly moist. New leaves emerge orange and mature to green.',
+        soilDrynessCheck: 'Check top inch; water when slightly dry',
+        leafSignals: { underwater: 'Wilting, leaves droop', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Philodendron Selloum': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Rich, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep moist during growing season. Large leaves need humidity.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry',
+        leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Tree Philodendron': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Rich, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly. Needs more space than other philodendrons.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Snake Plant (Sansevieria)': { 
+        waterDays: 14, 
+        light: 'Low to Bright', 
+        soil: 'Well-draining succulent mix',
+        waterMethod: 'top',
+        waterNotes: 'Water sparingly; allow to dry completely between waterings. In winter, water only once a month.',
+        soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry throughout root zone.',
+        leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' },
+        waterAmount: 'light'
+      },
+      'Sansevieria': { 
+        waterDays: 14, 
+        light: 'Low to Bright', 
+        soil: 'Well-draining succulent mix',
+        waterMethod: 'top',
+        waterNotes: 'Allow soil to dry completely between waterings. Very drought-tolerant.',
+        soilDrynessCheck: 'Check 3 inches deep; water when bone dry. Less water in low light.',
+        leafSignals: { underwater: 'Wrinkled, curled leaves, slow growth', overwater: 'Soft, mushy leaves that easily bend' },
+        waterAmount: 'light'
+      },
+      'Sansevieria Trifasciata': {
+        waterDays: 14,
+        light: 'Low to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water every 2-3 weeks. Can go months without water in winter.',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry',
+        leafSignals: { underwater: 'Wrinkled leaves', overwater: 'Mushy base' },
+        waterAmount: 'light'
+      },
+      'Sansevieria Zeylanica': {
+        waterDays: 14,
+        light: 'Low to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Very hardy, water sparingly. Prefers being slightly rootbound.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Curling', overwater: 'Mushy' },
+        waterAmount: 'light'
+      },
+      'Snake Plant Black Gold': {
+        waterDays: 14,
+        light: 'Low to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water every 2-3 weeks. Darker leaves need less light.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy base' },
+        waterAmount: 'light'
+      },
+      'ZZ Plant': { 
+        waterDays: 21, 
+        light: 'Low to Medium', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water very sparingly; rhizomes store water. In winter, water once a month or less.',
+        soilDrynessCheck: 'Check 2-3 inches; water only when completely dry. Better to underwater than overwater.',
+        leafSignals: { underwater: 'Stems become thin and wrinkled, leaves turn yellow then brown', overwater: 'Yellow leaves, mushy black rhizomes, stunted growth' },
+        waterAmount: 'light'
+      },
+      'Zamioculcas': {
+        waterDays: 21,
+        light: 'Low to Medium',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Extremely drought-tolerant. Water only when soil is completely dry.',
+        soilDrynessCheck: 'Check 3 inches; water when bone dry',
+        leafSignals: { underwater: 'Wrinkled stems', overwater: 'Yellow leaves, mushy' },
+        waterAmount: 'light'
+      },
+      'Spider Plant': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep evenly moist but not soggy. Sensitive to fluoride in tap water.',
+        soilDrynessCheck: 'Check top inch; water when dry. Use filtered water if brown tips develop.',
+        leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' },
+        waterAmount: 'moderate'
+      },
+      'Chlorophytum Comosum': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Produces plantlets that can be propagated.',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Brown tips', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Variegated Spider Plant': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. White variegation needs more light.',
+        soilDrynessCheck: 'Check top inch; dry',
+        leafSignals: { underwater: 'Brown tips, wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Peace Lily': { 
+        waterDays: 5, 
+        light: 'Low to Medium', 
+        soil: 'Rich, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep consistently moist; hates drying out. Dramatically droops when thirsty but recovers quickly.',
+        soilDrynessCheck: 'Check top inch; water when slightly damp. Do not let dry out completely.',
+        leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Spathiphyllum': { 
+        waterDays: 5, 
+        light: 'Low to Medium', 
+        soil: 'Rich, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, never let dry out completely. Will dramatically droop when thirsty.',
+        soilDrynessCheck: 'Feel top inch; water when almost dry but still slightly damp.',
+        leafSignals: { underwater: 'Dramatic wilting, drooping flowers', overwater: 'Yellow leaves, black tips, mushy stems' },
+        waterAmount: 'moderate'
+      },
+      'Spathiphyllum Wallisii': {
+        waterDays: 5,
+        light: 'Low to Medium',
+        soil: 'Rich, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Smaller variety, great for low light.',
+        soilDrynessCheck: 'Check top inch; slightly damp',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Aloe Vera': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy',
+        waterMethod: 'top',
+        waterNotes: 'Water deeply but infrequently; must drain well',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry',
+        leafSignals: { underwater: 'Thinning, curling leaves', overwater: 'Mushy, translucent leaves' },
+        waterAmount: 'thorough'
+      },
+      'Rubber Plant': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain completely. Wipe leaves regularly to keep glossy.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Less water in winter.',
+        leafSignals: { underwater: 'Leaves droop and curl inward, lower leaves turn yellow', overwater: 'Yellow leaves, leaf drop, black stems' },
+        waterAmount: 'thorough'
+      },
+      'Ficus Elastica': {
+        waterDays: 10,
+        light: 'Medium to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Milky sap can irritate skin.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Black Rubber Plant': {
+        waterDays: 10,
+        light: 'Medium to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top 2 inches dry. Dark leaves need less light.',
+        soilDrynessCheck: 'Check top 2 inches; dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Fiddle Leaf Fig': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly until it drains; do not let sit in water. Avoid moving once placed.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Consistent watering schedule is key.',
+        leafSignals: { underwater: 'Wilting, brown crispy edges on leaves, leaf drop from bottom', overwater: 'Yellow leaves with brown spots, root rot, mushy base' },
+        waterAmount: 'thorough'
+      },
+      'Ficus Lyrata': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, allow to drain. Keep away from drafts and heating vents.',
+        soilDrynessCheck: 'Top 2 inches dry = water. Do not let dry out completely.',
+        leafSignals: { underwater: 'Drooping leaves, brown edges', overwater: 'Yellow leaves, brown spots' },
+        waterAmount: 'thorough'
+      },
+      'Fiddle Leaf Fig Tineke': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top 2 inches dry. Variegation needs more light.',
+        soilDrynessCheck: 'Check top 2 inches; dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Bird of Paradise': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep evenly moist',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Curling, drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Strelitzia': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain',
+        soilDrynessCheck: 'Top inch dry = water',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Calathea': { 
+        waterDays: 5, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based mix',
+        waterMethod: 'top',
+        waterNotes: 'Use filtered or distilled water; keep consistently moist but not soggy. High humidity essential.',
+        soilDrynessCheck: 'Check top inch; water when slightly damp. Never let dry out completely.',
+        leafSignals: { underwater: 'Crispy brown edges, leaves curl inward, prayer position at night fails', overwater: 'Yellow leaves, root rot, mushy stems' },
+        waterAmount: 'moderate'
+      },
+      'Calathea Orbifolia': { 
+        waterDays: 5, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, use distilled water. Large leaves need humidity to prevent browning.',
+        soilDrynessCheck: 'Top inch moist = water. Check every 2-3 days.',
+        leafSignals: { underwater: 'Crispy leaf edges, leaves not opening fully', overwater: 'Yellowing leaves, drooping' },
+        waterAmount: 'moderate'
+      },
+      'Calathea Rattlesnake': { 
+        waterDays: 5, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Maintain moisture, avoid tap water. More tolerant than other calatheas.',
+        soilDrynessCheck: 'Check top inch; keep slightly moist.',
+        leafSignals: { underwater: 'Curling leaves, brown tips', overwater: 'Yellow leaves, mushy base' },
+        waterAmount: 'moderate'
+      },
+      'Calathea Medaillon': {
+        waterDays: 5,
+        light: 'Medium Indirect',
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, high humidity. Silver markings need good light.',
+        soilDrynessCheck: 'Check top inch; moist',
+        leafSignals: { underwater: 'Crispy edges', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Calathea White Fusion': {
+        waterDays: 5,
+        light: 'Medium Indirect',
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. White variegation is delicate and needs humidity.',
+        soilDrynessCheck: 'Check top inch; moist',
+        leafSignals: { underwater: 'Crispy, curling', overwater: 'Yellow, mushy' },
+        waterAmount: 'moderate'
+      },
+      'Calathea Zebrina': {
+        waterDays: 5,
+        light: 'Medium Indirect',
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Zebra stripes need good humidity.',
+        soilDrynessCheck: 'Check top inch; moist',
+        leafSignals: { underwater: 'Curling', overwater: 'Yellow' },
+        waterAmount: 'moderate'
+      },
+      'Prayer Plant': { 
+        waterDays: 5, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep evenly moist; sensitive to water quality',
+        soilDrynessCheck: 'Top inch should stay moist',
+        leafSignals: { underwater: 'Curling, drooping', overwater: 'Wilting, yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Maranta': { 
+        waterDays: 5, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, use filtered water',
+        soilDrynessCheck: 'Check top inch',
+        leafSignals: { underwater: 'Curling', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Boston Fern': { 
+        waterDays: 3, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep consistently moist; mist frequently. Loves humidity - great for bathrooms.',
+        soilDrynessCheck: 'Check surface daily; water when top inch is dry. Never let dry out completely.',
+        leafSignals: { underwater: 'Brown fronds, crispy leaf edges, fronds turn yellow', overwater: 'Yellowing fronds, mushy base, root rot' },
+        waterAmount: 'moderate'
+      },
+      'Maidenhair Fern': { 
+        waterDays: 3, 
+        light: 'Medium Indirect', 
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep very moist; mist daily. More sensitive than Boston ferns, avoid drafts.',
+        soilDrynessCheck: 'Never let dry out; check daily. Water immediately if soil feels dry.',
+        leafSignals: { underwater: 'Crispy black fronds, leaves fall off', overwater: 'Black fronds, mushy stems' },
+        waterAmount: 'moderate'
+      },
+      'Bird Nest Fern': {
+        waterDays: 5,
+        light: 'Medium Indirect',
+        soil: 'Peat-based',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Water the central rosette, not just soil.',
+        soilDrynessCheck: 'Check top inch; moist',
+        leafSignals: { underwater: 'Crispy edges', overwater: 'Mushy base' },
+        waterAmount: 'moderate'
+      },
+      'Asparagus Fern': {
+        waterDays: 5,
+        light: 'Medium to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Not a true fern but needs similar humidity.',
+        soilDrynessCheck: 'Check top inch; dry',
+        leafSignals: { underwater: 'Yellowing, dropping', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'English Ivy': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Prefers cool temperatures and good air circulation.',
+        soilDrynessCheck: 'Check top inch; water when dry. More frequent water in summer.',
+        leafSignals: { underwater: 'Crispy leaves, leaf drop, pale color', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Hedera Helix': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Classic trailing plant.',
+        soilDrynessCheck: 'Check top inch; dry',
+        leafSignals: { underwater: 'Crispy', overwater: 'Yellow' },
+        waterAmount: 'thorough'
+      },
+      'Jade Plant': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy cactus mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let dry completely. Thick leaves store water - very drought-tolerant.',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry. Water less in winter.',
+        leafSignals: { underwater: 'Wrinkled, thin leaves, red leaf edges in sun', overwater: 'Mushy leaves, black stems, leaf drop' },
+        waterAmount: 'thorough'
+      },
+      'Crassula': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy cactus mix',
+        waterMethod: 'top',
+        waterNotes: 'Soak and dry method; let drain fully. Can live for decades.',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry.',
+        leafSignals: { underwater: 'Wrinkled leaves, soft', overwater: 'Soft, mushy leaves, black stems' },
+        waterAmount: 'thorough'
+      },
+      'Jade Plant Gollum': {
+        waterDays: 14,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Tubular leaves are distinctive.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy' },
+        waterAmount: 'thorough'
+      },
+      'Jade Plant Hobbit': {
+        waterDays: 14,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Curled leaves are characteristic.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy' },
+        waterAmount: 'thorough'
+      },
+      'String of Pearls': { 
+        waterDays: 14, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining succulent mix',
+        waterMethod: 'bottom',
+        waterNotes: 'Water from bottom by placing in tray of water for 20 minutes. Very sensitive to overwatering.',
+        soilDrynessCheck: 'Check if pearls feel slightly soft/deflated - they will look shriveled.',
+        leafSignals: { underwater: 'Shriveling pearls, pearls flatten', overwater: 'Mushy, translucent pearls that pop off stem' },
+        waterAmount: 'light'
+      },
+      'String of Hearts': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining succulent mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain completely. More tolerant than String of Pearls.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Leaves will feel softer when thirsty.',
+        leafSignals: { underwater: 'Wrinkled leaves, dull color', overwater: 'Mushy stems, yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'String of Bananas': {
+        waterDays: 10,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Banana-shaped leaves.',
+        soilDrynessCheck: 'Check top inch; dry',
+        leafSignals: { underwater: 'Shriveling', overwater: 'Mushy' },
+        waterAmount: 'moderate'
+      },
+      'String of Dolphins': {
+        waterDays: 14,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Dolphin-shaped leaves are adorable.',
+        soilDrynessCheck: 'Check 2 inches; dry',
+        leafSignals: { underwater: 'Shriveling', overwater: 'Mushy' },
+        waterAmount: 'light'
+      },
+      'Ceropegia': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, allow to dry',
+        soilDrynessCheck: 'Check top 2 inches',
+        leafSignals: { underwater: 'Wrinkled leaves', overwater: 'Soft stems' },
+        waterAmount: 'moderate'
+      },
+      'Hoya': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining orchid mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let dry between waterings. Do not remove spent flower stalks - new blooms form there.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Leaves become slightly soft when thirsty.',
+        leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' },
+        waterAmount: 'thorough'
+      },
+      'Hoya Carnosa': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining orchid mix',
+        waterMethod: 'top',
+        waterNotes: 'Soak and let drain; drought-tolerant. Produces fragrant flower clusters.',
+        soilDrynessCheck: 'Top 2 inches dry. Water less in winter.',
+        leafSignals: { underwater: 'Wrinkled leaves', overwater: 'Yellow leaves, soft stems' },
+        waterAmount: 'thorough'
+      },
+      'Hoya Kerrii': {
+        waterDays: 10,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Sweetheart vine is slow-growing.',
+        soilDrynessCheck: 'Check top 2 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Yellow' },
+        waterAmount: 'thorough'
+      },
+      'Hoya Linearis': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep slightly moist. Fuzzy leaves, cascading growth.',
+        soilDrynessCheck: 'Check top inch; slightly dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Yellow' },
+        waterAmount: 'moderate'
+      },
+      'Hoya Pubicalyx': {
+        waterDays: 10,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Fast grower with colorful flowers.',
+        soilDrynessCheck: 'Check top 2 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Yellow' },
+        waterAmount: 'thorough'
+      },
+      'Dracaena': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain; sensitive to fluoride in tap water - use filtered.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Tolerates some drought.',
+        leafSignals: { underwater: 'Brown tips on leaves, wilting, drooping', overwater: 'Yellow leaves from bottom up, root rot, mushy base' },
+        waterAmount: 'thorough'
+      },
+      'Dracaena Marginata': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, use filtered water. Dragon tree is very drought-tolerant.',
+        soilDrynessCheck: 'Top 2 inches dry. Can go 2-3 weeks without water.',
+        leafSignals: { underwater: 'Brown tips, leaves curl', overwater: 'Yellow leaves, soft stems' },
+        waterAmount: 'thorough'
+      },
+      'Dracaena Fragrans': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Corn plant gets tall with cane-like stems.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry.',
+        leafSignals: { underwater: 'Wilting, brown tips', overwater: 'Yellow leaves, mushy' },
+        waterAmount: 'thorough'
+      },
+      'Dracaena Janet Craig': {
+        waterDays: 10,
+        light: 'Low to Medium',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top 2 inches dry. Very tolerant of low light.',
+        soilDrynessCheck: 'Check top 2 inches; dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow' },
+        waterAmount: 'thorough'
+      },
+      'Dracaena Lemon Lime': {
+        waterDays: 7,
+        light: 'Medium to Bright',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Bright yellow-green leaves need light.',
+        soilDrynessCheck: 'Check top inch; dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow' },
+        waterAmount: 'thorough'
+      },
+      'Corn Plant': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, use filtered water',
+        soilDrynessCheck: 'Top 2 inches dry',
+        leafSignals: { underwater: 'Brown leaf tips', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Chinese Evergreen': { 
+        waterDays: 10, 
+        light: 'Low to Medium', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. One of the best low-light plants.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Tolerates neglect.',
+        leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' },
+        waterAmount: 'thorough'
+      },
+      'Aglaonema': { 
+        waterDays: 10, 
+        light: 'Low to Medium', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, allow to dry slightly. Chinese evergreen is very hardy.',
+        soilDrynessCheck: 'Top 2 inches. Water less in low light.',
+        leafSignals: { underwater: 'Wilting, dull color', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Aglaonema Silver Bay': {
+        waterDays: 10,
+        light: 'Low to Medium',
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water when top 2 inches dry. Silver variegation shines in low light.',
+        soilDrynessCheck: 'Check top 2 inches; dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow' },
+        waterAmount: 'thorough'
+      },
+      'Aglaonema Pink Princess': {
+        waterDays: 10,
+        light: 'Medium',
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Pink variegation needs light.',
+        soilDrynessCheck: 'Check top inch; dry',
+        leafSignals: { underwater: 'Dull', overwater: 'Yellow' },
+        waterAmount: 'moderate'
+      },
+      'Croton': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep evenly moist; mist to increase humidity',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Crispy leaves, leaf drop', overwater: 'Wilting, yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Codiaeum': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, mist often',
+        soilDrynessCheck: 'Top inch dry',
+        leafSignals: { underwater: 'Crispy leaves', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Dieffenbachia': { 
+        waterDays: 7, 
+        light: 'Medium', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Dumb Cane': { 
+        waterDays: 7, 
+        light: 'Medium', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep moist',
+        soilDrynessCheck: 'Top inch dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Anthurium': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain; likes humidity',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Wilting, brown tips', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Flamingo Flower': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, mist regularly',
+        soilDrynessCheck: 'Top inch dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Orchid': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Orchid bark mix',
+        waterMethod: 'bottom',
+        waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely. Never let water sit in crown.',
+        soilDrynessCheck: 'Check roots; water when silvery-gray (not green). Roots should be firm, not mushy.',
+        leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves, buds drying up', overwater: 'Brown mushy roots, yellow leaves, crown rot' },
+        waterAmount: 'moderate'
+      },
+      'Phalaenopsis': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Orchid bark mix',
+        waterMethod: 'bottom',
+        waterNotes: 'Soak weekly in room temp water; let drain fully. Most common orchid - very adaptable.',
+        soilDrynessCheck: 'Roots turn silvery-gray when thirsty, green when hydrated.',
+        leafSignals: { underwater: 'Drooping leaves, wrinkled roots, bud blast', overwater: 'Mushy brown roots, yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Dendrobium': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Orchid mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Needs winter rest with less water.',
+        soilDrynessCheck: 'Check roots; silvery',
+        leafSignals: { underwater: 'Wrinkled canes', overwater: 'Mushy' },
+        waterAmount: 'moderate'
+      },
+      'Cattleya': {
+        waterDays: 7,
+        light: 'Bright Direct',
+        soil: 'Orchid mix',
+        waterMethod: 'top',
+        waterNotes: 'Water when roots are dry. Corsage orchid needs good air flow.',
+        soilDrynessCheck: 'Check roots; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy' },
+        waterAmount: 'moderate'
+      },
+      'Bromeliad': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining orchid mix',
+        waterMethod: 'both',
+        waterNotes: 'Water soil lightly AND fill central cup (tank) with water. Empty and refresh cup monthly.',
+        soilDrynessCheck: 'Check soil; water when top inch dry. Central cup should always have some water.',
+        leafSignals: { underwater: 'Drooping leaves, cup empty', overwater: 'Mushy base, leaves pull off easily' },
+        waterAmount: 'moderate'
+      },
+      'Guzmania': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'both',
+        waterNotes: 'Keep cup filled with water. Bright flower bracts are showy.',
+        soilDrynessCheck: 'Check soil; dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Mushy' },
+        waterAmount: 'moderate'
+      },
+      'Neoregelia': {
+        waterDays: 7,
+        light: 'Bright Indirect',
+        soil: 'Well-draining',
+        waterMethod: 'both',
+        waterNotes: 'Fill central cup. Colors intensify with more light.',
+        soilDrynessCheck: 'Check soil; dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Mushy' },
+        waterAmount: 'moderate'
+      },
+      'Air Plant': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'None - mount or place in open container',
+        waterMethod: 'both',
+        waterNotes: 'Soak in room temp water 20-30 minutes weekly; mist between soaks. Shake off excess water.',
+        soilDrynessCheck: 'Leaves curling inward and feeling crispy = needs water. Should be flexible when hydrated.',
+        leafSignals: { underwater: 'Curling, crispy, grayish color, leaves close up', overwater: 'Mushy, discolored base, leaves fall off' },
+        waterAmount: 'light'
+      },
+      'Tillandsia': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'None',
+        waterMethod: 'both',
+        waterNotes: 'Soak weekly; mist daily in dry environments. Let dry completely after soaking.',
+        soilDrynessCheck: 'Check leaf flexibility - leaves should bend, not snap.',
+        leafSignals: { underwater: 'Curling, crispy, gray', overwater: 'Mushy, brown base' },
+        waterAmount: 'light'
+      },
+      'Spanish Moss': {
+        waterDays: 3,
+        light: 'Bright Indirect',
+        soil: 'None',
+        waterMethod: 'mist',
+        waterNotes: 'Mist daily. Drapes beautifully from branches.',
+        soilDrynessCheck: 'Feels dry and crispy',
+        leafSignals: { underwater: 'Crispy, gray', overwater: 'Mushy' },
+        waterAmount: 'light'
+      },
+      'Succulent': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy cactus mix',
+        waterMethod: 'top',
+        waterNotes: 'Soak and dry method; water until it flows from drainage holes, then wait until completely dry.',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry throughout. Wrinkled leaves = needs water.',
+        leafSignals: { underwater: 'Wrinkled, deflated leaves, dull color, leaves feel soft', overwater: 'Mushy, translucent leaves, black spots, leaf drop' },
+        waterAmount: 'thorough'
+      },
+      'Echeveria': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy cactus mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain; avoid getting water on leaves - causes rot.',
+        soilDrynessCheck: 'Check 3 inches; dry = water. Bottom leaves wrinkle when thirsty.',
+        leafSignals: { underwater: 'Wrinkled bottom leaves, closed rosette', overwater: 'Mushy leaves, black rot at base' },
+        waterAmount: 'thorough'
+      },
+      'Echeveria Elegans': {
+        waterDays: 14,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Mexican snow ball is hardy.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy' },
+        waterAmount: 'thorough'
+      },
+      'Echeveria Black Prince': {
+        waterDays: 14,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Dark leaves need more light.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy' },
+        waterAmount: 'thorough'
+      },
+      'Haworthia': { 
+        waterDays: 14, 
+        light: 'Bright Indirect', 
+        soil: 'Sandy',
+        waterMethod: 'top',
+        waterNotes: 'Water deeply, let dry completely',
+        soilDrynessCheck: 'Check 3 inches',
+        leafSignals: { underwater: 'Shriveling', overwater: 'Mushy leaves' },
+        waterAmount: 'thorough'
+      },
+      'Zebra Plant': { 
+        waterDays: 14, 
+        light: 'Bright Indirect', 
+        soil: 'Sandy',
+        waterMethod: 'top',
+        waterNotes: 'Soak and dry; well-draining soil essential',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy' },
+        waterAmount: 'thorough'
+      },
+      'Christmas Cactus': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water when top inch is dry. Needs short days in fall to bloom - no artificial light after sunset.',
+        soilDrynessCheck: 'Check top inch; water when dry. Slightly dry soil promotes blooming.',
+        leafSignals: { underwater: 'Wilting, shriveling segments, bud drop', overwater: 'Mushy segments, root rot, leaf drop' },
+        waterAmount: 'moderate'
+      },
+      'Schlumbergera': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist but not wet. Also called Christmas cactus, needs dark periods to bloom.',
+        soilDrynessCheck: 'Top inch dry = water.',
+        leafSignals: { underwater: 'Wilting, shriveling', overwater: 'Mushy segments' },
+        waterAmount: 'moderate'
+      },
+      'Easter Cactus': { 
+        waterDays: 10, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist but not wet. Blooms in spring. Needs bright light for best blooms.',
+        soilDrynessCheck: 'Check top inch; slightly dry between waterings.',
+        leafSignals: { underwater: 'Wilting, shriveling', overwater: 'Yellow leaves, mushy segments' },
+        waterAmount: 'moderate'
+      },
+      'Rhipsalis': { 
+        waterDays: 10, 
+        light: 'Medium Indirect', 
+        soil: 'Well-draining orchid mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let dry slightly. Jungle cactus - needs more water than desert types.',
+        soilDrynessCheck: 'Check top 2 inches; water when slightly dry.',
+        leafSignals: { underwater: 'Shriveling, browning tips', overwater: 'Mushy, yellowing' },
+        waterAmount: 'moderate'
+      },
+      'Peperomia': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let dry between waterings',
+        soilDrynessCheck: 'Check top 2 inches; water when dry',
+        leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves, mushy stems' },
+        waterAmount: 'moderate'
+      },
+      'Watermelon Peperomia': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when top 2 inches dry',
+        soilDrynessCheck: 'Check 2 inches',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Radiator Plant': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain',
+        soilDrynessCheck: 'Top 2 inches',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Tradescantia': { 
+        waterDays: 5, 
+        light: 'Medium to Bright', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Keep evenly moist; loves humidity',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Wilting, crispy leaves', overwater: 'Mushy stems' },
+        waterAmount: 'moderate'
+      },
+      'Wandering Jew': { 
+        waterDays: 5, 
+        light: 'Medium to Bright', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, mist frequently',
+        soilDrynessCheck: 'Top inch',
+        leafSignals: { underwater: 'Wilting', overwater: 'Mushy' },
+        waterAmount: 'moderate'
+      },
+      'Tradescantia Zebrina': { 
+        waterDays: 5, 
+        light: 'Medium to Bright', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep moist',
+        soilDrynessCheck: 'Top inch dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Syngonium': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Arrowhead Plant': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, mist often',
+        soilDrynessCheck: 'Top inch',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Alocasia': { 
+        waterDays: 5, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep consistently moist; never let dry out',
+        soilDrynessCheck: 'Check top inch; keep moist',
+        leafSignals: { underwater: 'Drooping leaves, yellowing', overwater: 'Root rot, mushy stems' },
+        waterAmount: 'moderate'
+      },
+      'Elephant Ear': { 
+        waterDays: 5, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, loves humidity',
+        soilDrynessCheck: 'Top inch moist',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Sago Palm': { 
+        waterDays: 14, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water sparingly; drought-tolerant',
+        soilDrynessCheck: 'Check 3 inches; water when dry',
+        leafSignals: { underwater: 'Yellowing fronds', overwater: 'Brown, mushy trunk' },
+        waterAmount: 'light'
+      },
+      'Cycas Revoluta': { 
+        waterDays: 14, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water sparingly, let dry',
+        soilDrynessCheck: 'Check 3 inches',
+        leafSignals: { underwater: 'Yellow leaves', overwater: 'Mushy' },
+        waterAmount: 'light'
+      },
+      'Parlor Palm': { 
+        waterDays: 7, 
+        light: 'Low to Medium', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. One of the most tolerant palms for low light and neglect.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Tolerates some drying out.',
+        leafSignals: { underwater: 'Brown tips on leaves, wilting, fronds turn yellow', overwater: 'Yellow leaves, root rot, mushy base' },
+        waterAmount: 'thorough'
+      },
+      'Chamaedorea': { 
+        waterDays: 7, 
+        light: 'Low to Medium', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep evenly moist. Bamboo palm is excellent air purifier.',
+        soilDrynessCheck: 'Top 2 inches. More water in growing season.',
+        leafSignals: { underwater: 'Brown tips, yellowing fronds', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Areca Palm': { 
+        waterDays: 5, 
+        light: 'Bright Indirect', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, mist frequently. Needs good humidity to prevent brown tips.',
+        soilDrynessCheck: 'Check top inch; water when slightly dry. Sensitive to fluoride.',
+        leafSignals: { underwater: 'Brown tips, drooping fronds', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Kentia Palm': { 
+        waterDays: 7, 
+        light: 'Medium to Bright', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Elegant palm that tolerates low light better than most.',
+        soilDrynessCheck: 'Top 2 inches dry = water. Slow growing but very hardy.',
+        leafSignals: { underwater: 'Wilting, brown tips', overwater: 'Yellow leaves, mushy' },
+        waterAmount: 'thorough'
+      },
+      'Lady Palm': { 
+        waterDays: 7, 
+        light: 'Low to Medium', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, allow to dry slightly. Very tolerant of low light and dry air.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry.',
+        leafSignals: { underwater: 'Brown tips', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Rhapis Excelsa': { 
+        waterDays: 7, 
+        light: 'Low to Medium', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Multi-stemmed palm, excellent for low light.',
+        soilDrynessCheck: 'Top 2 inches. Allow to dry slightly between waterings.',
+        leafSignals: { underwater: 'Brown tips', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Bamboo Palm': { 
+        waterDays: 5, 
+        light: 'Bright Indirect', 
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, mist often. Named for bamboo-like stems. Great air purifier.',
+        soilDrynessCheck: 'Check top inch; keep moist but not soggy.',
+        leafSignals: { underwater: 'Brown tips, yellowing', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Ponytail Palm': {
+        waterDays: 14,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water sparingly. Bulbous trunk stores water. Not a true palm.',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled trunk', overwater: 'Mushy trunk' },
+        waterAmount: 'light'
+      },
+      'Majesty Palm': {
+        waterDays: 5,
+        light: 'Bright Direct',
+        soil: 'Regular, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Needs high humidity and consistent watering.',
+        soilDrynessCheck: 'Check top inch; moist',
+        leafSignals: { underwater: 'Brown tips', overwater: 'Yellow' },
+        waterAmount: 'moderate'
+      },
+      'Chrysalidocarpus': { 
+        waterDays: 5, 
+        light: 'Bright Indirect', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, mist regularly',
+        soilDrynessCheck: 'Top inch',
+        leafSignals: { underwater: 'Brown tips', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Money Tree': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain; likes humidity. Braided trunk is traditional.',
+        soilDrynessCheck: 'Check top 2 inches; water when dry. Do not overwater - root rot common.',
+        leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk, yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Pachira Aquatica': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain. Native to wetlands but prefers to dry slightly between waterings.',
+        soilDrynessCheck: 'Top 2 inches dry = water.',
+        leafSignals: { underwater: 'Wilting, yellowing', overwater: 'Yellow leaves, mushy' },
+        waterAmount: 'thorough'
+      },
+      'Rubber Tree': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain',
+        soilDrynessCheck: 'Top 2 inches dry',
+        leafSignals: { underwater: 'Drooping', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Ficus Elastica': { 
+        waterDays: 10, 
+        light: 'Medium to Bright', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, allow to drain',
+        soilDrynessCheck: 'Top 2 inches',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Weeping Fig': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain; avoid moving once placed. Drops leaves when stressed.',
+        soilDrynessCheck: 'Check top inch; water when dry. Consistent watering helps prevent leaf drop.',
+        leafSignals: { underwater: 'Leaf drop, wilting, brown edges', overwater: 'Yellow leaves, leaf drop, root rot' },
+        waterAmount: 'thorough'
+      },
+      'Ficus Benjamina': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, keep evenly moist. Very sensitive to changes in environment.',
+        soilDrynessCheck: 'Top inch dry = water. Avoid drafts.',
+        leafSignals: { underwater: 'Leaf drop, wilting', overwater: 'Yellow leaves, leaf drop' },
+        waterAmount: 'thorough'
+      },
+      'Fiddle Leaf Fig': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly until it drains; do not let sit in water',
+        soilDrynessCheck: 'Check top 2 inches; water when dry',
+        leafSignals: { underwater: 'Wilting, brown edges', overwater: 'Yellow leaves, brown spots' },
+        waterAmount: 'thorough'
+      },
+      'Norfolk Island Pine': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist, mist frequently',
+        soilDrynessCheck: 'Check top inch',
+        leafSignals: { underwater: 'Brown lower branches', overwater: 'Yellowing' },
+        waterAmount: 'moderate'
+      },
+      'Araucaria': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Regular',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, mist often',
+        soilDrynessCheck: 'Top inch',
+        leafSignals: { underwater: 'Brown branches', overwater: 'Yellow leaves' },
+        waterAmount: 'moderate'
+      },
+      'Lemon Tree': { 
+        waterDays: 7, 
+        light: 'Bright Direct', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water deeply, let drain; needs humidity',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Curling, wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Citrus': { 
+        waterDays: 7, 
+        light: 'Bright Direct', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let drain',
+        soilDrynessCheck: 'Top inch dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      },
+      'Basil': { 
+        waterDays: 2, 
+        light: 'Bright Direct', 
+        soil: 'Rich potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep consistently moist; never let dry out. Water at base to prevent leaf diseases.',
+        soilDrynessCheck: 'Check surface daily; water when top inch is dry. May need water twice daily in hot weather.',
+        leafSignals: { underwater: 'Wilted, drooping leaves, black spots on leaves', overwater: 'Yellow leaves, black stems, root rot' },
+        waterAmount: 'moderate'
+      },
+      'Mint': { 
+        waterDays: 2, 
+        light: 'Medium to Bright', 
+        soil: 'Rich potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist; loves water. Grows aggressively - best in its own container.',
+        soilDrynessCheck: 'Check surface; keep consistently moist. Will wilt dramatically if thirsty.',
+        leafSignals: { underwater: 'Wilting, brown edges on leaves', overwater: 'Yellow leaves, root rot' },
+        waterAmount: 'moderate'
+      },
+      'Rosemary': { 
+        waterDays: 10, 
+        light: 'Bright Direct', 
+        soil: 'Sandy cactus mix',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly, let dry between waterings; drought-tolerant. Prefers dry conditions.',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry. More water in hot weather.',
+        leafSignals: { underwater: 'Gray-green color deepens, wilting, needle-like leaves droop', overwater: 'Yellow leaves from base, root rot, mushy stems' },
+        waterAmount: 'light'
+      },
+      'Lavender': { 
+        waterDays: 10, 
+        light: 'Bright Direct', 
+        soil: 'Sandy well-draining mix',
+        waterMethod: 'top',
+        waterNotes: 'Water sparingly; needs excellent drainage. Prefers poor, rocky soil.',
+        soilDrynessCheck: 'Check 3 inches; dry = water. Let dry thoroughly between waterings.',
+        leafSignals: { underwater: 'Wilting, gray foliage, no flowers', overwater: 'Mushy stems, root rot, leaves turn black' },
+        waterAmount: 'light'
+      },
+      'Thyme': {
+        waterDays: 7,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Mediterranean herb needs good drainage.',
+        soilDrynessCheck: 'Check 2 inches; dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Mushy' },
+        waterAmount: 'light'
+      },
+      'Oregano': {
+        waterDays: 7,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water when dry. Drought-tolerant herb.',
+        soilDrynessCheck: 'Check 2 inches; dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow' },
+        waterAmount: 'light'
+      },
+      'Parsley': {
+        waterDays: 3,
+        light: 'Medium to Bright',
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Biennial herb, harvest leaves regularly.',
+        soilDrynessCheck: 'Check top inch; moist',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow' },
+        waterAmount: 'moderate'
+      },
+      'Cilantro': {
+        waterDays: 2,
+        light: 'Medium to Bright',
+        soil: 'Regular potting mix',
+        waterMethod: 'top',
+        waterNotes: 'Keep moist. Bolts quickly in heat - succession plant.',
+        soilDrynessCheck: 'Check surface; moist',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow' },
+        waterAmount: 'moderate'
+      },
+      'Succulent Echeveria': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy',
+        waterMethod: 'top',
+        waterNotes: 'Soak and dry; avoid water on leaves',
+        soilDrynessCheck: 'Check 3 inches; dry',
+        leafSignals: { underwater: 'Wrinkled leaves', overwater: 'Mushy leaves' },
+        waterAmount: 'thorough'
+      },
+      'Aloe': { 
+        waterDays: 14, 
+        light: 'Bright Direct', 
+        soil: 'Sandy',
+        waterMethod: 'top',
+        waterNotes: 'Water deeply, let drain completely',
+        soilDrynessCheck: 'Check 3 inches',
+        leafSignals: { underwater: 'Thinning leaves', overwater: 'Mushy leaves' },
+        waterAmount: 'thorough'
+      },
+      'Cactus': { 
+        waterDays: 21, 
+        light: 'Bright Direct', 
+        soil: 'Sandy',
+        waterMethod: 'top',
+        waterNotes: 'Water very sparingly; needs fast drainage',
+        soilDrynessCheck: 'Check 4 inches; water only when completely dry',
+        leafSignals: { underwater: 'Shriveled, dull color', overwater: 'Mushy, blackened' },
+        waterAmount: 'light'
+      },
+      'Bonsai': { 
+        waterDays: 7, 
+        light: 'Bright Indirect', 
+        soil: 'Well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water thoroughly; frequency depends on species',
+        soilDrynessCheck: 'Check top inch; water when dry',
+        leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
+        waterAmount: 'thorough'
+      }
+    };
+
+    let plants = JSON.parse(localStorage.getItem('plants') || '[]');
+    let currentSuggestion = null;
+
+    function savePlants() {
+      localStorage.setItem('plants', JSON.stringify(plants));
+    }
+
+    function getToday() {
+      return new Date().toDateString();
+    }
+
+    // Auto-suggest functionality
+    const speciesInput = document.getElementById('species');
+    const suggestionsBox = document.getElementById('suggestions');
+
+    speciesInput.addEventListener('input', function() {
+      const query = this.value.toLowerCase().trim();
+      
+      if (query.length < 2) {
+        suggestionsBox.classList.remove('show');
+        return;
+      }
+
+      const matches = Object.keys(plantDatabase)
+        .filter(name => name.toLowerCase().includes(query))
+        .slice(0, 8);
+
+      if (matches.length === 0) {
+        suggestionsBox.classList.remove('show');
+        return;
+      }
+
+      suggestionsBox.innerHTML = matches.map(name => {
+        const plant = plantDatabase[name];
+        return `<div class="suggestion-item" data-name="${name}">
+          <strong>${name}</strong><br>
+          <small>💧 ${plant.waterDays} days • ☀️ ${plant.light}</small>
+        </div>`;
+      }).join('');
+
+      suggestionsBox.classList.add('show');
+    });
+
+    suggestionsBox.addEventListener('click', function(e) {
+      const item = e.target.closest('.suggestion-item');
+      if (item) {
+        const name = item.dataset.name;
+        speciesInput.value = name;
+        applyPlantCare(plantDatabase[name]);
+        suggestionsBox.classList.remove('show');
+      }
+    });
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.species-group')) {
+        suggestionsBox.classList.remove('show');
+      }
+    });
+
+    function applyPlantCare(plant) {
+      document.getElementById('waterDisplay').textContent = `Every ${plant.waterDays} days`;
+      document.getElementById('lightDisplay').textContent = plant.light;
+      document.getElementById('soilDisplay').textContent = plant.soil;
+      currentSuggestion = plant;
+    }
+
+    function addPlant() {
+      const species = document.getElementById('species').value.trim();
+      const nickname = document.getElementById('nickname').value.trim();
+      
+      // Get care info from suggestion or use defaults
+      const suggested = plantDatabase[species] || currentSuggestion;
+      const waterDays = suggested ? suggested.waterDays : 7;
+      const lightNeeds = suggested ? suggested.light : 'Medium';
+      const soilType = suggested ? suggested.soil : 'Regular';
+      const waterMethod = suggested ? suggested.waterMethod : 'top';
+      const waterNotes = suggested ? suggested.waterNotes : 'Water thoroughly, let drain';
+      const soilDrynessCheck = suggested ? suggested.soilDrynessCheck : 'Check top inch; water when dry';
+      const leafSignals = suggested ? suggested.leafSignals : { underwater: 'Wilting leaves', overwater: 'Yellow leaves' };
+      const waterAmount = suggested ? suggested.waterAmount : 'moderate';
+
+      if (!species) {
+        alert('Please enter a species name');
+        return;
+      }
+
+      const plant = {
+        id: Date.now(),
+        species,
+        nickname: nickname || species,
+        waterDays: waterDays,
+        lightNeeds: lightNeeds,
+        soilType: soilType,
+        waterMethod: waterMethod,
+        waterNotes: waterNotes,
+        soilDrynessCheck: soilDrynessCheck,
+        leafSignals: leafSignals,
+        waterAmount: waterAmount,
+        lastWatered: null
+      };
+
+      plants.push(plant);
+      savePlants();
+      renderPlants();
+
+      // Clear form
+      document.getElementById('species').value = '';
+      document.getElementById('nickname').value = '';
+      document.getElementById('waterDisplay').textContent = '—';
+      document.getElementById('lightDisplay').textContent = '—';
+      document.getElementById('soilDisplay').textContent = '—';
+      currentSuggestion = null;
+    }
+
+    function waterPlant(id) {
+      const plant = plants.find(p => p.id === id);
+      if (plant) {
+        plant.lastWatered = getToday();
+        savePlants();
+        renderPlants();
+      }
+    }
+
+    function deletePlant(id) {
+      if (confirm('Remove this plant?')) {
+        plants = plants.filter(p => p.id !== id);
+        savePlants();
+        renderPlants();
+      }
+    }
+
+    function formatCare(plant) {
+      return {
+        water: `Every ${plant.waterDays} days`,
+        light: plant.lightNeeds,
+        soil: plant.soilType
+      };
+    }
+
+    function renderPlants() {
+      const list = document.getElementById('plantsList');
+      
+      if (plants.length === 0) {
+        list.innerHTML = `
+          <div class="empty-state">
+            <div class="empty-icon">🌿</div>
+            <p>No plants yet. Add your first plant above!</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.innerHTML = plants.map(plant => {
+        const care = formatCare(plant);
+        const isWateredToday = plant.lastWatered === getToday();
+        const leafSignals = plant.leafSignals || { underwater: 'Wilting leaves', overwater: 'Yellow leaves' };
+        
+        return `
+          <div class="plant-card">
+            <div class="plant-header">
+              <div>
+                <div class="plant-name">${plant.species}</div>
+                <div class="plant-nickname">${plant.nickname}</div>
+              </div>
+              ${isWateredToday ? '<span class="watered-badge watered-today">✓ Watered</span>' : ''}
+            </div>
+            <div class="care-details">
+              <span class="care-item"><span class="care-icon">💧</span> ${care.water}</span>
+              <span class="care-item"><span class="care-icon">☀️</span> ${care.light}</span>
+              <span class="care-item"><span class="care-icon">🪴</span> ${care.soil}</span>
+            </div>
+            <div class="care-expanded">
+              <div class="care-expanded-title">Care Details</div>
+              <div class="care-detail-row">
+                <span class="care-detail-label">Method:</span>
+                <span class="care-detail-value">${plant.waterMethod === 'top' ? 'Water from top' : plant.waterMethod === 'bottom' ? 'Water from bottom' : 'Top & center cup'}</span>
+              </div>
+              <div class="care-detail-row">
+                <span class="care-detail-label">Amount:</span>
+                <span class="care-detail-value">${plant.waterAmount === 'thorough' ? 'Thorough (soak)' : plant.waterAmount === 'moderate' ? 'Moderate' : 'Light (sparingly)'}</span>
+              </div>
+              <div class="care-detail-row">
+                <span class="care-detail-label">How to check:</span>
+                <span class="care-detail-value">${plant.soilDrynessCheck || 'Check top inch; water when dry'}</span>
+              </div>
+              <div class="care-detail-row">
+                <span class="care-detail-label">Notes:</span>
+                <span class="care-detail-value">${plant.waterNotes || 'Water thoroughly, let drain'}</span>
+              </div>
+              <div class="care-detail-row" style="flex-direction: column; gap: 4px;">
+                <span class="care-detail-label">Leaf signals:</span>
+                <div class="leaf-signals">
+                  <span class="leaf-signal underwater">💧 ${leafSignals.underwater}</span>
+                  <span class="leaf-signal overwater">🌧️ ${leafSignals.overwater}</span>
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 10px;">
+              <button class="water-btn ${isWateredToday ? 'watered' : ''}" onclick="waterPlant(${plant.id})">
+                ${isWateredToday ? '✓ Watered Today' : '💧 Mark Watered'}
+              </button>
+              <button class="delete-btn" onclick="deletePlant(${plant.id})">Remove</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    // Initial render
+    renderPlants();
+  </script>
+</body>
+</html>
