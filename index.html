@@ -3,19 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Plant Care</title>
+  <title>Florish</title>
   <style>
     :root {
-      --primary: #2d5a27;
-      --primary-light: #4a7c44;
-      --accent: #7cb342;
-      --bg: #f5f7f3;
-      --card-bg: #ffffff;
-      --text: #333333;
-      --text-light: #666666;
-      --border: #e0e5dc;
-      --water: #2196f3;
-      --success: #4caf50;
+      --sage: #87A878;
+      --sage-dark: #6b8f5e;
+      --cream: #FAF7F2;
+      --dusty-rose: #E8B4B8;
+      --terracotta: #C17A5A;
+      --warm-white: #FFFEF9;
+      --primary: #87A878;
+      --primary-light: #9fb98d;
+      --accent: #C17A5A;
+      --bg: #FAF7F2;
+      --card-bg: #FFFEF9;
+      --text: #4a4a4a;
+      --text-light: #7a7a7a;
+      --border: #e8e4de;
+      --water: #7BA3C9;
+      --success: #87A878;
     }
 
     * {
@@ -25,11 +31,13 @@
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
       background: var(--bg);
       color: var(--text);
       min-height: 100vh;
       padding: 20px;
+      background-image: radial-gradient(circle at 20% 80%, rgba(135, 168, 120, 0.08) 0%, transparent 50%),
+                        radial-gradient(circle at 80% 20%, rgba(232, 180, 184, 0.1) 0%, transparent 50%);
     }
 
     .container {
@@ -39,91 +47,99 @@
 
     h1 {
       text-align: center;
-      color: var(--primary);
+      color: var(--sage-dark);
       margin-bottom: 24px;
-      font-size: 1.75rem;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
     }
 
     .add-plant-form {
       background: var(--card-bg);
-      padding: 20px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 24px;
+      border-radius: 20px;
+      box-shadow: 0 4px 20px rgba(135, 168, 120, 0.15);
       margin-bottom: 24px;
+      border: 1px solid rgba(135, 168, 120, 0.2);
     }
 
     .add-plant-form h2 {
-      font-size: 1.1rem;
+      font-size: 1.2rem;
       margin-bottom: 16px;
       color: var(--text);
+      font-weight: 600;
     }
 
     .form-group {
-      margin-bottom: 14px;
+      margin-bottom: 16px;
     }
 
     label {
       display: block;
-      font-size: 0.85rem;
+      font-size: 0.9rem;
       color: var(--text-light);
-      margin-bottom: 6px;
+      margin-bottom: 8px;
+      font-weight: 500;
     }
 
     input, select {
       width: 100%;
-      padding: 12px;
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 14px 16px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
       font-size: 1rem;
-      background: var(--bg);
-      transition: border-color 0.2s;
+      background: var(--cream);
+      transition: all 0.2s;
     }
 
     input:focus, select:focus {
       outline: none;
-      border-color: var(--primary);
+      border-color: var(--sage);
+      box-shadow: 0 0 0 3px rgba(135, 168, 120, 0.15);
     }
 
     .care-info {
       display: grid;
       grid-template-columns: 1fr 1fr 1fr;
-      gap: 10px;
+      gap: 12px;
     }
 
     .care-info .care-display {
-      padding: 10px;
-      font-size: 0.9rem;
-      background: var(--bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
+      padding: 12px;
+      font-size: 0.85rem;
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: 12px;
       color: var(--text);
     }
 
-    .care-info .care-display.water { border-left: 3px solid var(--water); }
-    .care-info .care-display.light { border-left: 3px solid #ff9800; }
-    .care-info .care-display.soil { border-left: 3px solid #8d6e63; }
+    .care-info .care-display.water { border-left: 4px solid var(--water); }
+    .care-info .care-display.light { border-left: 4px solid #E8B4B8; }
+    .care-info .care-display.soil { border-left: 4px solid var(--terracotta); }
 
     .care-info .care-label {
       display: block;
       font-size: 0.7rem;
       color: var(--text-light);
-      margin-bottom: 2px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .care-info .care-value {
-      font-weight: 500;
+      font-weight: 600;
     }
 
     .suggestion-box {
       position: absolute;
       background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      max-height: 200px;
+      border: 2px solid var(--border);
+      border-radius: 12px;
+      max-height: 220px;
       overflow-y: auto;
       z-index: 100;
       display: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
     }
 
     .suggestion-box.show {
@@ -131,13 +147,18 @@
     }
 
     .suggestion-item {
-      padding: 10px 14px;
+      padding: 12px 16px;
       cursor: pointer;
-      transition: background 0.15s;
+      transition: all 0.15s;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .suggestion-item:last-child {
+      border-bottom: none;
     }
 
     .suggestion-item:hover {
-      background: var(--bg);
+      background: var(--cream);
     }
 
     .species-group {
@@ -146,44 +167,65 @@
 
     button {
       width: 100%;
-      padding: 14px;
-      background: var(--primary);
+      padding: 16px;
+      background: linear-gradient(135deg, var(--sage) 0%, var(--sage-dark) 100%);
       color: white;
       border: none;
-      border-radius: 8px;
+      border-radius: 12px;
       font-size: 1rem;
       font-weight: 600;
       cursor: pointer;
-      transition: background 0.2s;
+      transition: all 0.2s;
+      box-shadow: 0 4px 12px rgba(135, 168, 120, 0.3);
     }
 
     button:hover {
-      background: var(--primary-light);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(135, 168, 120, 0.4);
     }
 
     .plants-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 16px;
     }
 
     .plant-card {
       background: var(--card-bg);
-      padding: 16px;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border: 1px solid rgba(135, 168, 120, 0.1);
+      transition: all 0.3s;
+    }
+
+    .plant-card:hover {
+      box-shadow: 0 8px 24px rgba(135, 168, 120, 0.15);
+      transform: translateY(-2px);
     }
 
     .plant-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
+    }
+
+    .plant-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 8px;
+    }
+
+    .plant-info {
+      flex: 1;
     }
 
     .plant-name {
-      font-weight: 600;
-      font-size: 1.1rem;
+      font-weight: 700;
+      font-size: 1.15rem;
+      color: var(--text);
     }
 
     .plant-nickname {
@@ -195,10 +237,10 @@
     .watered-badge {
       background: var(--water);
       color: white;
-      padding: 4px 10px;
+      padding: 6px 14px;
       border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 500;
+      font-size: 0.8rem;
+      font-weight: 600;
     }
 
     .watered-today {
@@ -226,13 +268,14 @@
 
     .water-btn {
       width: auto;
-      padding: 10px 20px;
+      padding: 12px 24px;
       background: var(--water);
       font-size: 0.9rem;
+      border-radius: 12px;
     }
 
     .water-btn:hover {
-      background: #1976d2;
+      background: #6a93b8;
     }
 
     .water-btn.watered {
@@ -241,13 +284,13 @@
 
     .empty-state {
       text-align: center;
-      padding: 40px 20px;
+      padding: 60px 20px;
       color: var(--text-light);
     }
 
     .empty-icon {
-      font-size: 3rem;
-      margin-bottom: 12px;
+      font-size: 4rem;
+      margin-bottom: 16px;
     }
 
     .delete-btn {
@@ -322,11 +365,102 @@
       background: #e3f2fd;
       color: #1565c0;
     }
+
+    /* Personality & Mood Styles */
+    .personality-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      padding: 4px 10px;
+      border-radius: 20px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      margin-bottom: 8px;
+    }
+
+    .personality-badge.dramatic {
+      background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%);
+      color: #c2185b;
+    }
+
+    .personality-badge.chill {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      color: #2e7d32;
+    }
+
+    .personality-badge.resilient {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      color: #ef6c00;
+    }
+
+    .personality-badge.diva {
+      background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%);
+      color: #7b1fa2;
+    }
+
+    .personality-badge.mysterious {
+      background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%);
+      color: #00838f;
+    }
+
+    .personality-badge.cheerful {
+      background: linear-gradient(135deg, #fce4ec 0%, #ffcdd2 100%);
+      color: #d81b60;
+    }
+
+    .mood-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .mood-indicator.thriving {
+      background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+      color: #2e7d32;
+    }
+
+    .mood-indicator.happy {
+      background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+      color: #1565c0;
+    }
+
+    .mood-indicator.okay {
+      background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%);
+      color: #f57f17;
+    }
+
+    .mood-indicator.droopy {
+      background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+      color: #e65100;
+    }
+
+    .mood-indicator.struggling {
+      background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%);
+      color: #c62828;
+    }
+
+    .voice-message {
+      font-style: italic;
+      font-size: 0.9rem;
+      color: var(--text-light);
+      padding: 10px 14px;
+      background: var(--cream);
+      border-radius: 12px;
+      margin-bottom: 14px;
+      border-left: 3px solid var(--sage);
+    }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🌱 Plant Care</h1>
+    <h1>🌱 Florish</h1>
     
     <div class="add-plant-form">
       <h2>Add New Plant</h2>
@@ -336,10 +470,6 @@
           <input type="text" id="species" placeholder="e.g., Monstera Deliciosa" autocomplete="off">
           <div id="suggestions" class="suggestion-box"></div>
         </div>
-      </div>
-      <div class="form-group">
-        <label for="nickname">Nickname</label>
-        <input type="text" id="nickname" placeholder="e.g., Monty">
       </div>
       <div class="form-group">
         <label>Care Needs</label>
@@ -375,7 +505,8 @@
         waterNotes: 'Water thoroughly until it flows from drainage holes, then allow to drain fully. Reduce watering in winter.',
         soilDrynessCheck: 'Insert finger 2 inches into soil; water when top 2 inches feel dry. Monsteras prefer consistent moisture.',
         leafSignals: { underwater: 'Leaves droop and curl inward, fenestrations stop developing', overwater: 'Yellow leaves starting from edges, brown mushy spots on leaves' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Diva'
       },
       'Monstera Adansonii': { 
         waterDays: 5, 
@@ -385,7 +516,8 @@
         waterNotes: 'Water when top inch is dry. This species is thirstier than M. Deliciosa due to smaller leaves.',
         soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry. More frequent watering needed.',
         leafSignals: { underwater: 'Leaves droop significantly, holes may not develop fully', overwater: 'Yellow leaves, soft black stems' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Diva'
       },
       'Monstera Obliqua': { 
         waterDays: 4, 
@@ -395,7 +527,8 @@
         waterNotes: 'Keep consistently moist but never waterlogged. Very sensitive to overwatering.',
         soilDrynessCheck: 'Check top inch; water when surface is barely dry. Do not let dry out completely.',
         leafSignals: { underwater: 'Tiny leaves droop, crispy leaf edges', overwater: 'Rapid yellowing, mushy stems' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Diva'
       },
       'Pothos (Epipremnum)': { 
         waterDays: 7, 
@@ -405,7 +538,8 @@
         waterNotes: 'Water thoroughly and let drain completely. Very forgiving but dislikes soggy soil.',
         soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry. Will tolerate some neglect.',
         leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Chill'
       },
       'Golden Pothos': { 
         waterDays: 7, 
@@ -415,7 +549,8 @@
         waterNotes: 'Water when soil is dry. Tolerates low light but variegation shows best in brighter conditions.',
         soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.',
         leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Chill'
       },
       'Marble Queen Pothos': { 
         waterDays: 7, 
@@ -425,7 +560,8 @@
         waterNotes: 'Water thoroughly, allow soil to dry between waterings. Slower growing than Golden Pothos.',
         soilDrynessCheck: 'Feel top 2 inches; water when completely dry. Less water needed in low light.',
         leafSignals: { underwater: 'Leaves appear dull, vines wilt', overwater: 'Yellowing leaves, soft brown stems' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Chill'
       },
       'Neon Pothos': {
         waterDays: 7,
@@ -525,7 +661,8 @@
         waterNotes: 'Water sparingly; allow to dry completely between waterings. In winter, water only once a month.',
         soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry throughout root zone.',
         leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'Sansevieria': { 
         waterDays: 14, 
@@ -535,7 +672,8 @@
         waterNotes: 'Allow soil to dry completely between waterings. Very drought-tolerant.',
         soilDrynessCheck: 'Check 3 inches deep; water when bone dry. Less water in low light.',
         leafSignals: { underwater: 'Wrinkled, curled leaves, slow growth', overwater: 'Soft, mushy leaves that easily bend' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'Sansevieria Trifasciata': {
         waterDays: 14,
@@ -545,7 +683,8 @@
         waterNotes: 'Water every 2-3 weeks. Can go months without water in winter.',
         soilDrynessCheck: 'Check 3 inches; water when completely dry',
         leafSignals: { underwater: 'Wrinkled leaves', overwater: 'Mushy base' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'Sansevieria Zeylanica': {
         waterDays: 14,
@@ -555,7 +694,8 @@
         waterNotes: 'Very hardy, water sparingly. Prefers being slightly rootbound.',
         soilDrynessCheck: 'Check 3 inches; dry',
         leafSignals: { underwater: 'Curling', overwater: 'Mushy' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'Snake Plant Black Gold': {
         waterDays: 14,
@@ -565,7 +705,8 @@
         waterNotes: 'Water every 2-3 weeks. Darker leaves need less light.',
         soilDrynessCheck: 'Check 3 inches; dry',
         leafSignals: { underwater: 'Wrinkled', overwater: 'Mushy base' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'ZZ Plant': { 
         waterDays: 21, 
@@ -575,7 +716,8 @@
         waterNotes: 'Water very sparingly; rhizomes store water. In winter, water once a month or less.',
         soilDrynessCheck: 'Check 2-3 inches; water only when completely dry. Better to underwater than overwater.',
         leafSignals: { underwater: 'Stems become thin and wrinkled, leaves turn yellow then brown', overwater: 'Yellow leaves, mushy black rhizomes, stunted growth' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'Zamioculcas': {
         waterDays: 21,
@@ -585,7 +727,8 @@
         waterNotes: 'Extremely drought-tolerant. Water only when soil is completely dry.',
         soilDrynessCheck: 'Check 3 inches; water when bone dry',
         leafSignals: { underwater: 'Wrinkled stems', overwater: 'Yellow leaves, mushy' },
-        waterAmount: 'light'
+        waterAmount: 'light',
+        personality: 'Chill'
       },
       'Spider Plant': { 
         waterDays: 7, 
@@ -595,7 +738,8 @@
         waterNotes: 'Water thoroughly, keep evenly moist but not soggy. Sensitive to fluoride in tap water.',
         soilDrynessCheck: 'Check top inch; water when dry. Use filtered water if brown tips develop.',
         leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Chill'
       },
       'Chlorophytum Comosum': {
         waterDays: 7,
@@ -605,7 +749,8 @@
         waterNotes: 'Keep moist. Produces plantlets that can be propagated.',
         soilDrynessCheck: 'Check top inch; water when dry',
         leafSignals: { underwater: 'Brown tips', overwater: 'Yellow leaves' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Chill'
       },
       'Variegated Spider Plant': {
         waterDays: 7,
@@ -625,7 +770,8 @@
         waterNotes: 'Keep consistently moist; hates drying out. Dramatically droops when thirsty but recovers quickly.',
         soilDrynessCheck: 'Check top inch; water when slightly damp. Do not let dry out completely.',
         leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Cheerful'
       },
       'Spathiphyllum': { 
         waterDays: 5, 
@@ -635,7 +781,8 @@
         waterNotes: 'Keep moist, never let dry out completely. Will dramatically droop when thirsty.',
         soilDrynessCheck: 'Feel top inch; water when almost dry but still slightly damp.',
         leafSignals: { underwater: 'Dramatic wilting, drooping flowers', overwater: 'Yellow leaves, black tips, mushy stems' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Cheerful'
       },
       'Spathiphyllum Wallisii': {
         waterDays: 5,
@@ -645,7 +792,8 @@
         waterNotes: 'Keep moist. Smaller variety, great for low light.',
         soilDrynessCheck: 'Check top inch; slightly damp',
         leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Cheerful'
       },
       'Aloe Vera': { 
         waterDays: 14, 
@@ -695,7 +843,8 @@
         waterNotes: 'Water thoroughly until it drains; do not let sit in water. Avoid moving once placed.',
         soilDrynessCheck: 'Check top 2 inches; water when dry. Consistent watering schedule is key.',
         leafSignals: { underwater: 'Wilting, brown crispy edges on leaves, leaf drop from bottom', overwater: 'Yellow leaves with brown spots, root rot, mushy base' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Dramatic'
       },
       'Ficus Lyrata': { 
         waterDays: 7, 
@@ -705,7 +854,8 @@
         waterNotes: 'Water thoroughly, allow to drain. Keep away from drafts and heating vents.',
         soilDrynessCheck: 'Top 2 inches dry = water. Do not let dry out completely.',
         leafSignals: { underwater: 'Drooping leaves, brown edges', overwater: 'Yellow leaves, brown spots' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Dramatic'
       },
       'Fiddle Leaf Fig Tineke': {
         waterDays: 7,
@@ -715,7 +865,8 @@
         waterNotes: 'Water when top 2 inches dry. Variegation needs more light.',
         soilDrynessCheck: 'Check top 2 inches; dry',
         leafSignals: { underwater: 'Wilting', overwater: 'Yellow leaves' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Dramatic'
       },
       'Bird of Paradise': { 
         waterDays: 7, 
@@ -725,7 +876,8 @@
         waterNotes: 'Water thoroughly, keep evenly moist',
         soilDrynessCheck: 'Check top inch; water when dry',
         leafSignals: { underwater: 'Curling, drooping', overwater: 'Yellow leaves' },
-        waterAmount: 'thorough'
+        waterAmount: 'thorough',
+        personality: 'Diva'
       },
       'Strelitzia': { 
         waterDays: 7, 
@@ -1185,7 +1337,8 @@
         waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely. Never let water sit in crown.',
         soilDrynessCheck: 'Check roots; water when silvery-gray (not green). Roots should be firm, not mushy.',
         leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves, buds drying up', overwater: 'Brown mushy roots, yellow leaves, crown rot' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Dramatic'
       },
       'Phalaenopsis': { 
         waterDays: 7, 
@@ -1195,7 +1348,8 @@
         waterNotes: 'Soak weekly in room temp water; let drain fully. Most common orchid - very adaptable.',
         soilDrynessCheck: 'Roots turn silvery-gray when thirsty, green when hydrated.',
         leafSignals: { underwater: 'Drooping leaves, wrinkled roots, bud blast', overwater: 'Mushy brown roots, yellow leaves' },
-        waterAmount: 'moderate'
+        waterAmount: 'moderate',
+        personality: 'Dramatic'
       },
       'Dendrobium': {
         waterDays: 7,
@@ -1800,22 +1954,35 @@
       'Aloe': { 
         waterDays: 14, 
         light: 'Bright Direct', 
-        soil: 'Sandy',
+        soil: 'Sandy cactus mix',
         waterMethod: 'top',
-        waterNotes: 'Water deeply, let drain completely',
-        soilDrynessCheck: 'Check 3 inches',
-        leafSignals: { underwater: 'Thinning leaves', overwater: 'Mushy leaves' },
-        waterAmount: 'thorough'
+        waterNotes: 'Water deeply, let drain completely. Let soil dry fully between waterings.',
+        soilDrynessCheck: 'Check 3 inches; water when completely dry. Gel inside leaves indicates hydration.',
+        leafSignals: { underwater: 'Thinning leaves, wrinkled, dull color', overwater: 'Mushy leaves, base turns mushy brown, leaves fall off' },
+        waterAmount: 'thorough',
+        personality: 'Resilient'
       },
       'Cactus': { 
         waterDays: 21, 
         light: 'Bright Direct', 
-        soil: 'Sandy',
+        soil: 'Sandy cactus mix',
         waterMethod: 'top',
-        waterNotes: 'Water very sparingly; needs fast drainage',
-        soilDrynessCheck: 'Check 4 inches; water only when completely dry',
-        leafSignals: { underwater: 'Shriveled, dull color', overwater: 'Mushy, blackened' },
-        waterAmount: 'light'
+        waterNotes: 'Water very sparingly; needs fast drainage. Water less in winter dormancy.',
+        soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.',
+        leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened, smells rotten, easily falls over' },
+        waterAmount: 'light',
+        personality: 'Resilient'
+      },
+      'Desert Cactus': {
+        waterDays: 21,
+        light: 'Bright Direct',
+        soil: 'Sandy, well-draining',
+        waterMethod: 'top',
+        waterNotes: 'Water every 2-3 weeks in summer, once a month in winter.',
+        soilDrynessCheck: 'Check 4 inches; completely dry',
+        leafSignals: { underwater: 'Shriveled', overwater: 'Mushy' },
+        waterAmount: 'light',
+        personality: 'Resilient'
       },
       'Bonsai': { 
         waterDays: 7, 
@@ -1897,7 +2064,6 @@
 
     function addPlant() {
       const species = document.getElementById('species').value.trim();
-      const nickname = document.getElementById('nickname').value.trim();
       
       // Get care info from suggestion or use defaults
       const suggested = plantDatabase[species] || currentSuggestion;
@@ -1918,7 +2084,6 @@
       const plant = {
         id: Date.now(),
         species,
-        nickname: nickname || species,
         waterDays: waterDays,
         lightNeeds: lightNeeds,
         soilType: soilType,
@@ -1936,7 +2101,6 @@
 
       // Clear form
       document.getElementById('species').value = '';
-      document.getElementById('nickname').value = '';
       document.getElementById('waterDisplay').textContent = '—';
       document.getElementById('lightDisplay').textContent = '—';
       document.getElementById('soilDisplay').textContent = '—';
@@ -1981,20 +2145,121 @@
         return;
       }
 
+      // Personality emoji mapping
+      const personalityEmojis = {
+        'Dramatic': '🎭',
+        'Chill': '😌',
+        'Resilient': '💪',
+        'Diva': '👑',
+        'Mysterious': '🔮',
+        'Cheerful': '☀️'
+      };
+
+      // Voice messages based on personality and mood
+      const voiceMessages = {
+        'Dramatic': {
+          'Thriving': "Yes, I\'m absolutely stunning today. You may admire me. 🎭✨",
+          'Happy': "I\'m feeling... adequate. But I could always use more attention.",
+          'Okay': "I suppose this is fine. But I\'ll have you know I\'ve had better days.",
+          'Droopy': "I\'m absolutely WILTING. It\'s been days. DAYS. Someone do something!",
+          'Struggling': "This is it. This is how I die. Unwatered and forgotten..."
+        },
+        'Chill': {
+          'Thriving': "Life is good. The sun is warm, the soil is moist. All is right in the world. 😌",
+          'Happy': "Doing great, friend. No rush on anything.",
+          'Okay': "No rush... but maybe water me sometime this week?",
+          'Droopy': "Hey, I\'m getting a little thirsty over here. Whenever you\'re ready.",
+          'Struggling': "Okay, I\'m definitely thirsty now. But I forgive you."
+        },
+        'Resilient': {
+          'Thriving': "I\'m doing well. Tough as always. 💪",
+          'Happy': "Still going strong. Nothing can stop me.",
+          'Okay': "I\'ve been better, but I\'ve survived worse.",
+          'Droopy': "I could use some water, but I\'m not going anywhere.",
+          'Struggling': "Still here. Barely. But still here."
+        },
+        'Diva': {
+          'Thriving': "Yes, I look incredible. You\'re welcome. 👑🌿",
+          'Happy': "I\'m radiant as always. Keep doing whatever you\'re doing.",
+          'Okay': "My leaves are starting to lose their luster. Do you know what that means?",
+          'Droopy': "EXCUSE ME?! You\'re letting me DRY OUT?! Do you have ANY idea who I am?!",
+          'Struggling': "My leaves are crisp. My stems are sad. This is a disaster."
+        },
+        'Mysterious': {
+          'Thriving': "The spirits of the soil are content. I am... content. 🔮",
+          'Happy': "The leaves whisper of moisture... for now.",
+          'Okay': "Something is changing... I feel a dryness approaching.",
+          'Droopy': "The leaves cry out in silence... for water.",
+          'Struggling': "The shadows lengthen. My energy fades..."
+        },
+        'Cheerful': {
+          'Thriving': "I\'m so happy I could bloom! 🌸 Everything is perfect!",
+          'Happy': "Another day, another chance to grow! I\'m doing great!",
+          'Okay': "I\'m doing okay! A little water would make my day!",
+          'Droopy': "Oh no... I\'m feeling a bit droopy. Can you help?",
+          'Struggling': "I\'m not feeling my best, but I believe in tomorrow!"
+        }
+      };
+
+      // Get personality for a plant
+      function getPlantPersonality(species) {
+        const dbEntry = plantDatabase[species];
+        if (dbEntry && dbEntry.personality) return dbEntry.personality;
+        // Default personality based on common plant types
+        if (species.toLowerCase().includes('cactus') || species.toLowerCase().includes('succulent')) return 'Resilient';
+        if (species.toLowerCase().includes('pothos') || species.toLowerCase().includes('snake') || species.toLowerCase().includes('zz')) return 'Chill';
+        if (species.toLowerCase().includes('monstera') || species.toLowerCase().includes('bird of paradise')) return 'Diva';
+        if (species.toLowerCase().includes('orchid') || species.toLowerCase().includes('fig')) return 'Dramatic';
+        if (species.toLowerCase().includes('air plant') || species.toLowerCase().includes('venus')) return 'Mysterious';
+        return 'Cheerful';
+      }
+
+      // Calculate mood based on days since last watered
+      function getPlantMood(plant) {
+        if (!plant.lastWatered) return 'Struggling';
+        const lastWatered = new Date(plant.lastWatered);
+        const today = new Date();
+        const daysSince = Math.floor((today - lastWatered) / (1000 * 60 * 60 * 24));
+        const schedule = plant.waterDays || 7;
+        
+        if (daysSince <= schedule) return 'Thriving';
+        if (daysSince === schedule + 1) return 'Happy';
+        if (daysSince === schedule + 2) return 'Okay';
+        if (daysSince >= schedule + 3 && daysSince <= schedule + 4) return 'Droopy';
+        return 'Struggling';
+      }
+
+      // Get mood emoji
+      const moodEmojis = {
+        'Thriving': '🌟',
+        'Happy': '😊',
+        'Okay': '😐',
+        'Droopy': '😟',
+        'Struggling': '🆘'
+      };
+
       list.innerHTML = plants.map(plant => {
         const care = formatCare(plant);
         const isWateredToday = plant.lastWatered === getToday();
         const leafSignals = plant.leafSignals || { underwater: 'Wilting leaves', overwater: 'Yellow leaves' };
         
+        const personality = getPlantPersonality(plant.species);
+        const mood = getPlantMood(plant);
+        const personalityEmoji = personalityEmojis[personality] || '🌿';
+        const moodEmoji = moodEmojis[mood] || '🌱';
+        const voiceMessage = voiceMessages[personality]?.[mood] || "I\'m just a plant doing plant things.";
+        
         return `
           <div class="plant-card">
-            <div class="plant-header">
-              <div>
+            <div class="plant-card-header">
+              <div class="plant-info">
+                <span class="personality-badge ${personality.toLowerCase()}">${personalityEmoji} ${personality}</span>
                 <div class="plant-name">${plant.species}</div>
-                <div class="plant-nickname">${plant.nickname}</div>
               </div>
               ${isWateredToday ? '<span class="watered-badge watered-today">✓ Watered</span>' : ''}
             </div>
+            <div class="mood-indicator ${mood.toLowerCase()}">${moodEmoji} ${mood}</div>
+            <div class="voice-message">"${voiceMessage}"</div>
             <div class="care-details">
               <span class="care-item"><span class="care-icon">💧</span> ${care.water}</span>
               <span class="care-item"><span class="care-icon">☀️</span> ${care.light}</span>
