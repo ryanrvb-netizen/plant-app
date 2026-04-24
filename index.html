@@ -40,15 +40,154 @@
 
     .container { max-width: 500px; margin: 0 auto; }
 
+    /* Header with bell */
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      margin-bottom: 24px;
+    }
+
     h1 {
       text-align: center;
       color: var(--sage-dark);
-      margin-bottom: 24px;
       font-size: 2rem;
       font-weight: 700;
       letter-spacing: -0.5px;
     }
 
+    .notif-bell-wrap {
+      position: absolute;
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .notif-bell-btn {
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 1.2rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+      box-shadow: 0 2px 8px var(--card-shadow);
+      padding: 0;
+      width: 42px;
+    }
+
+    .notif-bell-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px var(--card-shadow); }
+
+    .notif-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      background: var(--terracotta);
+      color: white;
+      border-radius: 50%;
+      width: 18px;
+      height: 18px;
+      font-size: 0.65rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      display: none;
+    }
+
+    .notif-badge.show { display: flex; }
+
+    /* Notification dropdown */
+    .notif-dropdown {
+      position: absolute;
+      right: 0;
+      top: 52px;
+      background: var(--card-bg);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      width: 280px;
+      box-shadow: 0 8px 32px rgba(139, 109, 82, 0.15);
+      z-index: 200;
+      display: none;
+      overflow: hidden;
+    }
+
+    .notif-dropdown.show { display: block; }
+
+    .notif-dropdown-header {
+      padding: 14px 16px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+      background: var(--cream);
+    }
+
+    .notif-item {
+      padding: 12px 16px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .notif-item:last-child { border-bottom: none; }
+
+    .notif-item-name {
+      font-weight: 700;
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 2px;
+    }
+
+    .notif-item-msg { color: var(--text-light); font-size: 0.8rem; }
+
+    .notif-empty {
+      padding: 20px 16px;
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.85rem;
+    }
+
+    /* View toggle */
+    .view-toggle {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 20px;
+      background: var(--card-bg);
+      border-radius: 14px;
+      padding: 6px;
+      border: 1px solid var(--border);
+    }
+
+    .view-btn {
+      flex: 1;
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: transparent;
+      color: var(--text-light);
+      box-shadow: none;
+      border: none;
+    }
+
+    .view-btn:hover { transform: none; box-shadow: none; background: var(--cream); color: var(--text); }
+
+    .view-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%);
+      color: white;
+      box-shadow: 0 2px 8px rgba(124, 140, 94, 0.3);
+    }
+
+    .view-btn.active:hover { transform: none; }
+
+    /* Form */
     .add-plant-form {
       background: var(--card-bg);
       padding: 24px;
@@ -61,13 +200,7 @@
     .add-plant-form h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--text); font-weight: 600; }
     .form-group { margin-bottom: 16px; }
 
-    label {
-      display: block;
-      font-size: 0.9rem;
-      color: var(--text-light);
-      margin-bottom: 8px;
-      font-weight: 500;
-    }
+    label { display: block; font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px; font-weight: 500; }
 
     input, select {
       width: 100%;
@@ -79,498 +212,855 @@
       transition: all 0.2s;
     }
 
-    input:focus, select:focus {
-      outline: none;
-      border-color: var(--sage);
-      box-shadow: 0 0 0 3px rgba(135, 168, 120, 0.15);
-    }
+    input:focus, select:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(135, 168, 120, 0.15); }
 
     .care-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
 
-    .care-info .care-display {
-      padding: 12px;
-      font-size: 0.85rem;
-      background: var(--cream);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      color: var(--text);
-    }
-
+    .care-info .care-display { padding: 12px; font-size: 0.85rem; background: var(--cream); border: 2px solid var(--border); border-radius: 12px; color: var(--text); }
     .care-info .care-display.water { border-left: 4px solid var(--water); }
     .care-info .care-display.light { border-left: 4px solid #E8B4B8; }
     .care-info .care-display.soil { border-left: 4px solid var(--terracotta); }
-
-    .care-info .care-label {
-      display: block;
-      font-size: 0.7rem;
-      color: var(--text-light);
-      margin-bottom: 4px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
+    .care-info .care-label { display: block; font-size: 0.7rem; color: var(--text-light); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
     .care-info .care-value { font-weight: 600; }
 
-    .suggestion-box {
-      position: absolute;
-      background: var(--card-bg);
-      border: 2px solid var(--border);
-      border-radius: 12px;
-      max-height: 220px;
-      overflow-y: auto;
-      z-index: 100;
-      display: none;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-      width: 100%;
-    }
-
+    .suggestion-box { position: absolute; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; max-height: 220px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; }
     .suggestion-box.show { display: block; }
-
-    .suggestion-item {
-      padding: 12px 16px;
-      cursor: pointer;
-      transition: all 0.15s;
-      border-bottom: 1px solid var(--border);
-    }
-
+    .suggestion-item { padding: 12px 16px; cursor: pointer; transition: all 0.15s; border-bottom: 1px solid var(--border); }
     .suggestion-item:last-child { border-bottom: none; }
     .suggestion-item:hover { background: var(--cream); }
     .species-group { position: relative; }
-
     .nickname-group { display: flex; gap: 10px; }
     .nickname-group input { flex: 1; }
 
-    .surprise-btn {
-      width: auto;
-      padding: 12px 18px;
-      background: linear-gradient(135deg, var(--dusty-rose) 0%, var(--terracotta) 100%);
-      font-size: 0.9rem;
-    }
-
+    .surprise-btn { width: auto; padding: 12px 18px; background: linear-gradient(135deg, var(--dusty-rose) 0%, var(--terracotta) 100%); font-size: 0.9rem; }
     .surprise-btn:hover { transform: scale(1.02); }
 
-    button {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%);
-      color: white;
-      border: none;
-      border-radius: 12px;
-      font-size: 1rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      box-shadow: 0 4px 12px rgba(124, 140, 94, 0.3);
-    }
+    button { width: 100%; padding: 16px; background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%); color: white; border: none; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.2s; box-shadow: 0 4px 12px rgba(124, 140, 94, 0.3); }
+    button:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(124, 140, 94, 0.4); }
 
-    button:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(124, 140, 94, 0.4);
-    }
-
-    /* Add Plant button bounce animation */
-    @keyframes btnBounce {
-      0% { transform: scale(1); }
-      30% { transform: scale(0.94); }
-      60% { transform: scale(1.04); }
-      80% { transform: scale(0.98); }
-      100% { transform: scale(1); }
-    }
-
+    /* Animations */
+    @keyframes btnBounce { 0% { transform: scale(1); } 30% { transform: scale(0.94); } 60% { transform: scale(1.04); } 80% { transform: scale(0.98); } 100% { transform: scale(1); } }
     .btn-bounce { animation: btnBounce 0.4s ease forwards; }
 
-    /* Leaf float animation */
-    @keyframes leafFloat {
-      0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); }
-      100% { opacity: 0; transform: translateY(-80px) rotate(25deg) scale(1.4); }
-    }
+    @keyframes leafFloat { 0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } 100% { opacity: 0; transform: translateY(-80px) rotate(25deg) scale(1.4); } }
+    .leaf-float { position: fixed; pointer-events: none; font-size: 1.5rem; z-index: 999; animation: leafFloat 0.9s ease-out forwards; }
 
-    .leaf-float {
-      position: fixed;
-      pointer-events: none;
-      font-size: 1.5rem;
-      z-index: 999;
-      animation: leafFloat 0.9s ease-out forwards;
-    }
-
-    /* Card slide-in animation */
-    @keyframes cardSlideIn {
-      0% { opacity: 0; transform: translateY(20px) scale(0.97); }
-      100% { opacity: 1; transform: translateY(0) scale(1); }
-    }
-
+    @keyframes cardSlideIn { 0% { opacity: 0; transform: translateY(20px) scale(0.97); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
     .plant-card-new { animation: cardSlideIn 0.4s ease forwards; }
 
-    /* Watering confirmation toast */
-    #waterToast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--water);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 24px;
-      font-size: 0.95rem;
-      font-weight: 600;
-      opacity: 0;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      pointer-events: none;
-      box-shadow: 0 4px 16px rgba(107, 158, 120, 0.4);
-    }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+    .fade-in { animation: fadeIn 0.3s ease forwards; }
 
-    #waterToast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
+    /* Toasts */
+    #waterToast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--water); color: white; padding: 12px 24px; border-radius: 24px; font-size: 0.95rem; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 1000; pointer-events: none; box-shadow: 0 4px 16px rgba(107, 158, 120, 0.4); }
+    #waterToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    /* Rename dialog overlay */
-    .rename-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(61, 46, 30, 0.35);
-      backdrop-filter: blur(4px);
-      z-index: 500;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-    }
+    #renameToast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: white; padding: 12px 24px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 1000; pointer-events: none; box-shadow: 0 4px 16px rgba(124, 140, 94, 0.4); max-width: 320px; text-align: center; }
+    #renameToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 
-    .rename-dialog {
-      background: var(--card-bg);
-      border-radius: 20px;
-      padding: 28px 24px;
-      max-width: 340px;
-      width: 100%;
-      box-shadow: 0 12px 40px rgba(139, 109, 82, 0.2);
-      border: 1px solid var(--border);
-      text-align: center;
-    }
-
+    /* Rename dialog */
+    .rename-overlay { position: fixed; inset: 0; background: rgba(61, 46, 30, 0.35); backdrop-filter: blur(4px); z-index: 500; display: flex; align-items: center; justify-content: center; padding: 20px; }
+    .rename-dialog { background: var(--card-bg); border-radius: 20px; padding: 28px 24px; max-width: 340px; width: 100%; box-shadow: 0 12px 40px rgba(139, 109, 82, 0.2); border: 1px solid var(--border); text-align: center; }
     .rename-dialog .rename-emoji { font-size: 2rem; margin-bottom: 12px; }
     .rename-dialog h3 { font-size: 1.1rem; color: var(--text); margin-bottom: 8px; }
     .rename-dialog p { font-size: 0.9rem; color: var(--text-light); margin-bottom: 18px; line-height: 1.5; }
-
-    .rename-dialog input {
-      margin-bottom: 16px;
-      text-align: center;
-      font-size: 1.05rem;
-      font-weight: 600;
-    }
-
+    .rename-dialog input { margin-bottom: 16px; text-align: center; font-size: 1.05rem; font-weight: 600; }
     .rename-dialog-btns { display: flex; gap: 10px; }
+    .rename-keep-btn { background: var(--cream); color: var(--text); box-shadow: none; border: 2px solid var(--border); }
+    .rename-keep-btn:hover { background: var(--border); transform: translateY(-1px); box-shadow: none; }
+    .rename-confirm-btn { background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%); }
 
-    .rename-keep-btn {
-      background: var(--cream);
-      color: var(--text);
-      box-shadow: none;
-      border: 2px solid var(--border);
-    }
-
-    .rename-keep-btn:hover {
-      background: var(--border);
-      transform: translateY(-1px);
-      box-shadow: none;
-    }
-
-    .rename-confirm-btn {
-      background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%);
-    }
-
-    /* Rename reaction toast */
-    #renameToast {
-      position: fixed;
-      bottom: 30px;
-      left: 50%;
-      transform: translateX(-50%) translateY(20px);
-      background: var(--primary);
-      color: white;
-      padding: 12px 24px;
-      border-radius: 24px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      opacity: 0;
-      transition: all 0.3s ease;
-      z-index: 1000;
-      pointer-events: none;
-      box-shadow: 0 4px 16px rgba(124, 140, 94, 0.4);
-      max-width: 320px;
-      text-align: center;
-    }
-
-    #renameToast.show {
-      opacity: 1;
-      transform: translateX(-50%) translateY(0);
-    }
-
+    /* Plant cards */
     .plants-list { display: flex; flex-direction: column; gap: 16px; }
-
-    .plant-card {
-      background: var(--card-bg);
-      padding: 20px;
-      border-radius: 16px;
-      box-shadow: 0 4px 16px var(--card-shadow);
-      border: 1px solid var(--border);
-      transition: all 0.3s;
-    }
-
-    .plant-card:hover {
-      box-shadow: 0 8px 24px var(--card-shadow);
-      transform: translateY(-2px);
-    }
-
-    .plant-card-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 8px;
-    }
-
+    .plant-card { background: var(--card-bg); padding: 20px; border-radius: 16px; box-shadow: 0 4px 16px var(--card-shadow); border: 1px solid var(--border); transition: all 0.3s; }
+    .plant-card:hover { box-shadow: 0 8px 24px var(--card-shadow); transform: translateY(-2px); }
+    .plant-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; }
     .plant-info { flex: 1; }
-
-    .plant-name {
-      font-weight: 700;
-      font-size: 1.15rem;
-      color: var(--text);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .name-edit-btn {
-      background: none;
-      border: none;
-      padding: 2px 6px;
-      cursor: pointer;
-      font-size: 0.85rem;
-      opacity: 0.4;
-      transition: opacity 0.2s;
-      width: auto;
-      box-shadow: none;
-    }
-
-    .name-edit-btn:hover {
-      opacity: 1;
-      transform: none;
-      box-shadow: none;
-      background: none;
-    }
-
+    .plant-name { font-weight: 700; font-size: 1.15rem; color: var(--text); display: flex; align-items: center; gap: 8px; }
+    .name-edit-btn { background: none; border: none; padding: 2px 6px; cursor: pointer; font-size: 0.85rem; opacity: 0.4; transition: opacity 0.2s; width: auto; box-shadow: none; }
+    .name-edit-btn:hover { opacity: 1; transform: none; box-shadow: none; background: none; }
     .plant-species { color: var(--text-light); font-size: 0.85rem; font-style: italic; margin-top: 2px; }
-
-    .watered-badge {
-      background: var(--water);
-      color: white;
-      padding: 6px 14px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-    }
-
+    .watered-badge { background: var(--water); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
     .watered-today { background: var(--success); }
-
     .care-details { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
-
     .care-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-light); }
     .care-icon { font-size: 1rem; }
-
-    .water-btn {
-      width: auto;
-      padding: 12px 24px;
-      background: var(--water);
-      font-size: 0.9rem;
-      border-radius: 12px;
-    }
-
+    .water-btn { width: auto; padding: 12px 24px; background: var(--water); font-size: 0.9rem; border-radius: 12px; }
     .water-btn:hover { background: #5a8d67; }
     .water-btn.watered { background: var(--success); }
-
     .empty-state { text-align: center; padding: 60px 20px; color: var(--text-light); }
     .empty-icon { font-size: 4rem; margin-bottom: 16px; }
-
-    .delete-btn {
-      background: transparent;
-      color: var(--terracotta);
-      padding: 4px 8px;
-      width: auto;
-      font-size: 0.8rem;
-      box-shadow: none;
-    }
-
+    .delete-btn { background: transparent; color: var(--terracotta); padding: 4px 8px; width: auto; font-size: 0.8rem; box-shadow: none; }
     .delete-btn:hover { background: #fee; color: #c00; transform: none; box-shadow: none; }
-
-    .care-expanded {
-      background: #f8faf6;
-      border-radius: 8px;
-      padding: 12px;
-      margin-bottom: 14px;
-    }
-
-    .care-expanded-title {
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--primary);
-      margin-bottom: 10px;
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
+    .care-expanded { background: #f8faf6; border-radius: 8px; padding: 12px; margin-bottom: 14px; }
+    .care-expanded-title { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
     .care-detail-row { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.85rem; }
     .care-detail-row:last-child { margin-bottom: 0; }
     .care-detail-label { min-width: 80px; color: var(--text-light); font-weight: 500; }
     .care-detail-value { color: var(--text); }
-
     .leaf-signals { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-
     .leaf-signal { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
     .leaf-signal.underwater { background: #fff3e0; color: #e65100; }
     .leaf-signal.overwater { background: #e3f2fd; color: #1565c0; }
-
-    .personality-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.7rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.3px;
-      margin-bottom: 8px;
-    }
-
+    .personality-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 8px; }
     .personality-badge.dramatic { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); color: #c2185b; }
     .personality-badge.chill { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); color: #2e7d32; }
     .personality-badge.resilient { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); color: #ef6c00; }
     .personality-badge.diva { background: linear-gradient(135deg, #f3e5f5 0%, #e1bee7 100%); color: #7b1fa2; }
     .personality-badge.mysterious { background: linear-gradient(135deg, #e0f7fa 0%, #b2ebf2 100%); color: #00838f; }
     .personality-badge.cheerful { background: linear-gradient(135deg, #fce4ec 0%, #ffcdd2 100%); color: #d81b60; }
-
-    .mood-indicator {
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-      padding: 6px 12px;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
-
+    .mood-indicator { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; margin-bottom: 10px; }
     .mood-indicator.thriving { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); color: #2e7d32; }
     .mood-indicator.happy { background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%); color: #1565c0; }
     .mood-indicator.okay { background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); color: #f57f17; }
     .mood-indicator.droopy { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); color: #e65100; }
     .mood-indicator.struggling { background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); color: #c62828; }
+    .voice-message { font-style: italic; font-size: 0.9rem; color: var(--text-light); padding: 10px 14px; background: var(--cream); border-radius: 12px; margin-bottom: 14px; border-left: 3px solid var(--sage); }
 
-    .voice-message {
-      font-style: italic;
-      font-size: 0.9rem;
-      color: var(--text-light);
-      padding: 10px 14px;
-      background: var(--cream);
-      border-radius: 12px;
-      margin-bottom: 14px;
-      border-left: 3px solid var(--sage);
+    /* ===== CALENDAR STYLES ===== */
+    .calendar-view { display: none; }
+    .calendar-view.active { display: block; }
+    .plants-view { display: block; }
+    .plants-view.hidden { display: none; }
+
+    /* Today's care summary */
+    .today-care-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(135, 168, 120, 0.25);
+      box-shadow: 0 4px 20px rgba(135, 168, 120, 0.12);
     }
+
+    .today-care-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 14px;
+    }
+
+    .today-care-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .today-date-label {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-left: auto;
+    }
+
+    .today-plant-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 12px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+      background: var(--cream);
+      border: 1px solid var(--border);
+    }
+
+    .today-plant-item:last-child { margin-bottom: 0; }
+
+    .today-plant-emoji { font-size: 1.2rem; }
+
+    .today-plant-info { flex: 1; }
+
+    .today-plant-name { font-weight: 700; font-size: 0.9rem; color: var(--text); }
+
+    .today-plant-status { font-size: 0.78rem; color: var(--text-light); }
+
+    .today-plant-mood {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 10px;
+    }
+
+    .today-plant-mood.overdue { background: #ffebee; color: #c62828; }
+    .today-plant-mood.due { background: #fff8e1; color: #f57f17; }
+
+    .today-all-good {
+      text-align: center;
+      padding: 16px;
+      color: var(--text-light);
+      font-size: 0.9rem;
+    }
+
+    /* Calendar grid */
+    .calendar-card {
+      background: var(--card-bg);
+      border-radius: 20px;
+      padding: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 4px 16px var(--card-shadow);
+    }
+
+    .calendar-nav {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .calendar-nav-btn {
+      background: var(--cream);
+      border: 2px solid var(--border);
+      border-radius: 10px;
+      width: 36px;
+      height: 36px;
+      font-size: 1rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: none;
+      padding: 0;
+      width: 36px;
+      color: var(--text);
+    }
+
+    .calendar-nav-btn:hover { background: var(--border); transform: none; box-shadow: none; }
+
+    .calendar-month-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .calendar-weekdays {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+      margin-bottom: 8px;
+    }
+
+    .calendar-weekday {
+      text-align: center;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-light);
+      text-transform: uppercase;
+      letter-spacing: 0.3px;
+      padding: 4px 0;
+    }
+
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 4px;
+    }
+
+    .calendar-day {
+      aspect-ratio: 1;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.15s;
+      padding: 2px;
+      position: relative;
+      min-height: 44px;
+    }
+
+    .calendar-day:hover { background: var(--cream); }
+
+    .calendar-day.empty { cursor: default; }
+    .calendar-day.empty:hover { background: transparent; }
+
+    .calendar-day.today .day-number {
+      background: var(--terracotta);
+      color: white;
+      border-radius: 50%;
+      width: 26px;
+      height: 26px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .calendar-day.selected { background: var(--cream); border: 2px solid var(--sage); }
+
+    .day-number {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1;
+      margin-bottom: 2px;
+    }
+
+    .calendar-day.other-month .day-number { color: var(--border); }
+
+    .day-dots {
+      display: flex;
+      gap: 2px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    .day-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+    }
+
+    .day-dot.onschedule { background: var(--sage); }
+    .day-dot.due { background: #f57f17; }
+    .day-dot.overdue { background: #c62828; }
+
+    /* Day detail panel */
+    .day-detail-panel {
+      margin-top: 16px;
+      padding: 16px;
+      background: var(--cream);
+      border-radius: 14px;
+      border: 1px solid var(--border);
+      display: none;
+    }
+
+    .day-detail-panel.show { display: block; }
+
+    .day-detail-title {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 12px;
+    }
+
+    .day-detail-plant {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 10px;
+      background: var(--card-bg);
+      border-radius: 10px;
+      margin-bottom: 6px;
+      font-size: 0.85rem;
+      border: 1px solid var(--border);
+    }
+
+    .day-detail-plant:last-child { margin-bottom: 0; }
+
+    .day-detail-empty {
+      text-align: center;
+      color: var(--text-light);
+      font-size: 0.85rem;
+      padding: 8px;
+    }
+
+    /* Notification permission card */
+    .notif-prompt {
+      background: linear-gradient(135deg, var(--cream) 0%, #f0ede8 100%);
+      border: 2px solid var(--border);
+      border-radius: 16px;
+      padding: 18px 20px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .notif-prompt.show { display: block; }
+
+    .notif-prompt-title { font-weight: 700; font-size: 0.95rem; color: var(--text); margin-bottom: 6px; }
+    .notif-prompt-msg { font-size: 0.85rem; color: var(--text-light); margin-bottom: 14px; line-height: 1.5; }
+    .notif-prompt-btns { display: flex; gap: 10px; }
+    .notif-yes-btn { background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%); padding: 10px 16px; font-size: 0.85rem; }
+    .notif-no-btn { background: var(--cream); color: var(--text-light); box-shadow: none; border: 2px solid var(--border); padding: 10px 16px; font-size: 0.85rem; }
+    .notif-no-btn:hover { background: var(--border); transform: none; box-shadow: none; }
   </style>
 </head>
 <body>
   <div class="container">
-    <h1>🌱 Florish</h1>
-    
-    <div class="add-plant-form">
-      <h2>Add New Plant</h2>
-      <div class="form-group">
-        <label for="species">Species</label>
-        <div class="species-group">
-          <input type="text" id="species" placeholder="e.g., Monstera Deliciosa" autocomplete="off">
-          <div id="suggestions" class="suggestion-box"></div>
+
+    <div class="app-header">
+      <h1>🌱 Florish</h1>
+      <div class="notif-bell-wrap">
+        <button class="notif-bell-btn" onclick="toggleNotifDropdown()" title="Care alerts">
+          🔔
+          <span class="notif-badge" id="notifBadge"></span>
+        </button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">🌿 Care Needed Today</div>
+          <div id="notifDropdownContent"></div>
         </div>
       </div>
-      <div class="form-group">
-        <label for="nickname">Give them a name (optional but highly recommended)</label>
-        <div class="nickname-group">
-          <input type="text" id="nickname" placeholder="e.g., Monty… or let us choose 🎲">
-          <button type="button" class="surprise-btn" onclick="surpriseMe()">🎲 Surprise Me</button>
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Care Needs</label>
-        <div class="care-info">
-          <div class="care-display water">
-            <span class="care-label">💧 Thirst Level</span>
-            <span id="waterDisplay" class="care-value">—</span>
-          </div>
-          <div class="care-display light">
-            <span class="care-label">☀️ Sun Vibe</span>
-            <span id="lightDisplay" class="care-value">—</span>
-          </div>
-          <div class="care-display soil">
-            <span class="care-label">🌱 Soil Mood</span>
-            <span id="soilDisplay" class="care-value">—</span>
-          </div>
-        </div>
-      </div>
-      <button id="addPlantBtn" onclick="addPlant()">Add Plant</button>
     </div>
 
-    <div id="plantsList" class="plants-list"></div>
+    <!-- Notification permission prompt -->
+    <div class="notif-prompt" id="notifPrompt">
+      <div class="notif-prompt-title">🔔 Want plant reminders?</div>
+      <div class="notif-prompt-msg">Your plants would love to remind you when they're thirsty. In their own words, obviously.</div>
+      <div class="notif-prompt-btns">
+        <button class="notif-yes-btn" onclick="enableNotifications()">Yes please!</button>
+        <button class="notif-no-btn" onclick="dismissNotifPrompt()">Maybe later</button>
+      </div>
+    </div>
+
+    <!-- View toggle -->
+    <div class="view-toggle">
+      <button class="view-btn active" id="plantsViewBtn" onclick="switchView('plants')">🌿 My Plants</button>
+      <button class="view-btn" id="calendarViewBtn" onclick="switchView('calendar')">📅 Care Schedule</button>
+    </div>
+
+    <!-- Plants view -->
+    <div class="plants-view" id="plantsView">
+      <div class="add-plant-form">
+        <h2>Add New Plant</h2>
+        <div class="form-group">
+          <label for="species">Species</label>
+          <div class="species-group">
+            <input type="text" id="species" placeholder="e.g., Monstera Deliciosa" autocomplete="off">
+            <div id="suggestions" class="suggestion-box"></div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="nickname">Give them a name (optional but highly recommended)</label>
+          <div class="nickname-group">
+            <input type="text" id="nickname" placeholder="e.g., Monty… or let us choose 🎲">
+            <button type="button" class="surprise-btn" onclick="surpriseMe()">🎲 Surprise Me</button>
+          </div>
+        </div>
+        <div class="form-group">
+          <label>Care Needs</label>
+          <div class="care-info">
+            <div class="care-display water">
+              <span class="care-label">💧 Thirst Level</span>
+              <span id="waterDisplay" class="care-value">—</span>
+            </div>
+            <div class="care-display light">
+              <span class="care-label">☀️ Sun Vibe</span>
+              <span id="lightDisplay" class="care-value">—</span>
+            </div>
+            <div class="care-display soil">
+              <span class="care-label">🌱 Soil Mood</span>
+              <span id="soilDisplay" class="care-value">—</span>
+            </div>
+          </div>
+        </div>
+        <button id="addPlantBtn" onclick="addPlant()">Add Plant</button>
+      </div>
+      <div id="plantsList" class="plants-list"></div>
+    </div>
+
+    <!-- Calendar view -->
+    <div class="calendar-view" id="calendarView">
+
+      <!-- Today's care summary -->
+      <div class="today-care-card">
+        <div class="today-care-header">
+          <span style="font-size:1.3rem">🌿</span>
+          <span class="today-care-title">Today's Care</span>
+          <span class="today-date-label" id="todayDateLabel"></span>
+        </div>
+        <div id="todayCareList"></div>
+      </div>
+
+      <!-- Calendar -->
+      <div class="calendar-card">
+        <div class="calendar-nav">
+          <button class="calendar-nav-btn" onclick="changeMonth(-1)">‹</button>
+          <span class="calendar-month-title" id="calendarMonthTitle"></span>
+          <button class="calendar-nav-btn" onclick="changeMonth(1)">›</button>
+        </div>
+        <div class="calendar-weekdays">
+          <div class="calendar-weekday">Sun</div>
+          <div class="calendar-weekday">Mon</div>
+          <div class="calendar-weekday">Tue</div>
+          <div class="calendar-weekday">Wed</div>
+          <div class="calendar-weekday">Thu</div>
+          <div class="calendar-weekday">Fri</div>
+          <div class="calendar-weekday">Sat</div>
+        </div>
+        <div class="calendar-grid" id="calendarGrid"></div>
+        <div class="day-detail-panel" id="dayDetailPanel">
+          <div class="day-detail-title" id="dayDetailTitle"></div>
+          <div id="dayDetailContent"></div>
+        </div>
+      </div>
+    </div>
+
   </div>
 
-  <!-- Water confirmation toast -->
   <div id="waterToast"></div>
-
-  <!-- Rename reaction toast -->
   <div id="renameToast"></div>
 
   <script>
+    // ===== PLANT DATABASE =====
     const plantDatabase = {
       'Monstera Deliciosa': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly until it flows from drainage holes, then allow to drain fully. Reduce watering in winter.', soilDrynessCheck: 'Insert finger 2 inches into soil; water when top 2 inches feel dry. Monsteras prefer consistent moisture.', leafSignals: { underwater: 'Leaves droop and curl inward, fenestrations stop developing', overwater: 'Yellow leaves starting from edges, brown mushy spots on leaves' }, waterAmount: 'thorough', personality: 'Diva' },
-      'Monstera Adansonii': { waterDays: 5, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch is dry. This species is thirstier than M. Deliciosa due to smaller leaves.', soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry. More frequent watering needed.', leafSignals: { underwater: 'Leaves droop significantly, holes may not develop fully', overwater: 'Yellow leaves, soft black stems' }, waterAmount: 'moderate', personality: 'Diva' },
-      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely. Very forgiving but dislikes soggy soil.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry. Will tolerate some neglect.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', personality: 'Chill' },
-      'Golden Pothos': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water when soil is dry. Tolerates low light but variegation shows best in brighter conditions.', soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.', leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' }, waterAmount: 'thorough', personality: 'Chill' },
-      'Snake Plant (Sansevieria)': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Water sparingly; allow to dry completely between waterings. In winter, water only once a month.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry throughout root zone.', leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' }, waterAmount: 'light', personality: 'Chill' },
-      'ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water very sparingly; rhizomes store water. In winter, water once a month or less.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry. Better to underwater than overwater.', leafSignals: { underwater: 'Stems become thin and wrinkled, leaves turn yellow then brown', overwater: 'Yellow leaves, mushy black rhizomes, stunted growth' }, waterAmount: 'light', personality: 'Chill' },
-      'Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist but not soggy. Sensitive to fluoride in tap water.', soilDrynessCheck: 'Check top inch; water when dry. Use filtered water if brown tips develop.', leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'moderate', personality: 'Chill' },
-      'Peace Lily': { waterDays: 5, light: 'Low to Medium', soil: 'Rich, well-draining', waterMethod: 'top', waterNotes: 'Keep consistently moist; hates drying out. Dramatically droops when thirsty but recovers quickly.', soilDrynessCheck: 'Check top inch; water when slightly damp. Do not let dry out completely.', leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' }, waterAmount: 'moderate', personality: 'Cheerful' },
+      'Monstera Adansonii': { waterDays: 5, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch is dry.', soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry.', leafSignals: { underwater: 'Leaves droop significantly', overwater: 'Yellow leaves, soft black stems' }, waterAmount: 'moderate', personality: 'Diva' },
+      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', personality: 'Chill' },
+      'Golden Pothos': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water when soil is dry.', soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.', leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' }, waterAmount: 'thorough', personality: 'Chill' },
+      'Snake Plant (Sansevieria)': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Water sparingly; allow to dry completely between waterings.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry throughout root zone.', leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' }, waterAmount: 'light', personality: 'Chill' },
+      'ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water very sparingly; rhizomes store water.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry.', leafSignals: { underwater: 'Stems become thin and wrinkled', overwater: 'Yellow leaves, mushy black rhizomes' }, waterAmount: 'light', personality: 'Chill' },
+      'Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist but not soggy.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'moderate', personality: 'Chill' },
+      'Peace Lily': { waterDays: 5, light: 'Low to Medium', soil: 'Rich, well-draining', waterMethod: 'top', waterNotes: 'Keep consistently moist; hates drying out.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' }, waterAmount: 'moderate', personality: 'Cheerful' },
       'Aloe Vera': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy', waterMethod: 'top', waterNotes: 'Water deeply but infrequently; must drain well', soilDrynessCheck: 'Check 3 inches; water when completely dry', leafSignals: { underwater: 'Thinning, curling leaves', overwater: 'Mushy, translucent leaves' }, waterAmount: 'thorough', personality: 'Resilient' },
-      'Rubber Plant': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain completely. Wipe leaves regularly to keep glossy.', soilDrynessCheck: 'Check top 2 inches; water when dry. Less water in winter.', leafSignals: { underwater: 'Leaves droop and curl inward, lower leaves turn yellow', overwater: 'Yellow leaves, leaf drop, black stems' }, waterAmount: 'thorough' },
-      'Fiddle Leaf Fig': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly until it drains; do not let sit in water. Avoid moving once placed.', soilDrynessCheck: 'Check top 2 inches; water when dry. Consistent watering schedule is key.', leafSignals: { underwater: 'Wilting, brown crispy edges on leaves, leaf drop from bottom', overwater: 'Yellow leaves with brown spots, root rot, mushy base' }, waterAmount: 'thorough', personality: 'Dramatic' },
+      'Rubber Plant': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain completely.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and curl inward', overwater: 'Yellow leaves, leaf drop, black stems' }, waterAmount: 'thorough' },
+      'Fiddle Leaf Fig': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly until it drains; do not let sit in water.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, brown crispy edges on leaves', overwater: 'Yellow leaves with brown spots, root rot' }, waterAmount: 'thorough', personality: 'Dramatic' },
       'Bird of Paradise': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Curling, drooping', overwater: 'Yellow leaves' }, waterAmount: 'thorough', personality: 'Diva' },
-      'Calathea': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Use filtered or distilled water; keep consistently moist but not soggy. High humidity essential.', soilDrynessCheck: 'Check top inch; water when slightly damp. Never let dry out completely.', leafSignals: { underwater: 'Crispy brown edges, leaves curl inward, prayer position at night fails', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate' },
+      'Calathea': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Use filtered or distilled water; keep consistently moist.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Crispy brown edges, leaves curl inward', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate' },
       'Prayer Plant': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based', waterMethod: 'top', waterNotes: 'Keep evenly moist; sensitive to water quality', soilDrynessCheck: 'Top inch should stay moist', leafSignals: { underwater: 'Curling, drooping', overwater: 'Wilting, yellow leaves' }, waterAmount: 'moderate' },
-      'Boston Fern': { waterDays: 3, light: 'Medium Indirect', soil: 'Peat-based potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; mist frequently. Loves humidity - great for bathrooms.', soilDrynessCheck: 'Check surface daily; water when top inch is dry. Never let dry out completely.', leafSignals: { underwater: 'Brown fronds, crispy leaf edges, fronds turn yellow', overwater: 'Yellowing fronds, mushy base, root rot' }, waterAmount: 'moderate' },
-      'English Ivy': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain. Prefers cool temperatures and good air circulation.', soilDrynessCheck: 'Check top inch; water when dry. More frequent water in summer.', leafSignals: { underwater: 'Crispy leaves, leaf drop, pale color', overwater: 'Yellow leaves, root rot' }, waterAmount: 'thorough' },
-      'Jade Plant': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry completely. Thick leaves store water - very drought-tolerant.', soilDrynessCheck: 'Check 3 inches; water when completely dry. Water less in winter.', leafSignals: { underwater: 'Wrinkled, thin leaves, red leaf edges in sun', overwater: 'Mushy leaves, black stems, leaf drop' }, waterAmount: 'thorough', personality: 'Resilient' },
-      'String of Pearls': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Water from bottom by placing in tray of water for 20 minutes. Very sensitive to overwatering.', soilDrynessCheck: 'Check if pearls feel slightly soft/deflated - they will look shriveled.', leafSignals: { underwater: 'Shriveling pearls, pearls flatten', overwater: 'Mushy, translucent pearls that pop off stem' }, waterAmount: 'light' },
-      'Hoya': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings. Do not remove spent flower stalks.', soilDrynessCheck: 'Check top 2 inches; water when dry. Leaves become slightly soft when thirsty.', leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' }, waterAmount: 'thorough' },
-      'Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'bottom', waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely. Never let water sit in crown.', soilDrynessCheck: 'Check roots; water when silvery-gray (not green). Roots should be firm, not mushy.', leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves, buds drying up', overwater: 'Brown mushy roots, yellow leaves, crown rot' }, waterAmount: 'moderate', personality: 'Dramatic' },
-      'Bromeliad': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'both', waterNotes: 'Water soil lightly AND fill central cup (tank) with water. Empty and refresh cup monthly.', soilDrynessCheck: 'Check soil; water when top inch dry. Central cup should always have some water.', leafSignals: { underwater: 'Drooping leaves, cup empty', overwater: 'Mushy base, leaves pull off easily' }, waterAmount: 'moderate', personality: 'Cheerful' },
-      'Air Plant': { waterDays: 7, light: 'Bright Indirect', soil: 'None - mount or place in open container', waterMethod: 'both', waterNotes: 'Soak in room temp water 20-30 minutes weekly; mist between soaks. Shake off excess water.', soilDrynessCheck: 'Leaves curling inward and feeling crispy = needs water. Should be flexible when hydrated.', leafSignals: { underwater: 'Curling, crispy, grayish color, leaves close up', overwater: 'Mushy, discolored base, leaves fall off' }, waterAmount: 'light', personality: 'Mysterious' },
-      'Succulent': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Soak and dry method; water until it flows from drainage holes, then wait until completely dry.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout. Wrinkled leaves = needs water.', leafSignals: { underwater: 'Wrinkled, deflated leaves, dull color, leaves feel soft', overwater: 'Mushy, translucent leaves, black spots, leaf drop' }, waterAmount: 'thorough', personality: 'Resilient' },
-      'Cactus': { waterDays: 21, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water very sparingly; needs fast drainage. Water less in winter dormancy.', soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.', leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened, smells rotten, easily falls over' }, waterAmount: 'light', personality: 'Resilient' },
-      'Dracaena': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; sensitive to fluoride in tap water - use filtered.', soilDrynessCheck: 'Check top 2 inches; water when dry. Tolerates some drought.', leafSignals: { underwater: 'Brown tips on leaves, wilting, drooping', overwater: 'Yellow leaves from bottom up, root rot, mushy base' }, waterAmount: 'thorough' },
-      'Chinese Evergreen': { waterDays: 10, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain. One of the best low-light plants.', soilDrynessCheck: 'Check top 2 inches; water when dry. Tolerates neglect.', leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', personality: 'Mysterious' },
-      'Money Tree': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; likes humidity. Braided trunk is traditional.', soilDrynessCheck: 'Check top 2 inches; water when dry. Do not overwater - root rot common.', leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk, yellow leaves' }, waterAmount: 'thorough' },
+      'Boston Fern': { waterDays: 3, light: 'Medium Indirect', soil: 'Peat-based potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; mist frequently.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Brown fronds, crispy leaf edges', overwater: 'Yellowing fronds, mushy base, root rot' }, waterAmount: 'moderate' },
+      'English Ivy': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Crispy leaves, leaf drop, pale color', overwater: 'Yellow leaves, root rot' }, waterAmount: 'thorough' },
+      'Jade Plant': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry completely.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wrinkled, thin leaves', overwater: 'Mushy leaves, black stems, leaf drop' }, waterAmount: 'thorough', personality: 'Resilient' },
+      'String of Pearls': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Water from bottom by placing in tray of water for 20 minutes.', soilDrynessCheck: 'Check if pearls feel slightly soft/deflated.', leafSignals: { underwater: 'Shriveling pearls, pearls flatten', overwater: 'Mushy, translucent pearls that pop off stem' }, waterAmount: 'light' },
+      'Hoya': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' }, waterAmount: 'thorough' },
+      'Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'bottom', waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely.', soilDrynessCheck: 'Check roots; water when silvery-gray (not green).', leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves', overwater: 'Brown mushy roots, yellow leaves, crown rot' }, waterAmount: 'moderate', personality: 'Dramatic' },
+      'Bromeliad': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'both', waterNotes: 'Water soil lightly AND fill central cup (tank) with water.', soilDrynessCheck: 'Check soil; water when top inch dry.', leafSignals: { underwater: 'Drooping leaves, cup empty', overwater: 'Mushy base, leaves pull off easily' }, waterAmount: 'moderate', personality: 'Cheerful' },
+      'Air Plant': { waterDays: 7, light: 'Bright Indirect', soil: 'None - mount or place in open container', waterMethod: 'both', waterNotes: 'Soak in room temp water 20-30 minutes weekly; mist between soaks.', soilDrynessCheck: 'Leaves curling inward and feeling crispy = needs water.', leafSignals: { underwater: 'Curling, crispy, grayish color', overwater: 'Mushy, discolored base, leaves fall off' }, waterAmount: 'light', personality: 'Mysterious' },
+      'Succulent': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Soak and dry method; water until it flows from drainage holes, then wait until completely dry.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout.', leafSignals: { underwater: 'Wrinkled, deflated leaves', overwater: 'Mushy, translucent leaves, black spots, leaf drop' }, waterAmount: 'thorough', personality: 'Resilient' },
+      'Cactus': { waterDays: 21, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water very sparingly; needs fast drainage.', soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.', leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened, smells rotten' }, waterAmount: 'light', personality: 'Resilient' },
+      'Dracaena': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; sensitive to fluoride - use filtered.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting, drooping', overwater: 'Yellow leaves from bottom up, root rot' }, waterAmount: 'thorough' },
+      'Chinese Evergreen': { waterDays: 10, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', personality: 'Mysterious' },
+      'Money Tree': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; likes humidity.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk, yellow leaves' }, waterAmount: 'thorough' },
       'Peperomia': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings', soilDrynessCheck: 'Check top 2 inches; water when dry', leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate' },
       'Tradescantia': { waterDays: 5, light: 'Medium to Bright', soil: 'Regular', waterMethod: 'top', waterNotes: 'Keep evenly moist; loves humidity', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Wilting, crispy leaves', overwater: 'Mushy stems' }, waterAmount: 'moderate' },
-      'Parlor Palm': { waterDays: 7, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain. One of the most tolerant palms for low light and neglect.', soilDrynessCheck: 'Check top 2 inches; water when dry. Tolerates some drying out.', leafSignals: { underwater: 'Brown tips on leaves, wilting, fronds turn yellow', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'thorough' },
-      'Basil': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; never let dry out. Water at base to prevent leaf diseases.', soilDrynessCheck: 'Check surface daily; water when top inch is dry. May need water twice daily in hot weather.', leafSignals: { underwater: 'Wilted, drooping leaves, black spots on leaves', overwater: 'Yellow leaves, black stems, root rot' }, waterAmount: 'moderate' },
-      'Lavender': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Water sparingly; needs excellent drainage. Prefers poor, rocky soil.', soilDrynessCheck: 'Check 3 inches; dry = water. Let dry thoroughly between waterings.', leafSignals: { underwater: 'Wilting, gray foliage, no flowers', overwater: 'Mushy stems, root rot, leaves turn black' }, waterAmount: 'light' },
-      'Rosemary': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings; drought-tolerant. Prefers dry conditions.', soilDrynessCheck: 'Check 3 inches; water when completely dry. More water in hot weather.', leafSignals: { underwater: 'Gray-green color deepens, wilting, needle-like leaves droop', overwater: 'Yellow leaves from base, root rot, mushy stems' }, waterAmount: 'light' },
-      'Mint': { waterDays: 2, light: 'Medium to Bright', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep moist; loves water. Grows aggressively - best in its own container.', soilDrynessCheck: 'Check surface; keep consistently moist. Will wilt dramatically if thirsty.', leafSignals: { underwater: 'Wilting, brown edges on leaves', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate' }
+      'Parlor Palm': { waterDays: 7, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'thorough' },
+      'Basil': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; never let dry out.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Wilted, drooping leaves', overwater: 'Yellow leaves, black stems, root rot' }, waterAmount: 'moderate' },
+      'Lavender': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Water sparingly; needs excellent drainage.', soilDrynessCheck: 'Check 3 inches; dry = water.', leafSignals: { underwater: 'Wilting, gray foliage, no flowers', overwater: 'Mushy stems, root rot, leaves turn black' }, waterAmount: 'light' },
+      'Rosemary': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings; drought-tolerant.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wilting, needle-like leaves droop', overwater: 'Yellow leaves from base, root rot, mushy stems' }, waterAmount: 'light' },
+      'Mint': { waterDays: 2, light: 'Medium to Bright', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep moist; loves water.', soilDrynessCheck: 'Check surface; keep consistently moist.', leafSignals: { underwater: 'Wilting, brown edges on leaves', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate' }
     };
 
+    // ===== STATE =====
     let plants = JSON.parse(localStorage.getItem('plants') || '[]');
     let currentSuggestion = null;
+    let currentView = 'plants';
+    let calendarDate = new Date();
+    let selectedCalendarDay = null;
 
     function savePlants() { localStorage.setItem('plants', JSON.stringify(plants)); }
     function getToday() { return new Date().toDateString(); }
 
-    // Auto-suggest
+    // ===== VIEW SWITCHING =====
+    function switchView(view) {
+      currentView = view;
+      document.getElementById('plantsView').classList.toggle('hidden', view !== 'plants');
+      document.getElementById('calendarView').classList.toggle('active', view === 'calendar');
+      document.getElementById('plantsViewBtn').classList.toggle('active', view === 'plants');
+      document.getElementById('calendarViewBtn').classList.toggle('active', view === 'calendar');
+      if (view === 'calendar') renderCalendar();
+    }
+
+    // ===== NOTIFICATION BELL =====
+    function updateNotifBell() {
+      const needsCare = plants.filter(p => {
+        const mood = getPlantMood(p);
+        return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p);
+      });
+
+      const badge = document.getElementById('notifBadge');
+      if (needsCare.length > 0) {
+        badge.textContent = needsCare.length;
+        badge.classList.add('show');
+      } else {
+        badge.classList.remove('show');
+      }
+    }
+
+    function toggleNotifDropdown() {
+      const dropdown = document.getElementById('notifDropdown');
+      const isOpen = dropdown.classList.contains('show');
+      dropdown.classList.toggle('show', !isOpen);
+      if (!isOpen) renderNotifDropdown();
+    }
+
+    document.addEventListener('click', function(e) {
+      if (!e.target.closest('.notif-bell-wrap')) {
+        document.getElementById('notifDropdown').classList.remove('show');
+      }
+    });
+
+    function renderNotifDropdown() {
+      const content = document.getElementById('notifDropdownContent');
+      const needsCare = plants.filter(p => {
+        const mood = getPlantMood(p);
+        return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p);
+      });
+
+      if (needsCare.length === 0) {
+        content.innerHTML = '<div class="notif-empty">🌿 All plants are happy today!</div>';
+        return;
+      }
+
+      content.innerHTML = needsCare.map(p => {
+        const mood = getPlantMood(p);
+        const personality = getPlantPersonality(p.species);
+        const emoji = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' }[personality] || '🌿';
+        const name = p.nickname || p.species;
+        const shortMsg = getShortNotifMessage(personality, mood, name);
+        return `<div class="notif-item">
+          <div class="notif-item-name">${emoji} ${name}</div>
+          <div class="notif-item-msg">${shortMsg}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function getShortNotifMessage(personality, mood, name) {
+      const msgs = {
+        'Dramatic': { 'Struggling': `Named the thirst Gerald. Gerald says hi.`, 'Droopy': `Not to alarm you, but... 💧`, 'due': `Time to water. Dramatically. 💧` },
+        'Chill': { 'Struggling': `Water. Please. That's it. That's the message.`, 'Droopy': `Could use some water. Probably.`, 'due': `Water day. No rush. Kinda.` },
+        'Resilient': { 'Struggling': `Still here. Barely. Water me.`, 'Droopy': `Needs water. No drama. 💧`, 'due': `Water day. Let's go. 💧` },
+        'Diva': { 'Struggling': `Will not stand for this. 💧`, 'Droopy': `Waiting. Patiently. Barely. 👑`, 'due': `It's watering day. Obviously.` },
+        'Mysterious': { 'Struggling': `The roots call out. Water soon. 💧`, 'Droopy': `Grows quiet. Water soon. 💧`, 'due': `The soil speaks today. 💧` },
+        'Cheerful': { 'Struggling': `Still hopeful! Water time! 💧`, 'Droopy': `A little thirsty 🌿`, 'due': `Water day! So exciting! 🌿` }
+      };
+      const pMsgs = msgs[personality] || msgs['Cheerful'];
+      if (mood === 'Struggling') return pMsgs['Struggling'];
+      if (mood === 'Droopy') return pMsgs['Droopy'];
+      return pMsgs['due'];
+    }
+
+    // ===== NOTIFICATION PERMISSION =====
+    function checkNotifPrompt() {
+      const pref = localStorage.getItem('notifPref');
+      if (!pref && plants.length >= 1) {
+        document.getElementById('notifPrompt').classList.add('show');
+      }
+    }
+
+    function enableNotifications() {
+      if ('Notification' in window) {
+        Notification.requestPermission().then(permission => {
+          localStorage.setItem('notifPref', permission === 'granted' ? 'granted' : 'denied');
+          if (permission === 'granted') scheduleNotifications();
+        });
+      }
+      document.getElementById('notifPrompt').classList.remove('show');
+    }
+
+    function dismissNotifPrompt() {
+      localStorage.setItem('notifPref', 'dismissed');
+      document.getElementById('notifPrompt').classList.remove('show');
+    }
+
+    function scheduleNotifications() {
+      const now = new Date();
+      const next9am = new Date(now);
+      next9am.setHours(9, 0, 0, 0);
+      if (now >= next9am) next9am.setDate(next9am.getDate() + 1);
+      const msUntil9am = next9am - now;
+      setTimeout(() => {
+        sendPlantNotifications();
+        setInterval(sendPlantNotifications, 24 * 60 * 60 * 1000);
+      }, msUntil9am);
+    }
+
+    function sendPlantNotifications() {
+      if (Notification.permission !== 'granted') return;
+      const needsCare = plants.filter(p => {
+        const mood = getPlantMood(p);
+        return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p);
+      });
+      needsCare.forEach(p => {
+        const name = p.nickname || p.species;
+        const personality = getPlantPersonality(p.species);
+        const mood = getPlantMood(p);
+        const msg = getShortNotifMessage(personality, mood, name);
+        new Notification(`🌿 ${name}`, { body: msg, icon: '🌱' });
+      });
+    }
+
+    // ===== CALENDAR =====
+    function isDueToday(plant) {
+      if (!plant.lastWatered) return true;
+      const lastWatered = new Date(plant.lastWatered);
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const nextWater = new Date(lastWatered);
+      nextWater.setDate(nextWater.getDate() + (plant.waterDays || 7));
+      nextWater.setHours(0, 0, 0, 0);
+      return nextWater <= today;
+    }
+
+    function getNextWaterDate(plant) {
+      if (!plant.lastWatered) return new Date();
+      const last = new Date(plant.lastWatered);
+      last.setDate(last.getDate() + (plant.waterDays || 7));
+      return last;
+    }
+
+    function renderCalendar() {
+      const year = calendarDate.getFullYear();
+      const month = calendarDate.getMonth();
+      const today = new Date();
+
+      // Month title
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      document.getElementById('calendarMonthTitle').textContent = `${monthNames[month]} ${year}`;
+
+      // Today's date label
+      document.getElementById('todayDateLabel').textContent = today.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' });
+
+      // Render today's care
+      renderTodayCare();
+
+      // Build calendar days map: dateKey -> plants
+      const careMap = {};
+      plants.forEach(plant => {
+        // Show next 60 days of care
+        let checkDate = plant.lastWatered ? new Date(plant.lastWatered) : new Date();
+        checkDate.setHours(0, 0, 0, 0);
+        if (!plant.lastWatered) {
+          const key = formatDateKey(checkDate);
+          if (!careMap[key]) careMap[key] = [];
+          careMap[key].push({ plant, status: 'overdue' });
+          return;
+        }
+        let nextDate = new Date(checkDate);
+        nextDate.setDate(nextDate.getDate() + (plant.waterDays || 7));
+        for (let i = 0; i < 8; i++) {
+          const key = formatDateKey(nextDate);
+          if (!careMap[key]) careMap[key] = [];
+          const daysDiff = Math.floor((nextDate - today) / (1000 * 60 * 60 * 24));
+          let status = 'onschedule';
+          if (daysDiff < 0) status = 'overdue';
+          else if (daysDiff === 0) status = 'due';
+          careMap[key].push({ plant, status });
+          nextDate = new Date(nextDate);
+          nextDate.setDate(nextDate.getDate() + (plant.waterDays || 7));
+        }
+      });
+
+      // Build grid
+      const firstDay = new Date(year, month, 1).getDay();
+      const daysInMonth = new Date(year, month + 1, 0).getDate();
+      const daysInPrevMonth = new Date(year, month, 0).getDate();
+
+      let cells = [];
+
+      // Previous month padding
+      for (let i = firstDay - 1; i >= 0; i--) {
+        cells.push({ day: daysInPrevMonth - i, month: month - 1, year, otherMonth: true });
+      }
+
+      // Current month
+      for (let d = 1; d <= daysInMonth; d++) {
+        cells.push({ day: d, month, year, otherMonth: false });
+      }
+
+      // Next month padding
+      const remaining = 42 - cells.length;
+      for (let d = 1; d <= remaining; d++) {
+        cells.push({ day: d, month: month + 1, year, otherMonth: true });
+      }
+
+      const grid = document.getElementById('calendarGrid');
+      grid.innerHTML = cells.map(cell => {
+        const cellDate = new Date(cell.year, cell.month, cell.day);
+        const key = formatDateKey(cellDate);
+        const isToday = cellDate.toDateString() === today.toDateString();
+        const isSelected = selectedCalendarDay === key;
+        const carePlants = careMap[key] || [];
+
+        const dots = carePlants.slice(0, 4).map(({ status }) =>
+          `<div class="day-dot ${status}"></div>`
+        ).join('');
+
+        return `<div class="calendar-day ${cell.otherMonth ? 'other-month' : ''} ${isToday ? 'today' : ''} ${isSelected ? 'selected' : ''}"
+          onclick="selectCalendarDay('${key}', ${cell.otherMonth})">
+          <div class="day-number">${cell.day}</div>
+          ${dots ? `<div class="day-dots">${dots}</div>` : ''}
+        </div>`;
+      }).join('');
+    }
+
+    function formatDateKey(date) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2,'0')}-${String(date.getDate()).padStart(2,'0')}`;
+    }
+
+    function selectCalendarDay(key, otherMonth) {
+      selectedCalendarDay = key;
+      const panel = document.getElementById('dayDetailPanel');
+      const title = document.getElementById('dayDetailTitle');
+      const content = document.getElementById('dayDetailContent');
+
+      const [year, month, day] = key.split('-').map(Number);
+      const date = new Date(year, month - 1, day);
+      const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      title.textContent = `🌿 ${dateStr}`;
+
+      // Find plants due on this day
+      const today = new Date();
+      const duePlants = plants.filter(plant => {
+        if (!plant.lastWatered) {
+          return date <= today;
+        }
+        let nextDate = new Date(plant.lastWatered);
+        nextDate.setHours(0, 0, 0, 0);
+        for (let i = 0; i < 8; i++) {
+          nextDate.setDate(nextDate.getDate() + (plant.waterDays || 7));
+          if (formatDateKey(nextDate) === key) return true;
+        }
+        return false;
+      });
+
+      if (duePlants.length === 0) {
+        content.innerHTML = '<div class="day-detail-empty">No care needed this day 🌿</div>';
+      } else {
+        const personalityEmojis = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
+        content.innerHTML = duePlants.map(p => {
+          const name = p.nickname || p.species;
+          const personality = getPlantPersonality(p.species);
+          const emoji = personalityEmojis[personality] || '🌿';
+          return `<div class="day-detail-plant">
+            <span>${emoji}</span>
+            <span><strong>${name}</strong> — water every ${p.waterDays} days</span>
+          </div>`;
+        }).join('');
+      }
+
+      panel.classList.add('show');
+      renderCalendar(); // re-render to show selected state
+    }
+
+    function renderTodayCare() {
+      const list = document.getElementById('todayCareList');
+      const personalityEmojis = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
+
+      const needsCare = plants.filter(p => {
+        const mood = getPlantMood(p);
+        return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p);
+      });
+
+      if (needsCare.length === 0) {
+        list.innerHTML = '<div class="today-all-good">All caught up! Your plants are happy today 🌿</div>';
+        return;
+      }
+
+      list.innerHTML = needsCare.map(p => {
+        const mood = getPlantMood(p);
+        const personality = getPlantPersonality(p.species);
+        const emoji = personalityEmojis[personality] || '🌿';
+        const name = p.nickname || p.species;
+        const isOverdue = mood === 'Struggling' || mood === 'Droopy';
+        const statusText = isOverdue ? `Overdue — needs water now` : 'Due today';
+        const moodClass = isOverdue ? 'overdue' : 'due';
+
+        return `<div class="today-plant-item">
+          <div class="today-plant-emoji">${emoji}</div>
+          <div class="today-plant-info">
+            <div class="today-plant-name">${name}</div>
+            <div class="today-plant-status">${statusText}</div>
+          </div>
+          <div class="today-plant-mood ${moodClass}">${isOverdue ? '⚠️ Overdue' : '💧 Due'}</div>
+        </div>`;
+      }).join('');
+    }
+
+    function changeMonth(dir) {
+      calendarDate.setMonth(calendarDate.getMonth() + dir);
+      selectedCalendarDay = null;
+      document.getElementById('dayDetailPanel').classList.remove('show');
+      renderCalendar();
+    }
+
+    // ===== AUTO-SUGGEST =====
     const speciesInput = document.getElementById('species');
     const suggestionsBox = document.getElementById('suggestions');
 
@@ -607,7 +1097,7 @@
       currentSuggestion = plant;
     }
 
-    // Surprise Me
+    // ===== SURPRISE ME =====
     const surpriseNames = {
       'Dramatic': ['Ophelia', 'Valentino', 'Seraphina', 'Dramothy', 'Celestine', 'Maximilian', 'Cordelia', 'Donatello', 'Isadora', 'Bartholomew'],
       'Chill': ['Moss', 'Sunny', 'Bean', 'River', 'Pebble', 'Sage', 'Mellow', 'Drift', 'Haze', 'Breezy'],
@@ -625,7 +1115,7 @@
       document.getElementById('nickname').value = names[Math.floor(Math.random() * names.length)];
     }
 
-    // Leaf float animation
+    // ===== MICRO-INTERACTIONS =====
     function spawnLeaf(x, y) {
       const leaf = document.createElement('div');
       leaf.className = 'leaf-float';
@@ -636,7 +1126,6 @@
       setTimeout(() => leaf.remove(), 900);
     }
 
-    // Toast helper
     function showToast(id, message, duration = 2200) {
       const toast = document.getElementById(id);
       toast.textContent = message;
@@ -644,25 +1133,19 @@
       setTimeout(() => toast.classList.remove('show'), duration);
     }
 
-    // Add plant with micro-interactions
+    // ===== ADD PLANT =====
     function addPlant() {
       const species = document.getElementById('species').value.trim();
       const nickname = document.getElementById('nickname').value.trim();
       const suggested = plantDatabase[species] || currentSuggestion;
-
       if (!species) { alert('Please enter a species name'); return; }
 
-      // Button bounce + leaf
       const btn = document.getElementById('addPlantBtn');
       btn.classList.add('btn-bounce');
       setTimeout(() => btn.classList.remove('btn-bounce'), 400);
-
       const rect = btn.getBoundingClientRect();
       for (let i = 0; i < 3; i++) {
-        setTimeout(() => spawnLeaf(
-          rect.left + Math.random() * rect.width,
-          rect.top + window.scrollY
-        ), i * 120);
+        setTimeout(() => spawnLeaf(rect.left + Math.random() * rect.width, rect.top + window.scrollY), i * 120);
       }
 
       const plant = {
@@ -684,9 +1167,13 @@
       plants.push(plant);
       savePlants();
       renderPlants();
+      updateNotifBell();
 
       const displayName = nickname || species;
       showToast('waterToast', `🌱 ${displayName} has joined your garden!`, 2500);
+
+      // Show notif prompt after first plant
+      checkNotifPrompt();
 
       document.getElementById('species').value = '';
       document.getElementById('nickname').value = '';
@@ -696,12 +1183,14 @@
       currentSuggestion = null;
     }
 
+    // ===== WATER PLANT =====
     function waterPlant(id) {
       const plant = plants.find(p => p.id === id);
       if (plant) {
         plant.lastWatered = getToday();
         savePlants();
         renderPlants();
+        updateNotifBell();
         const displayName = plant.nickname || plant.species;
         const personality = getPlantPersonality(plant.species);
         const waterReactions = {
@@ -721,15 +1210,15 @@
         plants = plants.filter(p => p.id !== id);
         savePlants();
         renderPlants();
+        updateNotifBell();
       }
     }
 
-    // Rename feature
+    // ===== RENAME =====
     function startRename(id) {
       const plant = plants.find(p => p.id === id);
       if (!plant) return;
       const currentName = plant.nickname || plant.species;
-
       const overlay = document.createElement('div');
       overlay.className = 'rename-overlay';
       overlay.innerHTML = `
@@ -742,16 +1231,13 @@
             <button class="rename-keep-btn" onclick="closeRenameDialog()">Keep it</button>
             <button class="rename-confirm-btn" onclick="confirmRename(${id})">Rename anyway</button>
           </div>
-        </div>
-      `;
+        </div>`;
       document.body.appendChild(overlay);
       overlay.id = 'renameOverlay';
       setTimeout(() => document.getElementById('renameInput')?.focus(), 100);
     }
 
-    function closeRenameDialog() {
-      document.getElementById('renameOverlay')?.remove();
-    }
+    function closeRenameDialog() { document.getElementById('renameOverlay')?.remove(); }
 
     function confirmRename(id) {
       const newName = document.getElementById('renameInput')?.value.trim();
@@ -774,10 +1260,7 @@
       showToast('renameToast', renameReactions[personality] || `"A new name. I like it."`, 3000);
     }
 
-    function formatCare(plant) {
-      return { water: `Every ${plant.waterDays} days`, light: plant.lightNeeds, soil: plant.soilType };
-    }
-
+    // ===== PERSONALITY & MOOD =====
     const personalityEmojis = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
     const moodEmojis = { 'Thriving': '🌟', 'Happy': '😊', 'Okay': '😐', 'Droopy': '😟', 'Struggling': '🆘' };
 
@@ -848,6 +1331,11 @@
       return 'Struggling';
     }
 
+    function formatCare(plant) {
+      return { water: `Every ${plant.waterDays} days`, light: plant.lightNeeds, soil: plant.soilType };
+    }
+
+    // ===== RENDER PLANTS =====
     function renderPlants() {
       const list = document.getElementById('plantsList');
       if (plants.length === 0) {
@@ -855,7 +1343,7 @@
         return;
       }
 
-      list.innerHTML = plants.map((plant, index) => {
+      list.innerHTML = plants.map(plant => {
         const care = formatCare(plant);
         const isWateredToday = plant.lastWatered === getToday();
         const leafSignals = plant.leafSignals || { underwater: 'Wilting leaves', overwater: 'Yellow leaves' };
@@ -868,7 +1356,7 @@
         const displayName = plant.nickname || plant.species;
         const subText = plant.nickname ? plant.species : '';
         const isNew = plant.isNew;
-        if (plant.isNew) { plant.isNew = false; }
+        if (plant.isNew) plant.isNew = false;
 
         return `
           <div class="plant-card ${isNew ? 'plant-card-new' : ''}">
@@ -922,12 +1410,14 @@
               </button>
               <button class="delete-btn" onclick="deletePlant(${plant.id})">Remove</button>
             </div>
-          </div>
-        `;
+          </div>`;
       }).join('');
     }
 
+    // ===== INIT =====
     renderPlants();
+    updateNotifBell();
+    if (localStorage.getItem('notifPref') === 'granted') scheduleNotifications();
   </script>
 </body>
 </html>
