@@ -165,6 +165,26 @@
       position: relative;
     }
 
+    .nickname-group {
+      display: flex;
+      gap: 10px;
+    }
+
+    .nickname-group input {
+      flex: 1;
+    }
+
+    .surprise-btn {
+      width: auto;
+      padding: 12px 18px;
+      background: linear-gradient(135deg, var(--dusty-rose) 0%, var(--terracotta) 100%);
+      font-size: 0.9rem;
+    }
+
+    .surprise-btn:hover {
+      transform: scale(1.02);
+    }
+
     button {
       width: 100%;
       padding: 16px;
@@ -226,6 +246,13 @@
       font-weight: 700;
       font-size: 1.15rem;
       color: var(--text);
+    }
+
+    .plant-species {
+      color: var(--text-light);
+      font-size: 0.85rem;
+      font-style: italic;
+      margin-top: 2px;
     }
 
     .plant-nickname {
@@ -469,6 +496,13 @@
         <div class="species-group">
           <input type="text" id="species" placeholder="e.g., Monstera Deliciosa" autocomplete="off">
           <div id="suggestions" class="suggestion-box"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="nickname">Give them a name (optional but highly recommended)</label>
+        <div class="nickname-group">
+          <input type="text" id="nickname" placeholder="e.g., Monty… or let us choose 🎲">
+          <button type="button" class="surprise-btn" onclick="surpriseMe()">🎲 Surprise Me</button>
         </div>
       </div>
       <div class="form-group">
@@ -2062,8 +2096,28 @@
       currentSuggestion = plant;
     }
 
+    // Surprise Me name arrays by personality
+    const surpriseNames = {
+      'Dramatic': ['Ophelia', 'Valentino', 'Seraphina', 'Dramothy', 'Celestine', 'Maximilian', 'Cordelia', 'Donatello', 'Isadora', 'Bartholomew'],
+      'Chill': ['Moss', 'Sunny', 'Bean', 'River', 'Pebble', 'Sage', 'Mellow', 'Drift', 'Haze', 'Breezy'],
+      'Resilient': ['Flint', 'Brix', 'Grit', 'Sterling', 'Boulder', 'Dune', 'Wren', 'Forrest', 'Sable', 'Ember'],
+      'Diva': ['Cleopatra', 'Lux', 'Velvet', 'Versace', 'Duchess', 'Mystique', 'Bellissima', 'Reign', 'Opulence', 'Coco'],
+      'Mysterious': ['Vesper', 'Orion', 'Solenne', 'Wraith', 'Nyx', 'Echo', 'Caelum', 'Mireille', 'Shade', 'Cinder'],
+      'Cheerful': ['Sunny', 'Pip', 'Buttercup', 'Blossom', 'Marigold', 'Cheerio', 'Tansy', 'Zinnia', 'Poppy', 'Goldie']
+    };
+
+    function surpriseMe() {
+      const species = document.getElementById('species').value.trim();
+      const suggested = plantDatabase[species] || currentSuggestion;
+      const personality = suggested?.personality || 'Cheerful';
+      const names = surpriseNames[personality] || surpriseNames['Cheerful'];
+      const randomName = names[Math.floor(Math.random() * names.length)];
+      document.getElementById('nickname').value = randomName;
+    }
+
     function addPlant() {
       const species = document.getElementById('species').value.trim();
+      const nickname = document.getElementById('nickname').value.trim();
       
       // Get care info from suggestion or use defaults
       const suggested = plantDatabase[species] || currentSuggestion;
@@ -2084,6 +2138,7 @@
       const plant = {
         id: Date.now(),
         species,
+        nickname: nickname || null,
         waterDays: waterDays,
         lightNeeds: lightNeeds,
         soilType: soilType,
@@ -2101,6 +2156,7 @@
 
       // Clear form
       document.getElementById('species').value = '';
+      document.getElementById('nickname').value = '';
       document.getElementById('waterDisplay').textContent = '—';
       document.getElementById('lightDisplay').textContent = '—';
       document.getElementById('soilDisplay').textContent = '—';
@@ -2155,49 +2211,169 @@
         'Cheerful': '☀️'
       };
 
-      // Voice messages based on personality and mood
+      // Voice messages based on personality and mood (with multiple variations)
       const voiceMessages = {
         'Dramatic': {
-          'Thriving': "Yes, I\'m absolutely stunning today. You may admire me. 🎭✨",
-          'Happy': "I\'m feeling... adequate. But I could always use more attention.",
-          'Okay': "I suppose this is fine. But I\'ll have you know I\'ve had better days.",
-          'Droopy': "I\'m absolutely WILTING. It\'s been days. DAYS. Someone do something!",
-          'Struggling': "This is it. This is how I die. Unwatered and forgotten..."
+          'Thriving': [
+            "Honestly? I've never looked better. Take a moment to appreciate this.",
+            "Peak performance. Peak aesthetics. You're doing something right.",
+            "ALERT: Dramatic Plant is currently thriving. This message will not repeat."
+          ],
+          'Happy': [
+            "Things are good. I won't make a big deal of it. Actually, yes I will — things are great.",
+            "Adequately hydrated and feeling seen. Thank you.",
+            "No complaints today. Genuinely shocking, I know."
+          ],
+          'Okay': [
+            "I'm fine. Totally fine. Just... a little dry. No big deal. (It's a big deal.)",
+            "STATUS UPDATE: Soil moisture levels approaching Theatrical Zone. Action recommended.",
+            "The soil is telling me things. I'm choosing to stay positive about it."
+          ],
+          'Droopy': [
+            "Not to be dramatic, but I haven't had water in days. I'm fine. I'm not fine.",
+            "SYSTEM NOTICE: Leaf droop detected. Dramatic Plant remains hopeful. Barely.",
+            "This is fine. Everything is fine. You've totally got this. So do I. We're fine."
+          ],
+          'Struggling': [
+            "CRITICAL ALERT: Dehydration imminent. Dramatic Plant believes in your ability to fix this.",
+            "I've been through a lot and I know you're going to come through. I believe it in my leaves.",
+            "Stage four dehydration. Named it Gerald. Gerald and I are ready for water whenever you are."
+          ]
         },
         'Chill': {
-          'Thriving': "Life is good. The sun is warm, the soil is moist. All is right in the world. 😌",
-          'Happy': "Doing great, friend. No rush on anything.",
-          'Okay': "No rush... but maybe water me sometime this week?",
-          'Droopy': "Hey, I\'m getting a little thirsty over here. Whenever you\'re ready.",
-          'Struggling': "Okay, I\'m definitely thirsty now. But I forgive you."
+          'Thriving': [
+            "All good over here. Just vibing.",
+            "Living my best life, honestly. No notes.",
+            "SYSTEM STATUS: Optimal. Chill Plant remains chill. No further action required."
+          ],
+          'Happy': [
+            "Yeah, this works. Keep doing whatever you're doing.",
+            "Solid. Really solid. No complaints.",
+            "Feeling good. Low maintenance as promised. You're welcome."
+          ],
+          'Okay': [
+            "Could use some water but like... no rush. Truly.",
+            "Slightly dry. Still chill. You've got time. Probably.",
+            "ADVISORY: Moisture slightly low. Chill Plant is unbothered. You shouldn't be either."
+          ],
+          'Droopy': [
+            "Hey. No pressure. But water would be nice. Eventually. Like... soonish.",
+            "Starting to feel it a little. Still not panicking. You've got this.",
+            "NOTICE: Chill Plant has entered Slightly Less Chill territory. Water recommended."
+          ],
+          'Struggling': [
+            "Okay so I've been very patient and I want you to know that's still true. Water though.",
+            "Even the chillest among us need water. This is a scientific fact.",
+            "UNUSUAL ALERT: Chill Plant is making a request. This doesn't happen often. Water. Please."
+          ]
         },
         'Resilient': {
-          'Thriving': "I\'m doing well. Tough as always. 💪",
-          'Happy': "Still going strong. Nothing can stop me.",
-          'Okay': "I\'ve been better, but I\'ve survived worse.",
-          'Droopy': "I could use some water, but I\'m not going anywhere.",
-          'Struggling': "Still here. Barely. But still here."
+          'Thriving': [
+            "Conditions are favorable. Making the most of it.",
+            "Strong root system, good moisture, zero complaints.",
+            "PERFORMANCE REPORT: Excellent. Resilient Plant acknowledges your effort."
+          ],
+          'Happy': [
+            "Doing well. Didn't need much — never do. But this helps.",
+            "Good conditions. Good growth. You showed up. That matters.",
+            "No drama. Just results. Good work."
+          ],
+          'Okay': [
+            "A little dry but I've survived worse. You've got time — use it.",
+            "Not ideal, not dire. I'll hold. So will you.",
+            "FIELD REPORT: Moisture low but morale high. Water when ready."
+          ],
+          'Droopy': [
+            "Getting there. Still standing. Water me and we both win.",
+            "I don't ask for much. I'm asking now. You've got this.",
+            "SITUATION REPORT: Dryness increasing. Resilient Plant remains confident in caretaker."
+          ],
+          'Struggling': [
+            "Still here. That's on both of us. Water me and let's keep the streak going.",
+            "I've outlasted worse. With your help I'll outlast this too.",
+            "RECOVERY MISSION AVAILABLE: Water now. Resilient Plant will handle the rest."
+          ]
         },
         'Diva': {
-          'Thriving': "Yes, I look incredible. You\'re welcome. 👑🌿",
-          'Happy': "I\'m radiant as always. Keep doing whatever you\'re doing.",
-          'Okay': "My leaves are starting to lose their luster. Do you know what that means?",
-          'Droopy': "EXCUSE ME?! You\'re letting me DRY OUT?! Do you have ANY idea who I am?!",
-          'Struggling': "My leaves are crisp. My stems are sad. This is a disaster."
+          'Thriving': [
+            "Thriving, obviously. You clearly have excellent taste.",
+            "Look at me. No seriously — look at me. We did this together.",
+            "BEAUTY REPORT: Exceptional. Diva Plant acknowledges your contribution."
+          ],
+          'Happy': [
+            "Doing well. You're getting better at this.",
+            "Satisfied. Actually genuinely satisfied. Don't tell anyone.",
+            "Good light, good moisture, good vibes. You're learning."
+          ],
+          'Okay': [
+            "I shouldn't have to remind you. And yet here we are. Still rooting for you though.",
+            "The moisture level is giving me pause. I believe you'll notice.",
+            "STATUS: Slightly underwatered. Diva Plant remains confident this will be corrected."
+          ],
+          'Droopy': [
+            "A little thirsty but I know you've got me. Just checking in.",
+            "My leaves are sending a message. I believe you'll receive it.",
+            "STYLE ALERT: Leaf droop detected. Diva Plant awaits your corrective action with confidence."
+          ],
+          'Struggling': [
+            "Iconic plants don't go out like this — and they won't, because you're going to water me.",
+            "I've been patient. You've been busy. Let's call it even and get some water going.",
+            "EMERGENCY GLAMOUR ALERT: Hydration critical. Diva Plant believes in your ability to course correct."
+          ]
         },
         'Mysterious': {
-          'Thriving': "The spirits of the soil are content. I am... content. 🔮",
-          'Happy': "The leaves whisper of moisture... for now.",
-          'Okay': "Something is changing... I feel a dryness approaching.",
-          'Droopy': "The leaves cry out in silence... for water.",
-          'Struggling': "The shadows lengthen. My energy fades..."
+          'Thriving': [
+            "Something feels right today. Don't overthink it.",
+            "The conditions are favorable. I have nothing more to say.",
+            "ORACLE STATUS: Balanced. The roots are pleased."
+          ],
+          'Happy': [
+            "The moisture speaks. It says enough.",
+            "Balance. For now. Enjoy it.",
+            "Things are as they should be. You did that."
+          ],
+          'Okay': [
+            "The soil grows quieter. It may be time.",
+            "Something is shifting. You'll know what to do.",
+            "SUBTLE ADVISORY: The ancient ones suggest water. Soon."
+          ],
+          'Droopy': [
+            "The leaves remember what the soil has forgotten. You remember too.",
+            "I don't say much. But I'm saying something now. Water.",
+            "CRYPTIC ALERT: Dryness approaches. Mysterious Plant awaits your wisdom."
+          ],
+          'Struggling': [
+            "Even ancient things need water. This is known.",
+            "The roots have been patient. They believe you will come.",
+            "FINAL TRANSMISSION: Hydration required. Mysterious Plant trusts the process."
+          ]
         },
         'Cheerful': {
-          'Thriving': "I\'m so happy I could bloom! 🌸 Everything is perfect!",
-          'Happy': "Another day, another chance to grow! I\'m doing great!",
-          'Okay': "I\'m doing okay! A little water would make my day!",
-          'Droopy': "Oh no... I\'m feeling a bit droopy. Can you help?",
-          'Struggling': "I\'m not feeling my best, but I believe in tomorrow!"
+          'Thriving': [
+            "This is everything. You're doing so well. We're doing so well.",
+            "Happy, healthy, hydrated. You made this happen!",
+            "CELEBRATION REPORT: Thriving confirmed. Cheerful Plant is so proud of you both."
+          ],
+          'Happy': [
+            "Feeling good and really glad you're here.",
+            "Another day of growing together. Genuinely love that for us.",
+            "Good moisture, good light, good mood. You're on a roll."
+          ],
+          'Okay': [
+            "Just a gentle nudge — water soon? No rush, just your biggest fan checking in.",
+            "Still smiling, but the soil's sending hints. You've got this.",
+            "FRIENDLY REMINDER: Moisture slightly low. Cheerful Plant believes in you completely."
+          ],
+          'Droopy': [
+            "I'm sure you've been busy. It's okay. I believe in us.",
+            "A little thirsty but still rooting for you. Always rooting for you.",
+            "GENTLE ALERT: Leaf droop detected. Cheerful Plant remains your number one supporter."
+          ],
+          'Struggling': [
+            "Okay things are a little rough right now but I KNOW you're going to come through.",
+            "Still here. Still hopeful. Water me and we'll both feel so much better.",
+            "RECOVERY MODE: Hydration needed. Cheerful Plant has never doubted you once."
+          ]
         }
       };
 
@@ -2247,14 +2423,22 @@
         const mood = getPlantMood(plant);
         const personalityEmoji = personalityEmojis[personality] || '🌿';
         const moodEmoji = moodEmojis[mood] || '🌱';
-        const voiceMessage = voiceMessages[personality]?.[mood] || "I\'m just a plant doing plant things.";
+        
+        // Get random voice message from array
+        const messageArray = voiceMessages[personality]?.[mood] || ["I'm just a plant doing plant things."];
+        const voiceMessage = messageArray[Math.floor(Math.random() * messageArray.length)];
+        
+        // Display name: nickname if exists, otherwise species
+        const displayName = plant.nickname || plant.species;
+        const subText = plant.nickname ? plant.species : '';
         
         return `
           <div class="plant-card">
             <div class="plant-card-header">
               <div class="plant-info">
                 <span class="personality-badge ${personality.toLowerCase()}">${personalityEmoji} ${personality}</span>
-                <div class="plant-name">${plant.species}</div>
+                <div class="plant-name">${displayName}</div>
+                ${subText ? `<div class="plant-species">${subText}</div>` : ''}
               </div>
               ${isWateredToday ? '<span class="watered-badge watered-today">✓ Watered</span>' : ''}
             </div>
