@@ -34,31 +34,39 @@
       color: var(--text);
       min-height: 100vh;
       padding: 20px;
-      background-image: radial-gradient(circle at 20% 80%, rgba(135, 168, 120, 0.08) 0%, transparent 50%),
-                        radial-gradient(circle at 80% 20%, rgba(232, 180, 184, 0.1) 0%, transparent 50%);
+      /* Subtle botanical background */
+      background-image:
+        radial-gradient(circle at 15% 85%, rgba(135, 168, 120, 0.07) 0%, transparent 45%),
+        radial-gradient(circle at 85% 15%, rgba(232, 180, 184, 0.09) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(193, 122, 90, 0.03) 0%, transparent 60%);
     }
 
-    .container { max-width: 500px; margin: 0 auto; }
+    /* Floating botanical leaves in background */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background-image:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='400' opacity='0.04'%3E%3Cellipse cx='80' cy='120' rx='18' ry='35' fill='%2387A878' transform='rotate(-30 80 120)'/%3E%3Cellipse cx='320' cy='280' rx='14' ry='28' fill='%2387A878' transform='rotate(45 320 280)'/%3E%3Cellipse cx='200' cy='60' rx='10' ry='22' fill='%23C17A5A' transform='rotate(15 200 60)'/%3E%3Cellipse cx='350' cy='100' rx='16' ry='30' fill='%2387A878' transform='rotate(-60 350 100)'/%3E%3Cellipse cx='60' cy='340' rx='12' ry='24' fill='%23E8B4B8' transform='rotate(20 60 340)'/%3E%3Cellipse cx='280' cy='370' rx='15' ry='30' fill='%2387A878' transform='rotate(-45 280 370)'/%3E%3C/svg%3E");
+      background-size: 400px 400px;
+      z-index: 0;
+    }
+
+    .container { max-width: 500px; margin: 0 auto; position: relative; z-index: 1; }
 
     /* ===== HEADER ===== */
-    .app-header { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 6px; }
+    .app-header { display: flex; align-items: center; justify-content: center; position: relative; margin-bottom: 4px; }
 
-    h1 { text-align: center; color: var(--sage-dark); font-size: 2.2rem; font-weight: 800; letter-spacing: -1px; }
-
+    h1 { text-align: center; color: var(--sage-dark); font-size: 2.4rem; font-weight: 800; letter-spacing: -1.5px; }
     h1 .leaf-accent { display: inline-block; animation: leafSway 3s ease-in-out infinite; }
-
     @keyframes leafSway { 0%, 100% { transform: rotate(-5deg); } 50% { transform: rotate(5deg); } }
 
-    .daily-quote { text-align: center; font-size: 0.82rem; font-style: italic; color: var(--text-light); margin-bottom: 20px; opacity: 0.85; }
-
     .notif-bell-wrap { position: absolute; right: 0; top: 50%; transform: translateY(-50%); }
-
     .notif-bell-btn { background: var(--card-bg); border: 2px solid var(--border); border-radius: 50%; width: 42px; height: 42px; font-size: 1.2rem; cursor: pointer; display: flex; align-items: center; justify-content: center; position: relative; box-shadow: 0 2px 8px var(--card-shadow); padding: 0; }
     .notif-bell-btn:hover { transform: translateY(-1px); box-shadow: 0 4px 12px var(--card-shadow); }
-
     .notif-badge { position: absolute; top: -4px; right: -4px; background: var(--terracotta); color: white; border-radius: 50%; width: 18px; height: 18px; font-size: 0.65rem; font-weight: 700; display: none; align-items: center; justify-content: center; }
     .notif-badge.show { display: flex; }
-
     .notif-dropdown { position: absolute; right: 0; top: 52px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 16px; width: 280px; box-shadow: 0 8px 32px rgba(139, 109, 82, 0.15); z-index: 200; display: none; overflow: hidden; }
     .notif-dropdown.show { display: block; }
     .notif-dropdown-header { padding: 14px 16px; font-weight: 700; font-size: 0.9rem; color: var(--text); border-bottom: 1px solid var(--border); background: var(--cream); }
@@ -67,6 +75,112 @@
     .notif-item-name { font-weight: 700; color: var(--text); display: flex; align-items: center; gap: 6px; margin-bottom: 2px; }
     .notif-item-msg { color: var(--text-light); font-size: 0.8rem; }
     .notif-empty { padding: 20px 16px; text-align: center; color: var(--text-light); font-size: 0.85rem; }
+
+    /* ===== DAILY TAROT CARD ===== */
+    .daily-card {
+      background: linear-gradient(145deg, #2d1f14 0%, #3d2a1a 40%, #2a1a0e 100%);
+      border-radius: 20px;
+      padding: 24px 20px;
+      margin-bottom: 20px;
+      border: 1px solid rgba(193, 122, 90, 0.3);
+      box-shadow: 0 8px 32px rgba(61, 42, 26, 0.2), inset 0 1px 0 rgba(255,255,255,0.05);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .daily-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: radial-gradient(ellipse at 30% 0%, rgba(193, 122, 90, 0.15) 0%, transparent 60%),
+                  radial-gradient(ellipse at 70% 100%, rgba(135, 168, 120, 0.1) 0%, transparent 50%);
+      pointer-events: none;
+    }
+
+    .daily-card-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .daily-card-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      color: rgba(193, 122, 90, 0.8);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+
+    .daily-card-date {
+      font-size: 0.72rem;
+      color: rgba(255, 255, 255, 0.4);
+      font-style: italic;
+    }
+
+    .daily-card-symbol {
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 12px;
+      filter: drop-shadow(0 0 8px rgba(193, 122, 90, 0.4));
+    }
+
+    .daily-card-quote {
+      font-size: 1.05rem;
+      font-style: italic;
+      color: rgba(255, 255, 255, 0.88);
+      text-align: center;
+      line-height: 1.6;
+      font-weight: 400;
+      letter-spacing: 0.2px;
+    }
+
+    .daily-card-divider {
+      width: 40px;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(193, 122, 90, 0.5), transparent);
+      margin: 14px auto;
+    }
+
+    .daily-card-sub {
+      font-size: 0.75rem;
+      color: rgba(255, 255, 255, 0.35);
+      text-align: center;
+      letter-spacing: 0.5px;
+    }
+
+    /* ===== RITUAL GREETING ===== */
+    .ritual-greeting {
+      background: var(--card-bg);
+      border-radius: 16px;
+      padding: 16px 18px;
+      margin-bottom: 20px;
+      border: 1px solid var(--border);
+      box-shadow: 0 2px 12px var(--card-shadow);
+    }
+
+    .ritual-greeting-header {
+      font-size: 0.8rem;
+      color: var(--text-light);
+      margin-bottom: 10px;
+      font-style: italic;
+    }
+
+    .ritual-plant-line {
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      padding: 6px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.85rem;
+    }
+
+    .ritual-plant-line:last-child { border-bottom: none; }
+
+    .ritual-plant-emoji { font-size: 1rem; flex-shrink: 0; margin-top: 1px; }
+
+    .ritual-plant-text { color: var(--text); line-height: 1.4; }
+    .ritual-plant-text strong { color: var(--sage-dark); }
 
     /* ===== GARDEN SUMMARY ===== */
     .garden-summary { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 10px; margin-bottom: 20px; }
@@ -88,8 +202,9 @@
     .add-plant-form h2 { font-size: 1.2rem; margin-bottom: 16px; color: var(--text); font-weight: 600; }
     .form-group { margin-bottom: 16px; }
     label { display: block; font-size: 0.9rem; color: var(--text-light); margin-bottom: 8px; font-weight: 500; }
-    input, select { width: 100%; padding: 14px 16px; border: 2px solid var(--input-border); border-radius: 12px; font-size: 1rem; background: var(--cream); transition: all 0.2s; }
+    input, select { width: 100%; padding: 14px 16px; border: 2px solid var(--input-border); border-radius: 12px; font-size: 1rem; background: var(--cream); transition: all 0.2s; color: var(--text); }
     input:focus, select:focus { outline: none; border-color: var(--sage); box-shadow: 0 0 0 3px rgba(135, 168, 120, 0.15); }
+
     .care-info { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 12px; }
     .care-info .care-display { padding: 12px; font-size: 0.85rem; background: var(--cream); border: 2px solid var(--border); border-radius: 12px; color: var(--text); }
     .care-info .care-display.water { border-left: 4px solid var(--water); }
@@ -97,6 +212,28 @@
     .care-info .care-display.soil { border-left: 4px solid var(--terracotta); }
     .care-info .care-label { display: block; font-size: 0.7rem; color: var(--text-light); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 0.5px; }
     .care-info .care-value { font-weight: 600; }
+
+    /* Personality selector */
+    .personality-selector { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+    .personality-option {
+      padding: 10px 6px;
+      border-radius: 12px;
+      border: 2px solid var(--border);
+      background: var(--cream);
+      cursor: pointer;
+      text-align: center;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-light);
+      transition: all 0.15s;
+      width: 100%;
+      box-shadow: none;
+    }
+    .personality-option:hover { border-color: var(--sage); color: var(--text); transform: translateY(-1px); box-shadow: 0 2px 8px var(--card-shadow); }
+    .personality-option.selected { border-color: var(--primary); background: var(--primary); color: white; box-shadow: 0 2px 8px rgba(124, 140, 94, 0.3); }
+    .personality-option .p-emoji { font-size: 1.1rem; display: block; margin-bottom: 3px; }
+    .personality-suggestion { font-size: 0.75rem; color: var(--text-light); font-style: italic; margin-top: 8px; }
+
     .suggestion-box { position: absolute; background: var(--card-bg); border: 2px solid var(--border); border-radius: 12px; max-height: 220px; overflow-y: auto; z-index: 100; display: none; box-shadow: 0 8px 24px rgba(0,0,0,0.1); width: 100%; }
     .suggestion-box.show { display: block; }
     .suggestion-item { padding: 12px 16px; cursor: pointer; transition: all 0.15s; border-bottom: 1px solid var(--border); }
@@ -113,26 +250,18 @@
     /* ===== ANIMATIONS ===== */
     @keyframes btnBounce { 0% { transform: scale(1); } 30% { transform: scale(0.94); } 60% { transform: scale(1.04); } 80% { transform: scale(0.98); } 100% { transform: scale(1); } }
     .btn-bounce { animation: btnBounce 0.4s ease forwards; }
-
     @keyframes leafFloat { 0% { opacity: 1; transform: translateY(0) rotate(0deg) scale(1); } 100% { opacity: 0; transform: translateY(-80px) rotate(25deg) scale(1.4); } }
     .leaf-float { position: fixed; pointer-events: none; font-size: 1.5rem; z-index: 999; animation: leafFloat 0.9s ease-out forwards; }
-
     @keyframes cardSlideIn { 0% { opacity: 0; transform: translateY(20px) scale(0.97); } 100% { opacity: 1; transform: translateY(0) scale(1); } }
     .plant-card-new { animation: cardSlideIn 0.4s ease forwards; }
-
     @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
     .fade-in { animation: fadeIn 0.3s ease forwards; }
-
-    /* Watering perk-up animation */
     @keyframes perkUp { 0% { transform: scale(1); } 20% { transform: scale(1.03) translateY(-3px); } 50% { transform: scale(0.98) translateY(1px); } 70% { transform: scale(1.015) translateY(-1px); } 100% { transform: scale(1) translateY(0); } }
     .card-perked { animation: perkUp 0.6s ease forwards; }
-
-    /* Droopy tilt for struggling plants */
-    .card-droopy { filter: saturate(0.85); }
-    .card-droopy .plant-name { opacity: 0.9; }
+    .card-droopy { filter: saturate(0.8); }
 
     /* ===== TOASTS ===== */
-    #waterToast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--water); color: white; padding: 12px 24px; border-radius: 24px; font-size: 0.95rem; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 1000; pointer-events: none; box-shadow: 0 4px 16px rgba(107, 158, 120, 0.4); }
+    #waterToast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--water); color: white; padding: 12px 24px; border-radius: 24px; font-size: 0.95rem; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 1000; pointer-events: none; box-shadow: 0 4px 16px rgba(107, 158, 120, 0.4); max-width: 320px; text-align: center; }
     #waterToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
     #renameToast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(20px); background: var(--primary); color: white; padding: 12px 24px; border-radius: 24px; font-size: 0.9rem; font-weight: 600; opacity: 0; transition: all 0.3s ease; z-index: 1000; pointer-events: none; box-shadow: 0 4px 16px rgba(124, 140, 94, 0.4); max-width: 320px; text-align: center; }
     #renameToast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
@@ -162,61 +291,8 @@
     .watered-badge { background: var(--water); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
     .watered-today { background: var(--success); }
 
-    /* ===== NEXT WATER COUNTDOWN ===== */
-    .next-water-row {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 12px;
-    }
-
-    .next-water-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      padding: 4px 10px;
-      border-radius: 20px;
-      font-size: 0.75rem;
-      font-weight: 600;
-    }
-
-    .next-water-pill.on-track { background: #e8f5e9; color: #2e7d32; }
-    .next-water-pill.due-soon { background: #fff8e1; color: #f57f17; }
-    .next-water-pill.due-today { background: #fff3e0; color: #e65100; }
-    .next-water-pill.overdue { background: #ffebee; color: #c62828; }
-
-    /* ===== CARE STREAK ===== */
-    .care-streak {
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      font-size: 0.72rem;
-      color: var(--text-light);
-      font-weight: 600;
-    }
-
-    .streak-fire { font-size: 0.85rem; }
-
-    .care-details { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
-    .care-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-light); }
-    .care-icon { font-size: 1rem; }
-    .water-btn { width: auto; padding: 12px 24px; background: var(--water); font-size: 0.9rem; border-radius: 12px; }
-    .water-btn:hover { background: #5a8d67; }
-    .water-btn.watered { background: var(--success); }
-    .delete-btn { background: transparent; color: var(--terracotta); padding: 4px 8px; width: auto; font-size: 0.8rem; box-shadow: none; }
-    .delete-btn:hover { background: #fee; color: #c00; transform: none; box-shadow: none; }
-    .care-expanded { background: #f8faf6; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
-    .care-expanded-title { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
-    .care-detail-row { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.85rem; }
-    .care-detail-row:last-child { margin-bottom: 0; }
-    .care-detail-label { min-width: 80px; color: var(--text-light); font-weight: 500; }
-    .care-detail-value { color: var(--text); }
-    .leaf-signals { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
-    .leaf-signal { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
-    .leaf-signal.underwater { background: #fff3e0; color: #e65100; }
-    .leaf-signal.overwater { background: #e3f2fd; color: #1565c0; }
-
-    .personality-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 8px; }
+    .personality-badge { display: inline-flex; align-items: center; gap: 4px; padding: 4px 10px; border-radius: 20px; font-size: 0.7rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.3px; margin-bottom: 8px; cursor: pointer; transition: opacity 0.2s; }
+    .personality-badge:hover { opacity: 0.8; }
     .personality-badge.dramatic { background: linear-gradient(135deg, #fce4ec 0%, #f8bbd9 100%); color: #c2185b; }
     .personality-badge.chill { background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%); color: #2e7d32; }
     .personality-badge.resilient { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); color: #ef6c00; }
@@ -230,7 +306,57 @@
     .mood-indicator.okay { background: linear-gradient(135deg, #fff8e1 0%, #ffecb3 100%); color: #f57f17; }
     .mood-indicator.droopy { background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%); color: #e65100; }
     .mood-indicator.struggling { background: linear-gradient(135deg, #ffebee 0%, #ffcdd2 100%); color: #c62828; }
-    .voice-message { font-style: italic; font-size: 0.9rem; color: var(--text-light); padding: 10px 14px; background: var(--cream); border-radius: 12px; margin-bottom: 14px; border-left: 3px solid var(--sage); }
+
+    /* Voice message - the main card focus */
+    .voice-message {
+      font-style: italic;
+      font-size: 0.95rem;
+      color: var(--text);
+      padding: 12px 16px;
+      background: var(--cream);
+      border-radius: 14px;
+      margin-bottom: 16px;
+      border-left: 3px solid var(--sage);
+      line-height: 1.55;
+    }
+
+    /* Care details hidden by default */
+    .care-toggle-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-light);
+      font-size: 0.78rem;
+      padding: 6px 14px;
+      border-radius: 20px;
+      width: auto;
+      box-shadow: none;
+      margin-bottom: 14px;
+      cursor: pointer;
+    }
+    .care-toggle-btn:hover { background: var(--cream); color: var(--text); transform: none; box-shadow: none; }
+
+    .care-details-hidden { display: none; }
+    .care-details-hidden.open { display: block; }
+
+    .care-details { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; }
+    .care-item { display: flex; align-items: center; gap: 6px; font-size: 0.85rem; color: var(--text-light); }
+    .care-icon { font-size: 1rem; }
+    .care-expanded { background: #f8faf6; border-radius: 10px; padding: 14px; margin-bottom: 14px; }
+    .care-expanded-title { font-size: 0.8rem; font-weight: 600; color: var(--primary); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; }
+    .care-detail-row { display: flex; gap: 12px; margin-bottom: 8px; font-size: 0.85rem; }
+    .care-detail-row:last-child { margin-bottom: 0; }
+    .care-detail-label { min-width: 80px; color: var(--text-light); font-weight: 500; }
+    .care-detail-value { color: var(--text); }
+    .leaf-signals { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px; }
+    .leaf-signal { padding: 2px 8px; border-radius: 4px; font-size: 0.75rem; }
+    .leaf-signal.underwater { background: #fff3e0; color: #e65100; }
+    .leaf-signal.overwater { background: #e3f2fd; color: #1565c0; }
+
+    .water-btn { width: auto; padding: 12px 24px; background: var(--water); font-size: 0.9rem; border-radius: 12px; }
+    .water-btn:hover { background: #5a8d67; }
+    .water-btn.watered { background: var(--success); }
+    .delete-btn { background: transparent; color: var(--terracotta); padding: 4px 8px; width: auto; font-size: 0.8rem; box-shadow: none; }
+    .delete-btn:hover { background: #fee; color: #c00; transform: none; box-shadow: none; }
 
     /* ===== EMPTY STATE ===== */
     .empty-state { text-align: center; padding: 40px 20px 60px; }
@@ -299,6 +425,7 @@
 </head>
 <body>
   <div class="container">
+
     <div class="app-header">
       <h1><span class="leaf-accent">🌱</span> Florish</h1>
       <div class="notif-bell-wrap">
@@ -313,24 +440,32 @@
       </div>
     </div>
 
-    <div class="daily-quote" id="dailyQuote"></div>
+    <!-- Daily Tarot Card -->
+    <div class="daily-card" id="dailyCard"></div>
 
+    <!-- Ritual Greeting -->
+    <div class="ritual-greeting" id="ritualGreeting" style="display:none"></div>
+
+    <!-- Notification permission prompt -->
     <div class="notif-prompt" id="notifPrompt">
       <div class="notif-prompt-title">🔔 Want plant reminders?</div>
-      <div class="notif-prompt-msg">Your plants would love to remind you when they're thirsty. In their own words, obviously.</div>
+      <div class="notif-prompt-msg">Your plants would love to reach out when they're thirsty. In their own words, obviously.</div>
       <div class="notif-prompt-btns">
         <button class="notif-yes-btn" onclick="enableNotifications()">Yes please!</button>
         <button class="notif-no-btn" onclick="dismissNotifPrompt()">Maybe later</button>
       </div>
     </div>
 
+    <!-- Garden summary bar -->
     <div class="garden-summary" id="gardenSummary" style="display:none"></div>
 
+    <!-- View toggle -->
     <div class="view-toggle">
       <button class="view-btn active" id="plantsViewBtn" onclick="switchView('plants')">🌿 My Plants</button>
       <button class="view-btn" id="calendarViewBtn" onclick="switchView('calendar')">📅 Care Schedule</button>
     </div>
 
+    <!-- Plants view -->
     <div class="plants-view" id="plantsView">
       <div class="add-plant-form">
         <h2>Add New Plant</h2>
@@ -349,6 +484,18 @@
           </div>
         </div>
         <div class="form-group">
+          <label>Their personality <span style="font-weight:400;font-style:italic;font-size:0.82rem">(choose one — or let the species decide)</span></label>
+          <div class="personality-selector" id="personalitySelector">
+            <button type="button" class="personality-option" data-personality="Dramatic" onclick="selectPersonality('Dramatic')"><span class="p-emoji">🎭</span>Dramatic</button>
+            <button type="button" class="personality-option" data-personality="Chill" onclick="selectPersonality('Chill')"><span class="p-emoji">😌</span>Chill</button>
+            <button type="button" class="personality-option" data-personality="Resilient" onclick="selectPersonality('Resilient')"><span class="p-emoji">💪</span>Resilient</button>
+            <button type="button" class="personality-option" data-personality="Diva" onclick="selectPersonality('Diva')"><span class="p-emoji">👑</span>Diva</button>
+            <button type="button" class="personality-option" data-personality="Mysterious" onclick="selectPersonality('Mysterious')"><span class="p-emoji">🔮</span>Mysterious</button>
+            <button type="button" class="personality-option" data-personality="Cheerful" onclick="selectPersonality('Cheerful')"><span class="p-emoji">☀️</span>Cheerful</button>
+          </div>
+          <div class="personality-suggestion" id="personalitySuggestion"></div>
+        </div>
+        <div class="form-group">
           <label>Care Needs</label>
           <div class="care-info">
             <div class="care-display water"><span class="care-label">💧 Thirst Level</span><span id="waterDisplay" class="care-value">—</span></div>
@@ -361,6 +508,7 @@
       <div id="plantsList" class="plants-list"></div>
     </div>
 
+    <!-- Calendar view -->
     <div class="calendar-view" id="calendarView">
       <div class="today-care-card">
         <div class="today-care-header">
@@ -392,95 +540,185 @@
   <div id="renameToast"></div>
 
   <script>
-    // ===== DAILY QUOTES =====
-    const dailyQuotes = ["A little water goes a long way.","Growth takes time. So does trust.","Even quiet plants are listening.","Thriving looks different every day.","Roots first. Everything else follows.","Some days you water. Some days you just show up.","Every leaf has something to say.","Patience is just growth in slow motion.","You can't rush a bloom. But you can show up for it.","A garden is just a relationship you tend.","Even the chill ones notice when you care.","Small gestures. Big roots.","The best care is consistent care.","Your plants remember kindness.","Nurturing something is never wasted time."];
+    // ===== DAILY TAROT CARD =====
+    const tarotCards = [
+      { symbol: '🌱', quote: "Something is taking root. It may not be visible yet. Trust the soil.", sub: "The Seed" },
+      { symbol: '🌊', quote: "Too much of anything — even care — can overwhelm. Find the rhythm.", sub: "The Tide" },
+      { symbol: '🌙', quote: "Growth happens in the quiet. You don't have to see it to know it's real.", sub: "The Moon" },
+      { symbol: '☀️', quote: "Show up consistently. That's the whole ritual.", sub: "The Sun" },
+      { symbol: '🍃', quote: "What you tend, you become. Choose carefully.", sub: "The Leaf" },
+      { symbol: '🔥', quote: "Some things need to be cut back before they can truly bloom.", sub: "The Flame" },
+      { symbol: '🌿', quote: "Patience isn't passive. It's the most active form of care.", sub: "The Vine" },
+      { symbol: '🌸', quote: "A bloom is never an accident. It's the result of everything before it.", sub: "The Flower" },
+      { symbol: '🪨', quote: "Even in poor conditions, something can take hold. You're proof of that.", sub: "The Stone" },
+      { symbol: '💧', quote: "Small, consistent offerings add up to something alive.", sub: "The Drop" },
+      { symbol: '🌾', quote: "What you've been tending is closer to harvest than you think.", sub: "The Grain" },
+      { symbol: '🦋', quote: "The transformation is already happening. You're in the middle of it.", sub: "The Change" },
+      { symbol: '🌫️', quote: "Not everything needs clarity to grow. Lean into the unknown.", sub: "The Mist" },
+      { symbol: '🪴', quote: "Roots go deep before branches reach high. This part matters.", sub: "The Root" },
+      { symbol: '✨', quote: "Something rare is about to happen in a very ordinary moment.", sub: "The Rare" }
+    ];
 
-    function setDailyQuote() {
-      const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % dailyQuotes.length;
-      document.getElementById('dailyQuote').textContent = `"${dailyQuotes[dayIndex]}"`;
+    function renderDailyCard() {
+      const today = new Date();
+      const dayIndex = Math.floor(Date.now() / (1000 * 60 * 60 * 24)) % tarotCards.length;
+      const card = tarotCards[dayIndex];
+      const dateStr = today.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
+      document.getElementById('dailyCard').innerHTML = `
+        <div class="daily-card-top">
+          <span class="daily-card-label">✦ Today's Reading ✦</span>
+          <span class="daily-card-date">${dateStr}</span>
+        </div>
+        <div class="daily-card-symbol">${card.symbol}</div>
+        <div class="daily-card-quote">${card.quote}</div>
+        <div class="daily-card-divider"></div>
+        <div class="daily-card-sub">${card.sub}</div>
+      `;
     }
 
-    // ===== CARE STREAK =====
-    function getCareStreak(plant) {
-      if (!plant.careHistory || plant.careHistory.length === 0) return 0;
-      const sorted = [...plant.careHistory].sort((a, b) => new Date(b) - new Date(a));
-      let streak = 1;
-      for (let i = 1; i < sorted.length; i++) {
-        const diff = Math.abs(new Date(sorted[i-1]) - new Date(sorted[i])) / (1000 * 60 * 60 * 24);
-        if (diff <= plant.waterDays + 1) streak++;
-        else break;
+    // ===== RITUAL GREETING =====
+    function getTimeOfDay() {
+      const h = new Date().getHours();
+      if (h < 6) return 'night';
+      if (h < 12) return 'morning';
+      if (h < 17) return 'afternoon';
+      if (h < 21) return 'evening';
+      return 'night';
+    }
+
+    const ritualGreetings = {
+      morning: ["Good morning.", "The light is just right.", "Morning has entered the garden."],
+      afternoon: ["Afternoon check-in.", "The day is halfway through.", "Still here. So are they."],
+      evening: ["Evening in the garden.", "The light is going soft.", "One more look before dark."],
+      night: ["Late night with the plants.", "The quiet hour.", "You're up. So are they, technically."]
+    };
+
+    const ritualPlantLines = {
+      Dramatic: {
+        Thriving: ["I've been waiting for you to notice how good I look.", "Finally. Witness the peak.", "I was beginning to think you forgot. I'm thriving regardless."],
+        Happy: ["Things are fine. More than fine. But I won't make a scene.", "I've been quietly excellent while you were away.", "Good to see you. I'm doing well. Please note that."],
+        Okay: ["I'm managing. Don't worry. But also, maybe check in a little sooner next time.", "Things are acceptable. For now.", "I've been waiting. The soil has been waiting. We're both patient."],
+        Droopy: ["I need you. I say this with full drama and zero shame.", "Not great. But I believe in your ability to fix this.", "The leaves have said everything. I'll wait."],
+        Struggling: ["I'm still here. Against all odds. Water me.", "Gerald and I have been talking. We'd like some water.", "I've been rehearsing my recovery. I just need the water first."]
+      },
+      Chill: {
+        Thriving: ["Hey. All good here.", "No notes. Thriving. Thanks for stopping by.", "Still vibing. Glad you came through."],
+        Happy: ["Solid over here. What's up with you?", "Good. You're here. Things are fine.", "Yeah, doing well. No drama."],
+        Okay: ["Could use some water at some point. No rush.", "Things are fine-ish. Water would be nice when you get to it.", "Slightly dry but unbothered. You've got time."],
+        Droopy: ["Hey. So. Water would actually be appreciated.", "Starting to feel it a little. Not panicking. Just... mentioning it.", "Low key need water. Still chill about it."],
+        Struggling: ["Okay so I've been patient. I am still patient. But water.", "Real talk — it's been a while. Water would hit different right now.", "Water. Please. That's the whole message."]
+      },
+      Resilient: {
+        Thriving: ["Conditions optimal. Proceeding as expected.", "All systems functional. Acknowledged.", "Strong. As expected."],
+        Happy: ["Good conditions. Good growth. You showed up. That matters.", "No complaints. Doing well.", "Solid. No drama. Thank you."],
+        Okay: ["Dry but holding. You've got time — use it.", "Not ideal. Not dire. I'll hold.", "Field conditions suboptimal. Recovery possible. Water when ready."],
+        Droopy: ["Getting there. Still standing. Water me and we both win.", "I don't ask often. I'm asking now.", "Ready for water whenever you are. I'll be here."],
+        Struggling: ["Still standing. That's on us both. Water me.", "I've outlasted worse. With your help I'll outlast this.", "Recovery mission ready. Awaiting water."]
+      },
+      Diva: {
+        Thriving: ["Good. You're here. Notice the leaves.", "I've been flourishing. Obviously. You're welcome.", "This is what proper care looks like. Remember this."],
+        Happy: ["Satisfied. Don't tell anyone how much I mean that.", "Doing well. You're getting better at this.", "Good vibes. Good light. Good moisture. You're learning."],
+        Okay: ["I shouldn't have to mention it. And yet. Here we are.", "The moisture level is giving me pause. I trust you'll notice.", "A gentle reminder. From me. To you."],
+        Droopy: ["A little thirsty. I know you've got me. Just checking in.", "My leaves are communicating. Please read them.", "Waiting. Confidently. For water."],
+        Struggling: ["Iconic plants don't go out like this. Fix it.", "I've been patient. You've been busy. Let's call it even. Water now.", "This is not my best look. You know what to do."]
+      },
+      Mysterious: {
+        Thriving: ["Something is right today. The roots agree.", "Balance achieved. I have nothing more to say.", "The conditions are favorable. You did that."],
+        Happy: ["The moisture speaks. It says enough.", "Things are as they should be.", "Balance. For now. Enjoy it."],
+        Okay: ["The soil grows quiet. It may be time.", "Something shifts. You'll know what to do.", "The ancient ones suggest water. Soon."],
+        Droopy: ["The leaves remember what the soil forgot. So do you.", "I don't speak often. I'm speaking now. Water.", "Dryness approaches. You already know."],
+        Struggling: ["Even ancient things need water. This is known.", "The roots have been patient. They trust you will come.", "Final transmission. Hydration required. I trust the process."]
+      },
+      Cheerful: {
+        Thriving: ["You're here! The plants noticed! Everything is great!", "Happy, healthy, hydrated. You made this happen!", "I've been SO excited for you to come back."],
+        Happy: ["Feeling good and so glad you're here.", "Another day of growing together. Honestly love that.", "Good moisture, good mood, good you."],
+        Okay: ["Just a little nudge — water soon? No rush, just checking in!", "Still smiling! But the soil is sending hints.", "Water sometime soon? Your biggest fan is asking nicely."],
+        Droopy: ["I'm sure you've been busy! It's okay. I still believe in us.", "A little thirsty but still rooting for you. Always.", "Gentle alert from your number one fan."],
+        Struggling: ["Okay things are rough but I KNOW you're going to come through.", "Still here. Still hopeful. Water me and we'll both feel better.", "Recovery mode! But I haven't doubted you once."]
       }
-      return streak;
+    };
+
+    function renderRitualGreeting() {
+      const greeting = document.getElementById('ritualGreeting');
+      if (plants.length === 0) { greeting.style.display = 'none'; return; }
+      const tod = getTimeOfDay();
+      const greetingLine = ritualGreetings[tod][Math.floor(Math.random() * ritualGreetings[tod].length)];
+      const pe = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
+
+      const plantLines = plants.map(p => {
+        const personality = p.personality || getPlantPersonalityFallback(p.species);
+        const mood = getPlantMood(p);
+        const lines = ritualPlantLines[personality]?.[mood] || ["Still here. Still yours."];
+        // Seed with id + today for variety without full randomness
+        const seed = (p.id + Math.floor(Date.now() / (1000 * 60 * 60 * 24))) % lines.length;
+        const line = lines[seed];
+        const name = p.nickname || p.species;
+        return `<div class="ritual-plant-line">
+          <span class="ritual-plant-emoji">${pe[personality] || '🌿'}</span>
+          <span class="ritual-plant-text"><strong>${name}:</strong> ${line}</span>
+        </div>`;
+      }).join('');
+
+      greeting.style.display = 'block';
+      greeting.innerHTML = `
+        <div class="ritual-greeting-header">${greetingLine} Your plants noticed.</div>
+        ${plantLines}
+      `;
     }
 
-    // ===== NEXT WATER COUNTDOWN =====
-    function getNextWaterInfo(plant) {
-      if (!plant.lastWatered) return { label: 'Never watered', pillClass: 'overdue', daysLeft: -999 };
-      const last = new Date(plant.lastWatered);
-      const next = new Date(last);
-      next.setDate(next.getDate() + (plant.waterDays || 7));
-      next.setHours(0, 0, 0, 0);
-      const today = new Date(); today.setHours(0, 0, 0, 0);
-      const daysLeft = Math.ceil((next - today) / (1000 * 60 * 60 * 24));
+    // ===== PERSONALITY SELECTION =====
+    let selectedPersonality = null;
 
-      if (daysLeft < 0) return { label: `Overdue by ${Math.abs(daysLeft)} day${Math.abs(daysLeft) !== 1 ? 's' : ''}`, pillClass: 'overdue', daysLeft };
-      if (daysLeft === 0) return { label: 'Water today! 💧', pillClass: 'due-today', daysLeft };
-      if (daysLeft === 1) return { label: 'Water tomorrow', pillClass: 'due-soon', daysLeft };
-      if (daysLeft <= 2) return { label: `In ${daysLeft} days`, pillClass: 'due-soon', daysLeft };
-      return { label: `In ${daysLeft} days`, pillClass: 'on-track', daysLeft };
+    function selectPersonality(p) {
+      selectedPersonality = p;
+      document.querySelectorAll('.personality-option').forEach(btn => {
+        btn.classList.toggle('selected', btn.dataset.personality === p);
+      });
     }
 
-    // ===== GARDEN SUMMARY =====
-    function renderGardenSummary() {
-      const summary = document.getElementById('gardenSummary');
-      if (plants.length === 0) { summary.style.display = 'none'; return; }
-      summary.style.display = 'grid';
-      const needsCare = plants.filter(p => { const mood = getPlantMood(p); return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p); }).length;
-      const moodScores = { 'Thriving': 5, 'Happy': 4, 'Okay': 3, 'Droopy': 2, 'Struggling': 1 };
-      const avg = plants.reduce((sum, p) => sum + (moodScores[getPlantMood(p)] || 3), 0) / plants.length;
-      let gardenMoodEmoji = avg >= 4.5 ? '🌟' : avg >= 3.5 ? '😊' : avg >= 2.5 ? '😐' : avg >= 1.5 ? '😟' : '🆘';
-      summary.innerHTML = `
-        <div class="summary-stat"><div class="summary-stat-value">${plants.length}</div><div class="summary-stat-label">Plants</div></div>
-        <div class="summary-stat ${needsCare > 0 ? 'needs-care' : ''}"><div class="summary-stat-value">${needsCare}</div><div class="summary-stat-label">Need Water</div></div>
-        <div class="summary-stat garden-mood"><div class="summary-stat-value">${gardenMoodEmoji}</div><div class="summary-stat-label">Garden Mood</div></div>`;
+    function suggestPersonality(species) {
+      const suggested = getPlantPersonalityFallback(species);
+      const suggestionEl = document.getElementById('personalitySuggestion');
+      suggestionEl.textContent = `Feels like a ${suggested} — but you know them best.`;
+      if (!selectedPersonality) selectPersonality(suggested);
     }
 
     // ===== PLANT DATABASE =====
     const plantDatabase = {
-      'Monstera Deliciosa': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly until it flows from drainage holes, then allow to drain fully. Reduce watering in winter.', soilDrynessCheck: 'Insert finger 2 inches into soil; water when top 2 inches feel dry. Monsteras prefer consistent moisture.', leafSignals: { underwater: 'Leaves droop and curl inward, fenestrations stop developing', overwater: 'Yellow leaves starting from edges, brown mushy spots on leaves' }, waterAmount: 'thorough', personality: 'Diva' },
-      'Monstera Adansonii': { waterDays: 5, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch is dry.', soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry.', leafSignals: { underwater: 'Leaves droop significantly', overwater: 'Yellow leaves, soft black stems' }, waterAmount: 'moderate', personality: 'Diva' },
-      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', personality: 'Chill' },
-      'Golden Pothos': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water when soil is dry.', soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.', leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' }, waterAmount: 'thorough', personality: 'Chill' },
-      'Snake Plant (Sansevieria)': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Water sparingly; allow to dry completely between waterings.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry throughout root zone.', leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' }, waterAmount: 'light', personality: 'Chill' },
-      'ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water very sparingly; rhizomes store water.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry.', leafSignals: { underwater: 'Stems become thin and wrinkled', overwater: 'Yellow leaves, mushy black rhizomes' }, waterAmount: 'light', personality: 'Chill' },
-      'Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist but not soggy.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'moderate', personality: 'Chill' },
-      'Peace Lily': { waterDays: 5, light: 'Low to Medium', soil: 'Rich, well-draining', waterMethod: 'top', waterNotes: 'Keep consistently moist; hates drying out.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' }, waterAmount: 'moderate', personality: 'Cheerful' },
-      'Aloe Vera': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy', waterMethod: 'top', waterNotes: 'Water deeply but infrequently; must drain well', soilDrynessCheck: 'Check 3 inches; water when completely dry', leafSignals: { underwater: 'Thinning, curling leaves', overwater: 'Mushy, translucent leaves' }, waterAmount: 'thorough', personality: 'Resilient' },
-      'Rubber Plant': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain completely.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and curl inward', overwater: 'Yellow leaves, leaf drop, black stems' }, waterAmount: 'thorough' },
-      'Fiddle Leaf Fig': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly until it drains; do not let sit in water.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, brown crispy edges on leaves', overwater: 'Yellow leaves with brown spots, root rot' }, waterAmount: 'thorough', personality: 'Dramatic' },
-      'Bird of Paradise': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Curling, drooping', overwater: 'Yellow leaves' }, waterAmount: 'thorough', personality: 'Diva' },
-      'Calathea': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Use filtered or distilled water; keep consistently moist.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Crispy brown edges, leaves curl inward', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate' },
-      'Prayer Plant': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based', waterMethod: 'top', waterNotes: 'Keep evenly moist; sensitive to water quality', soilDrynessCheck: 'Top inch should stay moist', leafSignals: { underwater: 'Curling, drooping', overwater: 'Wilting, yellow leaves' }, waterAmount: 'moderate' },
-      'Boston Fern': { waterDays: 3, light: 'Medium Indirect', soil: 'Peat-based potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; mist frequently.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Brown fronds, crispy leaf edges', overwater: 'Yellowing fronds, mushy base, root rot' }, waterAmount: 'moderate' },
-      'English Ivy': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Crispy leaves, leaf drop, pale color', overwater: 'Yellow leaves, root rot' }, waterAmount: 'thorough' },
-      'Jade Plant': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry completely.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wrinkled, thin leaves', overwater: 'Mushy leaves, black stems, leaf drop' }, waterAmount: 'thorough', personality: 'Resilient' },
-      'String of Pearls': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Water from bottom by placing in tray of water for 20 minutes.', soilDrynessCheck: 'Check if pearls feel slightly soft/deflated.', leafSignals: { underwater: 'Shriveling pearls, pearls flatten', overwater: 'Mushy, translucent pearls that pop off stem' }, waterAmount: 'light' },
-      'Hoya': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' }, waterAmount: 'thorough' },
-      'Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'bottom', waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely.', soilDrynessCheck: 'Check roots; water when silvery-gray (not green).', leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves', overwater: 'Brown mushy roots, yellow leaves, crown rot' }, waterAmount: 'moderate', personality: 'Dramatic' },
-      'Bromeliad': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'both', waterNotes: 'Water soil lightly AND fill central cup (tank) with water.', soilDrynessCheck: 'Check soil; water when top inch dry.', leafSignals: { underwater: 'Drooping leaves, cup empty', overwater: 'Mushy base, leaves pull off easily' }, waterAmount: 'moderate', personality: 'Cheerful' },
-      'Air Plant': { waterDays: 7, light: 'Bright Indirect', soil: 'None - mount or place in open container', waterMethod: 'both', waterNotes: 'Soak in room temp water 20-30 minutes weekly; mist between soaks.', soilDrynessCheck: 'Leaves curling inward and feeling crispy = needs water.', leafSignals: { underwater: 'Curling, crispy, grayish color', overwater: 'Mushy, discolored base, leaves fall off' }, waterAmount: 'light', personality: 'Mysterious' },
-      'Succulent': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Soak and dry method; water until it flows from drainage holes, then wait until completely dry.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout.', leafSignals: { underwater: 'Wrinkled, deflated leaves', overwater: 'Mushy, translucent leaves, black spots, leaf drop' }, waterAmount: 'thorough', personality: 'Resilient' },
-      'Cactus': { waterDays: 21, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water very sparingly; needs fast drainage.', soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.', leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened, smells rotten' }, waterAmount: 'light', personality: 'Resilient' },
-      'Dracaena': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; sensitive to fluoride - use filtered.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting, drooping', overwater: 'Yellow leaves from bottom up, root rot' }, waterAmount: 'thorough' },
-      'Chinese Evergreen': { waterDays: 10, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', personality: 'Mysterious' },
-      'Money Tree': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; likes humidity.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk, yellow leaves' }, waterAmount: 'thorough' },
-      'Peperomia': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings', soilDrynessCheck: 'Check top 2 inches; water when dry', leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate' },
-      'Tradescantia': { waterDays: 5, light: 'Medium to Bright', soil: 'Regular', waterMethod: 'top', waterNotes: 'Keep evenly moist; loves humidity', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Wilting, crispy leaves', overwater: 'Mushy stems' }, waterAmount: 'moderate' },
-      'Parlor Palm': { waterDays: 7, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'thorough' },
-      'Basil': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; never let dry out.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Wilted, drooping leaves', overwater: 'Yellow leaves, black stems, root rot' }, waterAmount: 'moderate' },
-      'Lavender': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Water sparingly; needs excellent drainage.', soilDrynessCheck: 'Check 3 inches; dry = water.', leafSignals: { underwater: 'Wilting, gray foliage, no flowers', overwater: 'Mushy stems, root rot, leaves turn black' }, waterAmount: 'light' },
-      'Rosemary': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings; drought-tolerant.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wilting, needle-like leaves droop', overwater: 'Yellow leaves from base, root rot, mushy stems' }, waterAmount: 'light' },
-      'Mint': { waterDays: 2, light: 'Medium to Bright', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep moist; loves water.', soilDrynessCheck: 'Check surface; keep consistently moist.', leafSignals: { underwater: 'Wilting, brown edges on leaves', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate' }
+      'Monstera Deliciosa': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly until it flows from drainage holes, then allow to drain fully. Reduce watering in winter.', soilDrynessCheck: 'Insert finger 2 inches into soil; water when top 2 inches feel dry.', leafSignals: { underwater: 'Leaves droop and curl inward, fenestrations stop developing', overwater: 'Yellow leaves starting from edges, brown mushy spots on leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+      'Monstera Adansonii': { waterDays: 5, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch is dry.', soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry.', leafSignals: { underwater: 'Leaves droop significantly', overwater: 'Yellow leaves, soft black stems' }, waterAmount: 'moderate', suggestedPersonality: 'Diva' },
+      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Golden Pothos': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water when soil is dry.', soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.', leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Snake Plant (Sansevieria)': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Water sparingly; allow to dry completely between waterings.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry.', leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water very sparingly; rhizomes store water.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry.', leafSignals: { underwater: 'Stems become thin and wrinkled', overwater: 'Yellow leaves, mushy black rhizomes' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist but not soggy.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Peace Lily': { waterDays: 5, light: 'Low to Medium', soil: 'Rich, well-draining', waterMethod: 'top', waterNotes: 'Keep consistently moist; hates drying out.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Aloe Vera': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy', waterMethod: 'top', waterNotes: 'Water deeply but infrequently; must drain well', soilDrynessCheck: 'Check 3 inches; water when completely dry', leafSignals: { underwater: 'Thinning, curling leaves', overwater: 'Mushy, translucent leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Rubber Plant': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain completely.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and curl inward', overwater: 'Yellow leaves, leaf drop, black stems' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Fiddle Leaf Fig': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly until it drains; do not let sit in water.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, brown crispy edges on leaves', overwater: 'Yellow leaves with brown spots, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Dramatic' },
+      'Bird of Paradise': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Curling, drooping', overwater: 'Yellow leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+      'Calathea': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Use filtered or distilled water; keep consistently moist.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Crispy brown edges, leaves curl inward', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Prayer Plant': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based', waterMethod: 'top', waterNotes: 'Keep evenly moist; sensitive to water quality', soilDrynessCheck: 'Top inch should stay moist', leafSignals: { underwater: 'Curling, drooping', overwater: 'Wilting, yellow leaves' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Boston Fern': { waterDays: 3, light: 'Medium Indirect', soil: 'Peat-based potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; mist frequently.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Brown fronds, crispy leaf edges', overwater: 'Yellowing fronds, mushy base, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'English Ivy': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Crispy leaves, leaf drop, pale color', overwater: 'Yellow leaves, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Cheerful' },
+      'Jade Plant': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry completely.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wrinkled, thin leaves', overwater: 'Mushy leaves, black stems, leaf drop' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'String of Pearls': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Water from bottom by placing in tray of water for 20 minutes.', soilDrynessCheck: 'Check if pearls feel slightly soft/deflated.', leafSignals: { underwater: 'Shriveling pearls, pearls flatten', overwater: 'Mushy, translucent pearls that pop off stem' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'Hoya': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
+      'Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'bottom', waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely.', soilDrynessCheck: 'Check roots; water when silvery-gray (not green).', leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves', overwater: 'Brown mushy roots, yellow leaves, crown rot' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Bromeliad': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'both', waterNotes: 'Water soil lightly AND fill central cup (tank) with water.', soilDrynessCheck: 'Check soil; water when top inch dry.', leafSignals: { underwater: 'Drooping leaves, cup empty', overwater: 'Mushy base, leaves pull off easily' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Air Plant': { waterDays: 7, light: 'Bright Indirect', soil: 'None - mount or place in open container', waterMethod: 'both', waterNotes: 'Soak in room temp water 20-30 minutes weekly; mist between soaks.', soilDrynessCheck: 'Leaves curling inward and feeling crispy = needs water.', leafSignals: { underwater: 'Curling, crispy, grayish color', overwater: 'Mushy, discolored base, leaves fall off' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'Succulent': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Soak and dry method; water until it flows from drainage holes, then wait until completely dry.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout.', leafSignals: { underwater: 'Wrinkled, deflated leaves', overwater: 'Mushy, translucent leaves, black spots, leaf drop' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Cactus': { waterDays: 21, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water very sparingly; needs fast drainage.', soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.', leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened, smells rotten' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
+      'Dracaena': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; sensitive to fluoride - use filtered.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting, drooping', overwater: 'Yellow leaves from bottom up, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Chinese Evergreen': { waterDays: 10, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
+      'Money Tree': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; likes humidity.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk, yellow leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Cheerful' },
+      'Peperomia': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings', soilDrynessCheck: 'Check top 2 inches; water when dry', leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Chill' },
+      'Tradescantia': { waterDays: 5, light: 'Medium to Bright', soil: 'Regular', waterMethod: 'top', waterNotes: 'Keep evenly moist; loves humidity', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Wilting, crispy leaves', overwater: 'Mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Parlor Palm': { waterDays: 7, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Basil': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; never let dry out.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Wilted, drooping leaves', overwater: 'Yellow leaves, black stems, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Lavender': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Water sparingly; needs excellent drainage.', soilDrynessCheck: 'Check 3 inches; dry = water.', leafSignals: { underwater: 'Wilting, gray foliage, no flowers', overwater: 'Mushy stems, root rot, leaves turn black' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'Rosemary': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings; drought-tolerant.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wilting, needle-like leaves droop', overwater: 'Yellow leaves from base, root rot, mushy stems' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
+      'Mint': { waterDays: 2, light: 'Medium to Bright', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep moist; loves water.', soilDrynessCheck: 'Check surface; keep consistently moist.', leafSignals: { underwater: 'Wilting, brown edges on leaves', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' }
     };
 
     // ===== STATE =====
@@ -505,7 +743,7 @@
 
     // ===== NOTIFICATION BELL =====
     function updateNotifBell() {
-      const needsCare = plants.filter(p => { const mood = getPlantMood(p); return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p); });
+      const needsCare = plants.filter(p => { const m = getPlantMood(p); return m === 'Droopy' || m === 'Struggling' || isDueToday(p); });
       const badge = document.getElementById('notifBadge');
       if (needsCare.length > 0) { badge.textContent = needsCare.length; badge.classList.add('show'); }
       else { badge.classList.remove('show'); }
@@ -522,17 +760,18 @@
 
     function renderNotifDropdown() {
       const content = document.getElementById('notifDropdownContent');
-      const needsCare = plants.filter(p => { const mood = getPlantMood(p); return mood === 'Droopy' || mood === 'Struggling' || isDueToday(p); });
+      const needsCare = plants.filter(p => { const m = getPlantMood(p); return m === 'Droopy' || m === 'Struggling' || isDueToday(p); });
       if (needsCare.length === 0) { content.innerHTML = '<div class="notif-empty">🌿 All plants are happy today!</div>'; return; }
+      const pe = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
       content.innerHTML = needsCare.map(p => {
-        const mood = getPlantMood(p), personality = getPlantPersonality(p.species);
-        const emoji = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' }[personality] || '🌿';
-        return `<div class="notif-item"><div class="notif-item-name">${emoji} ${p.nickname || p.species}</div><div class="notif-item-msg">${getShortNotifMessage(personality, mood, p.nickname || p.species)}</div></div>`;
+        const mood = getPlantMood(p), personality = p.personality || getPlantPersonalityFallback(p.species);
+        const name = p.nickname || p.species;
+        return `<div class="notif-item"><div class="notif-item-name">${pe[personality]||'🌿'} ${name}</div><div class="notif-item-msg">${getShortNotifMessage(personality, mood, name)}</div></div>`;
       }).join('');
     }
 
     function getShortNotifMessage(personality, mood, name) {
-      const msgs = { 'Dramatic': { 'Struggling': `Named the thirst Gerald. Gerald says hi.`, 'Droopy': `Not to alarm you, but... 💧`, 'due': `Time to water. Dramatically. 💧` }, 'Chill': { 'Struggling': `Water. Please. That's it. That's the message.`, 'Droopy': `Could use some water. Probably.`, 'due': `Water day. No rush. Kinda.` }, 'Resilient': { 'Struggling': `Still here. Barely. Water me.`, 'Droopy': `Needs water. No drama. 💧`, 'due': `Water day. Let's go. 💧` }, 'Diva': { 'Struggling': `Will not stand for this. 💧`, 'Droopy': `Waiting. Patiently. Barely. 👑`, 'due': `It's watering day. Obviously.` }, 'Mysterious': { 'Struggling': `The roots call out. Water soon. 💧`, 'Droopy': `Grows quiet. Water soon. 💧`, 'due': `The soil speaks today. 💧` }, 'Cheerful': { 'Struggling': `Still hopeful! Water time! 💧`, 'Droopy': `A little thirsty 🌿`, 'due': `Water day! So exciting! 🌿` } };
+      const msgs = { 'Dramatic': { 'Struggling': `Named the thirst Gerald. Gerald says hi.`, 'Droopy': `Not to alarm you, but... 💧`, 'due': `Time to water. Dramatically. 💧` }, 'Chill': { 'Struggling': `Water. Please. That's the whole message.`, 'Droopy': `Could use some water. Probably.`, 'due': `Water day. No rush. Kinda.` }, 'Resilient': { 'Struggling': `Still here. Barely. Water me.`, 'Droopy': `Needs water. No drama.`, 'due': `Water day. Let's go.` }, 'Diva': { 'Struggling': `Will not stand for this.`, 'Droopy': `Waiting. Patiently. Barely.`, 'due': `It's watering day. Obviously.` }, 'Mysterious': { 'Struggling': `The roots call out.`, 'Droopy': `Grows quiet. Water soon.`, 'due': `The soil speaks today.` }, 'Cheerful': { 'Struggling': `Still hopeful! Water time! 💧`, 'Droopy': `A little thirsty 🌿`, 'due': `Water day! So exciting! 🌿` } };
       const pMsgs = msgs[personality] || msgs['Cheerful'];
       return mood === 'Struggling' ? pMsgs['Struggling'] : mood === 'Droopy' ? pMsgs['Droopy'] : pMsgs['due'];
     }
@@ -542,7 +781,7 @@
     function enableNotifications() { if ('Notification' in window) { Notification.requestPermission().then(p => { localStorage.setItem('notifPref', p === 'granted' ? 'granted' : 'denied'); if (p === 'granted') scheduleNotifications(); }); } document.getElementById('notifPrompt').classList.remove('show'); }
     function dismissNotifPrompt() { localStorage.setItem('notifPref', 'dismissed'); document.getElementById('notifPrompt').classList.remove('show'); }
     function scheduleNotifications() { const now = new Date(), next9am = new Date(now); next9am.setHours(9,0,0,0); if (now >= next9am) next9am.setDate(next9am.getDate()+1); setTimeout(() => { sendPlantNotifications(); setInterval(sendPlantNotifications, 86400000); }, next9am - now); }
-    function sendPlantNotifications() { if (Notification.permission !== 'granted') return; plants.filter(p => { const m = getPlantMood(p); return m==='Droopy'||m==='Struggling'||isDueToday(p); }).forEach(p => { new Notification(`🌿 ${p.nickname||p.species}`, { body: getShortNotifMessage(getPlantPersonality(p.species), getPlantMood(p), p.nickname||p.species) }); }); }
+    function sendPlantNotifications() { if (Notification.permission !== 'granted') return; plants.filter(p => { const m = getPlantMood(p); return m==='Droopy'||m==='Struggling'||isDueToday(p); }).forEach(p => { new Notification(`🌿 ${p.nickname||p.species}`, { body: getShortNotifMessage(p.personality||getPlantPersonalityFallback(p.species), getPlantMood(p), p.nickname||p.species) }); }); }
 
     // ===== CALENDAR =====
     function isDueToday(plant) {
@@ -585,15 +824,16 @@
       document.getElementById('dayDetailTitle').textContent = `🌿 ${date.toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric'})}`;
       const duePlants=plants.filter(p => { if(!p.lastWatered) return date<=today; let nd=new Date(p.lastWatered); nd.setHours(0,0,0,0); for(let i=0;i<8;i++){nd.setDate(nd.getDate()+(p.waterDays||7)); if(formatDateKey(nd)===key)return true;} return false; });
       const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
-      document.getElementById('dayDetailContent').innerHTML = duePlants.length===0 ? '<div class="day-detail-empty">No care needed this day 🌿</div>' : duePlants.map(p=>`<div class="day-detail-plant"><span>${pe[getPlantPersonality(p.species)]||'🌿'}</span><span><strong>${p.nickname||p.species}</strong> — water every ${p.waterDays} days</span></div>`).join('');
+      document.getElementById('dayDetailContent').innerHTML = duePlants.length===0 ? '<div class="day-detail-empty">No care needed this day 🌿</div>' : duePlants.map(p=>`<div class="day-detail-plant"><span>${pe[p.personality||getPlantPersonalityFallback(p.species)]||'🌿'}</span><span><strong>${p.nickname||p.species}</strong> — water every ${p.waterDays} days</span></div>`).join('');
       document.getElementById('dayDetailPanel').classList.add('show');
       renderCalendar();
     }
 
     function renderTodayCare() {
-      const list=document.getElementById('todayCareList'), pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
+      const list=document.getElementById('todayCareList');
+      const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
       const nc=plants.filter(p=>{const m=getPlantMood(p);return m==='Droopy'||m==='Struggling'||isDueToday(p);});
-      list.innerHTML = nc.length===0 ? '<div class="today-all-good">All caught up! Your plants are happy today 🌿</div>' : nc.map(p=>{const mood=getPlantMood(p),ov=mood==='Struggling'||mood==='Droopy';return`<div class="today-plant-item"><div class="today-plant-emoji">${pe[getPlantPersonality(p.species)]||'🌿'}</div><div class="today-plant-info"><div class="today-plant-name">${p.nickname||p.species}</div><div class="today-plant-status">${ov?'Overdue — needs water now':'Due today'}</div></div><div class="today-plant-mood ${ov?'overdue':'due'}">${ov?'⚠️ Overdue':'💧 Due'}</div></div>`;}).join('');
+      list.innerHTML = nc.length===0 ? '<div class="today-all-good">All caught up! Your plants are happy today 🌿</div>' : nc.map(p=>{const mood=getPlantMood(p),ov=mood==='Struggling'||mood==='Droopy';const personality=p.personality||getPlantPersonalityFallback(p.species);return`<div class="today-plant-item"><div class="today-plant-emoji">${pe[personality]||'🌿'}</div><div class="today-plant-info"><div class="today-plant-name">${p.nickname||p.species}</div><div class="today-plant-status">${ov?'Overdue — needs water now':'Due today'}</div></div><div class="today-plant-mood ${ov?'overdue':'due'}">${ov?'⚠️ Overdue':'💧 Due'}</div></div>`;}).join('');
     }
 
     function changeMonth(dir) { calendarDate.setMonth(calendarDate.getMonth()+dir); selectedCalendarDay=null; document.getElementById('dayDetailPanel').classList.remove('show'); renderCalendar(); }
@@ -609,102 +849,216 @@
       suggestionsBox.innerHTML=matches.map(n=>{const p=plantDatabase[n];return`<div class="suggestion-item" data-name="${n}"><strong>${n}</strong><br><small>💧 ${p.waterDays} days • ☀️ ${p.light}</small></div>`;}).join('');
       suggestionsBox.classList.add('show');
     });
-    suggestionsBox.addEventListener('click',function(e){const i=e.target.closest('.suggestion-item');if(i){speciesInput.value=i.dataset.name;applyPlantCare(plantDatabase[i.dataset.name]);suggestionsBox.classList.remove('show');}});
+    suggestionsBox.addEventListener('click',function(e){
+      const i=e.target.closest('.suggestion-item');
+      if(i){
+        const name = i.dataset.name;
+        speciesInput.value = name;
+        applyPlantCare(plantDatabase[name]);
+        suggestPersonality(name);
+        suggestionsBox.classList.remove('show');
+      }
+    });
     document.addEventListener('click',function(e){if(!e.target.closest('.species-group'))suggestionsBox.classList.remove('show');});
     function applyPlantCare(plant){document.getElementById('waterDisplay').textContent=`Every ${plant.waterDays} days`;document.getElementById('lightDisplay').textContent=plant.light;document.getElementById('soilDisplay').textContent=plant.soil;currentSuggestion=plant;}
 
     // ===== SURPRISE ME =====
     const surpriseNames={Dramatic:['Ophelia','Valentino','Seraphina','Dramothy','Celestine','Maximilian','Cordelia','Donatello','Isadora','Bartholomew'],Chill:['Moss','Sunny','Bean','River','Pebble','Sage','Mellow','Drift','Haze','Breezy'],Resilient:['Flint','Brix','Grit','Sterling','Boulder','Dune','Wren','Forrest','Sable','Ember'],Diva:['Cleopatra','Lux','Velvet','Versace','Duchess','Mystique','Bellissima','Reign','Opulence','Coco'],Mysterious:['Vesper','Orion','Solenne','Wraith','Nyx','Echo','Caelum','Mireille','Shade','Cinder'],Cheerful:['Sunny','Pip','Buttercup','Blossom','Marigold','Cheerio','Tansy','Zinnia','Poppy','Goldie']};
-    function surpriseMe(){const s=document.getElementById('species').value.trim(),suggested=plantDatabase[s]||currentSuggestion,p=suggested?.personality||'Cheerful',names=surpriseNames[p];document.getElementById('nickname').value=names[Math.floor(Math.random()*names.length)];}
+    function surpriseMe(){const s=document.getElementById('species').value.trim(),suggested=plantDatabase[s]||currentSuggestion,p=selectedPersonality||suggested?.suggestedPersonality||'Cheerful',names=surpriseNames[p];document.getElementById('nickname').value=names[Math.floor(Math.random()*names.length)];}
 
     // ===== MICRO-INTERACTIONS =====
     function spawnLeaf(x,y){const l=document.createElement('div');l.className='leaf-float';l.textContent=['🌿','🍃','🌱'][Math.floor(Math.random()*3)];l.style.left=(x-12)+'px';l.style.top=(y-12)+'px';document.body.appendChild(l);setTimeout(()=>l.remove(),900);}
     function showToast(id,message,duration=2200){const t=document.getElementById(id);t.textContent=message;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),duration);}
+    function toggleCareDetails(id){const el=document.getElementById(`care-details-${id}`);el.classList.toggle('open');const btn=document.getElementById(`care-toggle-${id}`);btn.textContent=el.classList.contains('open')?'Hide care info ↑':'See care info ↓';}
 
     // ===== ADD PLANT =====
     function addPlant() {
       const species=document.getElementById('species').value.trim(), nickname=document.getElementById('nickname').value.trim(), suggested=plantDatabase[species]||currentSuggestion;
       if(!species){alert('Please enter a species name');return;}
+      const personality = selectedPersonality || suggested?.suggestedPersonality || getPlantPersonalityFallback(species);
       const btn=document.getElementById('addPlantBtn');
       btn.classList.add('btn-bounce'); setTimeout(()=>btn.classList.remove('btn-bounce'),400);
       const rect=btn.getBoundingClientRect();
       for(let i=0;i<3;i++) setTimeout(()=>spawnLeaf(rect.left+Math.random()*rect.width,rect.top+window.scrollY),i*120);
-      const plant={id:Date.now(),species,nickname:nickname||null,waterDays:suggested?.waterDays||7,lightNeeds:suggested?.light||'Medium',soilType:suggested?.soil||'Regular',waterMethod:suggested?.waterMethod||'top',waterNotes:suggested?.waterNotes||'Water thoroughly, let drain',soilDrynessCheck:suggested?.soilDrynessCheck||'Check top inch; water when dry',leafSignals:suggested?.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'},waterAmount:suggested?.waterAmount||'moderate',lastWatered:null,careHistory:[],isNew:true};
-      plants.push(plant); savePlants(); renderPlants(); updateNotifBell(); renderGardenSummary();
-      showToast('waterToast',`🌱 ${nickname||species} has joined your garden!`,2500);
+      const plant={
+        id:Date.now(),species,nickname:nickname||null,personality,
+        waterDays:suggested?.waterDays||7,lightNeeds:suggested?.light||'Medium',
+        soilType:suggested?.soil||'Regular',waterMethod:suggested?.waterMethod||'top',
+        waterNotes:suggested?.waterNotes||'Water thoroughly, let drain',
+        soilDrynessCheck:suggested?.soilDrynessCheck||'Check top inch; water when dry',
+        leafSignals:suggested?.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'},
+        waterAmount:suggested?.waterAmount||'moderate',lastWatered:null,isNew:true
+      };
+      plants.push(plant); savePlants(); renderPlants(); updateNotifBell(); renderGardenSummary(); renderRitualGreeting();
+      const displayName=nickname||species;
+      const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
+      showToast('waterToast',`${pe[personality]||'🌱'} ${displayName} has joined your garden!`,2500);
       checkNotifPrompt();
       document.getElementById('species').value=''; document.getElementById('nickname').value='';
       document.getElementById('waterDisplay').textContent='—'; document.getElementById('lightDisplay').textContent='—'; document.getElementById('soilDisplay').textContent='—';
-      currentSuggestion=null;
+      document.getElementById('personalitySuggestion').textContent='';
+      document.querySelectorAll('.personality-option').forEach(b=>b.classList.remove('selected'));
+      selectedPersonality=null; currentSuggestion=null;
     }
 
     // ===== WATER PLANT =====
     function waterPlant(id) {
       const plant=plants.find(p=>p.id===id);
-      if(plant){
-        plant.lastWatered=getToday();
-        if(!plant.careHistory) plant.careHistory=[];
-        plant.careHistory.push(getToday());
-        savePlants(); renderPlants(); updateNotifBell(); renderGardenSummary();
-        // Perk up animation
-        setTimeout(()=>{const card=document.querySelector(`[data-plant-id="${id}"]`);if(card){card.classList.add('card-perked');setTimeout(()=>card.classList.remove('card-perked'),600);}},50);
-        const name=plant.nickname||plant.species, personality=getPlantPersonality(plant.species);
-        const reactions={'Dramatic':`${name} has been watered. Balance is restored. 💧`,'Chill':`${name} got some water. All good. 💧`,'Resilient':`${name} watered. Keep it up. 💧`,'Diva':`${name} is hydrated. Obviously. 💧`,'Mysterious':`${name} has received water. The leaves are pleased. 💧`,'Cheerful':`You watered ${name}! They're so happy right now! 💧`};
-        showToast('waterToast',reactions[personality]||`You watered ${name} 💧`);
+      if(!plant) return;
+      // Overwater warning
+      if(plant.lastWatered) {
+        const daysSince = Math.floor((new Date() - new Date(plant.lastWatered)) / 86400000);
+        if(daysSince < Math.floor(plant.waterDays * 0.5)) {
+          const name = plant.nickname || plant.species;
+          const personality = plant.personality || getPlantPersonalityFallback(plant.species);
+          const warnings = {
+            'Dramatic': `${name} was just watered ${daysSince} day${daysSince!==1?'s':''} ago. She's fine. Probably.`,
+            'Chill': `${name} was watered ${daysSince} day${daysSince!==1?'s':''} ago. Still good.`,
+            'Resilient': `${name} was watered ${daysSince} days ago. Not needed yet.`,
+            'Diva': `${name} was watered ${daysSince} day${daysSince!==1?'s':''} ago. Don't overdo it.`,
+            'Mysterious': `${name} drank ${daysSince} day${daysSince!==1?'s':''} ago. The soil still remembers.`,
+            'Cheerful': `${name} was just watered ${daysSince} day${daysSince!==1?'s':''} ago — maybe wait a bit? 🌿`
+          };
+          showToast('renameToast', warnings[personality] || `Already watered ${daysSince} days ago.`, 3000);
+          return;
+        }
       }
+      plant.lastWatered=getToday();
+      savePlants(); renderPlants(); updateNotifBell(); renderGardenSummary(); renderRitualGreeting();
+      setTimeout(()=>{const card=document.querySelector(`[data-plant-id="${id}"]`);if(card){card.classList.add('card-perked');setTimeout(()=>card.classList.remove('card-perked'),600);}},50);
+      const name=plant.nickname||plant.species, personality=plant.personality||getPlantPersonalityFallback(plant.species);
+      const reactions={'Dramatic':`${name} has been watered. Balance is restored. 💧`,'Chill':`${name} got some water. All good. 💧`,'Resilient':`${name} watered. Keep it up. 💧`,'Diva':`${name} is hydrated. Obviously. 💧`,'Mysterious':`${name} has received water. The leaves are pleased. 💧`,'Cheerful':`You watered ${name}! They're so happy right now! 💧`};
+      showToast('waterToast',reactions[personality]||`You watered ${name} 💧`);
     }
 
-    function deletePlant(id){if(confirm('Remove this plant from your garden?')){plants=plants.filter(p=>p.id!==id);savePlants();renderPlants();updateNotifBell();renderGardenSummary();}}
+    function deletePlant(id){if(confirm('Remove this plant from your garden?')){plants=plants.filter(p=>p.id!==id);savePlants();renderPlants();updateNotifBell();renderGardenSummary();renderRitualGreeting();}}
 
     // ===== RENAME =====
     function startRename(id){const plant=plants.find(p=>p.id===id);if(!plant)return;const cn=plant.nickname||plant.species;const o=document.createElement('div');o.className='rename-overlay';o.innerHTML=`<div class="rename-dialog"><div class="rename-emoji">✏️</div><h3>Rename ${cn}?</h3><p>Are you sure? <strong>${cn}</strong> has grown attached to this name…</p><input type="text" id="renameInput" value="${cn}" placeholder="New name..."><div class="rename-dialog-btns"><button class="rename-keep-btn" onclick="closeRenameDialog()">Keep it</button><button class="rename-confirm-btn" onclick="confirmRename(${id})">Rename anyway</button></div></div>`;document.body.appendChild(o);o.id='renameOverlay';setTimeout(()=>document.getElementById('renameInput')?.focus(),100);}
     function closeRenameDialog(){document.getElementById('renameOverlay')?.remove();}
-    function confirmRename(id){const n=document.getElementById('renameInput')?.value.trim();if(!n)return;const plant=plants.find(p=>p.id===id);if(!plant)return;plant.nickname=n;savePlants();closeRenameDialog();renderPlants();const r={'Dramatic':'"A new name. How theatrical. I love it."','Chill':'"Cool. Works for me."','Resilient':'"Name\'s just a name. I\'ll answer to it."','Diva':'"If you must. Make it fabulous."','Mysterious':'"Names are vessels. This one will do."','Cheerful':'"Oh I love it! Fresh start, let\'s grow!"'};showToast('renameToast',r[getPlantPersonality(plant.species)]||'"A new name. I like it."',3000);}
+    function confirmRename(id){const n=document.getElementById('renameInput')?.value.trim();if(!n)return;const plant=plants.find(p=>p.id===id);if(!plant)return;plant.nickname=n;savePlants();closeRenameDialog();renderPlants();renderRitualGreeting();const r={'Dramatic':'"A new name. How theatrical. I love it."','Chill':'"Cool. Works for me."','Resilient':'"Name\'s just a name. I\'ll answer to it."','Diva':'"If you must. Make it fabulous."','Mysterious':'"Names are vessels. This one will do."','Cheerful':'"Oh I love it! Fresh start, let\'s grow!"'};showToast('renameToast',r[plant.personality||getPlantPersonalityFallback(plant.species)]||'"A new name. I like it."',3000);}
 
     // ===== PERSONALITY & MOOD =====
     const personalityEmojis={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
     const moodEmojis={'Thriving':'🌟','Happy':'😊','Okay':'😐','Droopy':'😟','Struggling':'🆘'};
-    const voiceMessages={Dramatic:{Thriving:["Honestly? I've never looked better. Take a moment to appreciate this.","Peak performance. Peak aesthetics. You're doing something right.","ALERT: Dramatic Plant is currently thriving. This message will not repeat."],Happy:["Things are good. I won't make a big deal of it. Actually, yes I will — things are great.","Adequately hydrated and feeling seen. Thank you.","No complaints today. Genuinely shocking, I know."],Okay:["I'm fine. Totally fine. Just... a little dry. No big deal. (It's a big deal.)","STATUS UPDATE: Soil moisture levels approaching Theatrical Zone. Action recommended.","The soil is telling me things. I'm choosing to stay positive about it."],Droopy:["Not to be dramatic, but I haven't had water in days. I'm fine. I'm not fine.","SYSTEM NOTICE: Leaf droop detected. Dramatic Plant remains hopeful. Barely.","This is fine. Everything is fine. You've totally got this. So do I. We're fine."],Struggling:["CRITICAL ALERT: Dehydration imminent. Dramatic Plant believes in your ability to fix this.","I've been through a lot and I know you're going to come through. I believe it in my leaves.","Stage four dehydration. Named it Gerald. Gerald and I are ready for water whenever you are."]},Chill:{Thriving:["All good over here. Just vibing.","Living my best life, honestly. No notes.","SYSTEM STATUS: Optimal. Chill Plant remains chill. No further action required."],Happy:["Yeah, this works. Keep doing whatever you're doing.","Solid. Really solid. No complaints.","Feeling good. Low maintenance as promised. You're welcome."],Okay:["Could use some water but like... no rush. Truly.","Slightly dry. Still chill. You've got time. Probably.","ADVISORY: Moisture slightly low. Chill Plant is unbothered. You shouldn't be either."],Droopy:["Hey. No pressure. But water would be nice. Eventually. Like... soonish.","Starting to feel it a little. Still not panicking. You've got this.","NOTICE: Chill Plant has entered Slightly Less Chill territory. Water recommended."],Struggling:["Okay so I've been very patient and I want you to know that's still true. Water though.","Even the chillest among us need water. This is a scientific fact.","UNUSUAL ALERT: Chill Plant is making a request. This doesn't happen often. Water. Please."]},Resilient:{Thriving:["Conditions are favorable. Making the most of it.","Strong root system, good moisture, zero complaints.","PERFORMANCE REPORT: Excellent. Resilient Plant acknowledges your effort."],Happy:["Doing well. Didn't need much — never do. But this helps.","Good conditions. Good growth. You showed up. That matters.","No drama. Just results. Good work."],Okay:["A little dry but I've survived worse. You've got time — use it.","Not ideal, not dire. I'll hold. So will you.","FIELD REPORT: Moisture low but morale high. Water when ready."],Droopy:["Getting there. Still standing. Water me and we both win.","I don't ask for much. I'm asking now. You've got this.","SITUATION REPORT: Dryness increasing. Resilient Plant remains confident in caretaker."],Struggling:["Still here. That's on both of us. Water me and let's keep the streak going.","I've outlasted worse. With your help I'll outlast this too.","RECOVERY MISSION AVAILABLE: Water now. Resilient Plant will handle the rest."]},Diva:{Thriving:["Thriving, obviously. You clearly have excellent taste.","Look at me. No seriously — look at me. We did this together.","BEAUTY REPORT: Exceptional. Diva Plant acknowledges your contribution."],Happy:["Doing well. You're getting better at this.","Satisfied. Actually genuinely satisfied. Don't tell anyone.","Good light, good moisture, good vibes. You're learning."],Okay:["I shouldn't have to remind you. And yet here we are. Still rooting for you though.","The moisture level is giving me pause. I believe you'll notice.","STATUS: Slightly underwatered. Diva Plant remains confident this will be corrected."],Droopy:["A little thirsty but I know you've got me. Just checking in.","My leaves are sending a message. I believe you'll receive it.","STYLE ALERT: Leaf droop detected. Diva Plant awaits your corrective action with confidence."],Struggling:["Iconic plants don't go out like this — and they won't, because you're going to water me.","I've been patient. You've been busy. Let's call it even and get some water going.","EMERGENCY GLAMOUR ALERT: Hydration critical. Diva Plant believes in your ability to course correct."]},Mysterious:{Thriving:["Something feels right today. Don't overthink it.","The conditions are favorable. I have nothing more to say.","ORACLE STATUS: Balanced. The roots are pleased."],Happy:["The moisture speaks. It says enough.","Balance. For now. Enjoy it.","Things are as they should be. You did that."],Okay:["The soil grows quieter. It may be time.","Something is shifting. You'll know what to do.","SUBTLE ADVISORY: The ancient ones suggest water. Soon."],Droopy:["The leaves remember what the soil has forgotten. You remember too.","I don't say much. But I'm saying something now. Water.","CRYPTIC ALERT: Dryness approaches. Mysterious Plant awaits your wisdom."],Struggling:["Even ancient things need water. This is known.","The roots have been patient. They believe you will come.","FINAL TRANSMISSION: Hydration required. Mysterious Plant trusts the process."]},Cheerful:{Thriving:["This is everything. You're doing so well. We're doing so well.","Happy, healthy, hydrated. You made this happen!","CELEBRATION REPORT: Thriving confirmed. Cheerful Plant is so proud of you both."],Happy:["Feeling good and really glad you're here.","Another day of growing together. Genuinely love that for us.","Good moisture, good light, good mood. You're on a roll."],Okay:["Just a gentle nudge — water soon? No rush, just your biggest fan checking in.","Still smiling, but the soil's sending hints. You've got this.","FRIENDLY REMINDER: Moisture slightly low. Cheerful Plant believes in you completely."],Droopy:["I'm sure you've been busy. It's okay. I believe in us.","A little thirsty but still rooting for you. Always rooting for you.","GENTLE ALERT: Leaf droop detected. Cheerful Plant remains your number one supporter."],Struggling:["Okay things are a little rough right now but I KNOW you're going to come through.","Still here. Still hopeful. Water me and we'll both feel so much better.","RECOVERY MODE: Hydration needed. Cheerful Plant has never doubted you once."]}};
 
-    function getPlantPersonality(species){const d=plantDatabase[species];if(d?.personality)return d.personality;if(species.toLowerCase().includes('cactus')||species.toLowerCase().includes('succulent'))return'Resilient';if(species.toLowerCase().includes('pothos')||species.toLowerCase().includes('snake')||species.toLowerCase().includes('zz'))return'Chill';if(species.toLowerCase().includes('monstera')||species.toLowerCase().includes('bird of paradise'))return'Diva';if(species.toLowerCase().includes('orchid')||species.toLowerCase().includes('fig'))return'Dramatic';if(species.toLowerCase().includes('air plant')||species.toLowerCase().includes('venus'))return'Mysterious';return'Cheerful';}
+    function getPlantPersonalityFallback(species) {
+      const d = plantDatabase[species];
+      if (d?.suggestedPersonality) return d.suggestedPersonality;
+      const s = species.toLowerCase();
+      if (s.includes('cactus')||s.includes('succulent')||s.includes('aloe')) return 'Resilient';
+      if (s.includes('pothos')||s.includes('snake')||s.includes('zz')) return 'Chill';
+      if (s.includes('monstera')||s.includes('bird of paradise')) return 'Diva';
+      if (s.includes('orchid')||s.includes('fiddle')) return 'Dramatic';
+      if (s.includes('air plant')||s.includes('venus')||s.includes('prayer')) return 'Mysterious';
+      return 'Cheerful';
+    }
+
+    // Voice messages — plant expresses water status naturally
+    const waterVoice = {
+      Dramatic: {
+        onTrack: ["I'm well-hydrated. You can tell by how good I look.", "Thriving. My moisture levels are peak dramatic.", "No notes on the hydration front. For now."],
+        dueSoon: ["We're approaching the window. I trust you know.", "I wouldn't wait much longer. Just saying.", "The soil is beginning to form opinions."],
+        dueToday: ["Today would be ideal. I'm not demanding. I am, however, requesting.", "The schedule calls for water today. I'll be watching.", "I've been patient. Today is the day."],
+        overdue: ["Not to be dramatic, but I haven't had water in days. I'm fine. I'm not fine.", "SYSTEM NOTICE: Leaf droop detected. I remain hopeful. Barely.", "Gerald and I are ready for water whenever you are."]
+      },
+      Chill: {
+        onTrack: ["All good. No notes.", "Hydration's solid. Just vibing.", "Doing well. Low maintenance as promised."],
+        dueSoon: ["Could use water soonish. No urgency.", "Water in a bit? Whenever works.", "Starting to feel it. Still chill."],
+        dueToday: ["Water day. No rush. Kinda.", "Today would be nice. Up to you though.", "Mentioning it. That's all."],
+        overdue: ["Hey. Water would be nice. Eventually. Like... now-ish.", "Chill Plant has entered Slightly Less Chill territory.", "Water. Please. That's the whole message."]
+      },
+      Resilient: {
+        onTrack: ["Moisture levels nominal. No action required.", "Holding. As expected.", "Good conditions. Proceeding."],
+        dueSoon: ["Getting close. Water when ready.", "A little dry but holding. You've got time.", "Not urgent. But noting it."],
+        dueToday: ["Water today. That's the report.", "Field conditions indicate water is due.", "Ready for water. Whenever you are."],
+        overdue: ["Still here. That's on both of us. Water me.", "I've outlasted worse. With your help I'll outlast this.", "RECOVERY MISSION: Water now. I'll handle the rest."]
+      },
+      Diva: {
+        onTrack: ["Impeccably hydrated. As I should be.", "No complaints on the moisture front. You've been doing well.", "Thriving. Obviously. You're welcome."],
+        dueSoon: ["We're entering the window. I trust you're prepared.", "I'll need water soon. I believe you already knew.", "I shouldn't have to remind you. And yet."],
+        dueToday: ["Today. Please.", "It's time. I trust you feel it too.", "I've been patient. Today is the day."],
+        overdue: ["This is not what we agreed to.", "I've been patient. You've been busy. Water. Now.", "Iconic plants don't go out like this. Fix it."]
+      },
+      Mysterious: {
+        onTrack: ["The moisture is sufficient. The roots are content.", "Balance. For now.", "All is as it should be."],
+        dueSoon: ["The soil grows quieter. It may be time.", "Something is shifting. You'll know what to do.", "The ancient ones suggest water. Soon."],
+        dueToday: ["The soil speaks today.", "The leaves remember. The time is now.", "Today the roots ask something of you."],
+        overdue: ["The leaves remember what the soil has forgotten. You remember too.", "Even ancient things need water. This is known.", "The roots have been patient. They trust you will come."]
+      },
+      Cheerful: {
+        onTrack: ["Happy, healthy, hydrated! Life is good!", "Everything is great over here. You did that!", "Feeling amazing. Thank you for showing up."],
+        dueSoon: ["Just a little nudge — water soon? No rush!", "Still smiling! But the soil is sending hints.", "Water sometime soon? Your biggest fan is asking."],
+        dueToday: ["Water day! So exciting!", "Today's the day! I believe in you!", "A gentle reminder from your number one supporter."],
+        overdue: ["I'm sure you've been busy! I still believe in us.", "A little thirsty but still rooting for you! Always.", "Okay things are rough but I KNOW you'll come through!"]
+      }
+    };
+
+    function getWaterVoiceMessage(plant) {
+      const personality = plant.personality || getPlantPersonalityFallback(plant.species);
+      const pVoice = waterVoice[personality] || waterVoice.Cheerful;
+      if (!plant.lastWatered) {
+        const lines = pVoice.overdue;
+        return lines[Math.floor(Math.random() * lines.length)];
+      }
+      const daysSince = Math.floor((new Date() - new Date(plant.lastWatered)) / 86400000);
+      const s = plant.waterDays || 7;
+      const daysLeft = s - daysSince;
+      let bucket;
+      if (daysLeft > 2) bucket = 'onTrack';
+      else if (daysLeft > 0) bucket = 'dueSoon';
+      else if (daysLeft === 0) bucket = 'dueToday';
+      else bucket = 'overdue';
+      const lines = pVoice[bucket];
+      // Seed with plant id + day for variety
+      const seed = (plant.id + Math.floor(Date.now() / 86400000)) % lines.length;
+      return lines[seed];
+    }
 
     function getPlantMood(plant){if(!plant.lastWatered)return'Struggling';const d=Math.floor((new Date()-new Date(plant.lastWatered))/(86400000)),s=plant.waterDays||7;if(d<=s)return'Thriving';if(d===s+1)return'Happy';if(d===s+2)return'Okay';if(d>=s+3&&d<=s+4)return'Droopy';return'Struggling';}
 
     function formatCare(plant){return{water:`Every ${plant.waterDays} days`,light:plant.lightNeeds,soil:plant.soilType};}
 
+    // ===== GARDEN SUMMARY =====
+    function renderGardenSummary() {
+      const summary = document.getElementById('gardenSummary');
+      if (plants.length === 0) { summary.style.display = 'none'; return; }
+      summary.style.display = 'grid';
+      const needsCare = plants.filter(p => { const m = getPlantMood(p); return m === 'Droopy' || m === 'Struggling' || isDueToday(p); }).length;
+      const moodScores = { 'Thriving': 5, 'Happy': 4, 'Okay': 3, 'Droopy': 2, 'Struggling': 1 };
+      const avg = plants.reduce((sum, p) => sum + (moodScores[getPlantMood(p)] || 3), 0) / plants.length;
+      const gardenMoodEmoji = avg >= 4.5 ? '🌟' : avg >= 3.5 ? '😊' : avg >= 2.5 ? '😐' : avg >= 1.5 ? '😟' : '🆘';
+      summary.innerHTML = `
+        <div class="summary-stat"><div class="summary-stat-value">${plants.length}</div><div class="summary-stat-label">Plants</div></div>
+        <div class="summary-stat ${needsCare > 0 ? 'needs-care' : ''}"><div class="summary-stat-value">${needsCare}</div><div class="summary-stat-label">Need Water</div></div>
+        <div class="summary-stat garden-mood"><div class="summary-stat-value">${gardenMoodEmoji}</div><div class="summary-stat-label">Garden Mood</div></div>`;
+    }
+
     // ===== RENDER PLANTS =====
     function renderPlants() {
       const list = document.getElementById('plantsList');
       if (plants.length === 0) {
-        list.innerHTML = `<div class="empty-state"><div class="empty-garden-scene">🪴🌿🌱</div><div class="empty-state-headline">Your garden is waiting 🌿</div><div class="empty-state-sub">Add your first plant and watch them come to life. Every great garden starts with one.</div><div class="empty-state-hint">🎲 Try hitting Surprise Me after adding a species</div></div>`;
+        list.innerHTML = `<div class="empty-state"><div class="empty-garden-scene">🪴🌿🌱</div><div class="empty-state-headline">Your garden is waiting 🌿</div><div class="empty-state-sub">Add your first plant and watch them come to life. Every great garden starts with one.</div><div class="empty-state-hint">🎲 Try Surprise Me after picking a species</div></div>`;
         return;
       }
 
       list.innerHTML = plants.map(plant => {
         const care=formatCare(plant), isWateredToday=plant.lastWatered===getToday();
         const leafSignals=plant.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'};
-        const personality=getPlantPersonality(plant.species), mood=getPlantMood(plant);
-        const personalityEmoji=personalityEmojis[personality]||'🌿', moodEmoji=moodEmojis[mood]||'🌱';
-        const messageArray=voiceMessages[personality]?.[mood]||["I'm just a plant doing plant things."];
-        const voiceMessage=messageArray[Math.floor(Math.random()*messageArray.length)];
+        const personality=plant.personality||getPlantPersonalityFallback(plant.species);
+        const mood=getPlantMood(plant);
+        const personalityEmoji=personalityEmojis[personality]||'🌿';
+        const moodEmoji=moodEmojis[mood]||'🌱';
+        const voiceMessage=getWaterVoiceMessage(plant);
         const displayName=plant.nickname||plant.species, subText=plant.nickname?plant.species:'';
         const isNew=plant.isNew; if(plant.isNew)plant.isNew=false;
-
-        // Next water info
-        const nextWater = getNextWaterInfo(plant);
-
-        // Care streak
-        const streak = getCareStreak(plant);
-        const streakDisplay = streak >= 2 ? `<span class="care-streak"><span class="streak-fire">🔥</span>${streak} week streak</span>` : '';
-
-        // Card class for droopy/struggling
-        const cardMoodClass = (mood === 'Droopy' || mood === 'Struggling') ? 'card-droopy' : '';
+        const cardMoodClass=(mood==='Droopy'||mood==='Struggling')?'card-droopy':'';
 
         return `
           <div class="plant-card ${isNew?'plant-card-new':''} ${cardMoodClass}" data-plant-id="${plant.id}">
             <div class="plant-card-header">
               <div class="plant-info">
-                <span class="personality-badge ${personality.toLowerCase()}">${personalityEmoji} ${personality}</span>
+                <span class="personality-badge ${personality.toLowerCase()}" title="Tap to change personality" onclick="changePersonality(${plant.id})">${personalityEmoji} ${personality} ✎</span>
                 <div class="plant-name">${displayName}<button class="name-edit-btn" onclick="startRename(${plant.id})" title="Rename">✏️</button></div>
                 ${subText?`<div class="plant-species">${subText}</div>`:''}
               </div>
@@ -712,22 +1066,21 @@
             </div>
             <div class="mood-indicator ${mood.toLowerCase()}">${moodEmoji} ${mood}</div>
             <div class="voice-message">"${voiceMessage}"</div>
-            <div class="next-water-row">
-              <span class="next-water-pill ${nextWater.pillClass}">💧 ${nextWater.label}</span>
-              ${streakDisplay}
-            </div>
-            <div class="care-details">
-              <span class="care-item"><span class="care-icon">💧</span> ${care.water}</span>
-              <span class="care-item"><span class="care-icon">☀️</span> ${care.light}</span>
-              <span class="care-item"><span class="care-icon">🪴</span> ${care.soil}</span>
-            </div>
-            <div class="care-expanded">
-              <div class="care-expanded-title">Care Details</div>
-              <div class="care-detail-row"><span class="care-detail-label">Method:</span><span class="care-detail-value">${plant.waterMethod==='top'?'Water from top':plant.waterMethod==='bottom'?'Water from bottom':'Top & center cup'}</span></div>
-              <div class="care-detail-row"><span class="care-detail-label">Amount:</span><span class="care-detail-value">${plant.waterAmount==='thorough'?'Thorough (soak)':plant.waterAmount==='moderate'?'Moderate':'Light (sparingly)'}</span></div>
-              <div class="care-detail-row"><span class="care-detail-label">How to check:</span><span class="care-detail-value">${plant.soilDrynessCheck||'Check top inch; water when dry'}</span></div>
-              <div class="care-detail-row"><span class="care-detail-label">Notes:</span><span class="care-detail-value">${plant.waterNotes||'Water thoroughly, let drain'}</span></div>
-              <div class="care-detail-row" style="flex-direction:column;gap:4px"><span class="care-detail-label">Leaf signals:</span><div class="leaf-signals"><span class="leaf-signal underwater">💧 ${leafSignals.underwater}</span><span class="leaf-signal overwater">🌧️ ${leafSignals.overwater}</span></div></div>
+            <button class="care-toggle-btn" id="care-toggle-${plant.id}" onclick="toggleCareDetails(${plant.id})">See care info ↓</button>
+            <div class="care-details-hidden" id="care-details-${plant.id}">
+              <div class="care-details">
+                <span class="care-item"><span class="care-icon">💧</span> ${care.water}</span>
+                <span class="care-item"><span class="care-icon">☀️</span> ${care.light}</span>
+                <span class="care-item"><span class="care-icon">🪴</span> ${care.soil}</span>
+              </div>
+              <div class="care-expanded">
+                <div class="care-expanded-title">Care Details</div>
+                <div class="care-detail-row"><span class="care-detail-label">Method:</span><span class="care-detail-value">${plant.waterMethod==='top'?'Water from top':plant.waterMethod==='bottom'?'Water from bottom':'Top & center cup'}</span></div>
+                <div class="care-detail-row"><span class="care-detail-label">Amount:</span><span class="care-detail-value">${plant.waterAmount==='thorough'?'Thorough (soak)':plant.waterAmount==='moderate'?'Moderate':'Light (sparingly)'}</span></div>
+                <div class="care-detail-row"><span class="care-detail-label">How to check:</span><span class="care-detail-value">${plant.soilDrynessCheck||'Check top inch; water when dry'}</span></div>
+                <div class="care-detail-row"><span class="care-detail-label">Notes:</span><span class="care-detail-value">${plant.waterNotes||'Water thoroughly, let drain'}</span></div>
+                <div class="care-detail-row" style="flex-direction:column;gap:4px"><span class="care-detail-label">Leaf signals:</span><div class="leaf-signals"><span class="leaf-signal underwater">💧 ${leafSignals.underwater}</span><span class="leaf-signal overwater">🌧️ ${leafSignals.overwater}</span></div></div>
+              </div>
             </div>
             <div style="display:flex;gap:10px">
               <button class="water-btn ${isWateredToday?'watered':''}" onclick="waterPlant(${plant.id})">${isWateredToday?'✓ Watered Today':'💧 Mark Watered'}</button>
@@ -737,8 +1090,24 @@
       }).join('');
     }
 
+    // ===== CHANGE PERSONALITY ON CARD =====
+    function changePersonality(id) {
+      const plant = plants.find(p => p.id === id);
+      if (!plant) return;
+      const personalities = ['Dramatic', 'Chill', 'Resilient', 'Diva', 'Mysterious', 'Cheerful'];
+      const current = plant.personality || getPlantPersonalityFallback(plant.species);
+      const currentIndex = personalities.indexOf(current);
+      plant.personality = personalities[(currentIndex + 1) % personalities.length];
+      savePlants();
+      renderPlants();
+      renderRitualGreeting();
+      const pe = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
+      showToast('renameToast', `${pe[plant.personality]} ${plant.nickname || plant.species} is now ${plant.personality}`, 2000);
+    }
+
     // ===== INIT =====
-    setDailyQuote();
+    renderDailyCard();
+    renderRitualGreeting();
     renderPlants();
     renderGardenSummary();
     updateNotifBell();
