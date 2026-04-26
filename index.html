@@ -418,7 +418,7 @@
   <div class="onboarding-card">
     <span class="ob-leaf">🌱</span>
     <div class="ob-title">Flor<span>ish</span></div>
-    <div class="ob-tagline">A quiet place for you and your plants.<br>No reminders. No pressure. Just ritual.</div>
+    <div class="ob-tagline">A quiet place for you and your plants.<br>No reminders. No pressure. Just growth.</div>
     <div class="ob-divider"></div>
     <div class="ob-prompt">What should we call you?</div>
     <input class="ob-input" id="obNameInput" type="text" placeholder="Your name…" maxlength="32" autocomplete="off">
@@ -552,6 +552,11 @@ function renderDailyCard() {
     <div class="daily-card-quote">${card.quote}</div>
     <div class="daily-card-divider"></div>
     <div class="daily-card-sub">${card.sub}</div>`;
+  // Play once per day — store last played date
+  const todayKey = today.toDateString();
+  if (localStorage.getItem('florish_card_sound') !== todayKey) {
+    setTimeout(() => { soundDailyCard(); localStorage.setItem('florish_card_sound', todayKey); }, 600);
+  }
 }
 
 // ===== RITUAL GREETING =====
@@ -786,10 +791,15 @@ function confirmWater(id) {
   plant.lastWatered=getToday();
   plant.waterCount=(plant.waterCount||0)+1;
   plant._justWatered=true;
+  soundWater();
   // Check rare milestone AFTER incrementing waterCount
+  const prevStageCheck = getGrowthStage({...plant, waterCount: (plant.waterCount||1) - 1});
+  const newStageCheck  = getGrowthStage(plant);
+  if (newStageCheck > prevStageCheck) setTimeout(soundGrowth, 200);
   const milestone = checkRareMilestone(plant);
   if (milestone) {
     plant._rareMilestone = milestone;
+    setTimeout(soundRare, 400);
   } else {
     delete plant._rareMilestone;
   }
@@ -1149,6 +1159,136 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => inp.focus(), 400);
   }
 });
+
+// ===== SOUND ENGINE =====
+// All sounds synthesized via Web Audio API — no external files.
+// Respects device silent mode: AudioContext stays suspended if device is muted.
+let _ac = null;
+function getAC() {
+  if (!_ac) _ac = new (window.AudioContext || window.webkitAudioContext)();
+  return _ac;
+}
+// Resume context on first user gesture (required by browsers)
+document.addEventListener('click', () => { if (_ac && _ac.state === 'suspended') _ac.resume(); }, { once: true });
+
+function soundEnabled() {
+  // Don't play if context suspended (device silent / not yet interacted)
+  const ac = getAC();
+  return ac.state === 'running';
+}
+
+// Shared envelope helper
+function ramp(param, from, to, start, dur, ac) {
+  param.setValueAtTime(from, start);
+  param.exponentialRampToValueAtTime(Math.max(to, 0.0001), start + dur);
+}
+
+// 🌊 WATER — ripple: 3 quick rising pings then warm sustained hum
+function soundWater() {
+  const ac = getAC();
+  if (ac.state !== 'running') return;
+  const now = ac.currentTime;
+  // Three rising pings
+  [440, 554, 659].forEach((freq, i) => {
+    const t = now + i * 0.1;
+    const osc = ac.createOscillator(); const g = ac.createGain();
+    osc.type = 'sine'; osc.frequency.value = freq;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.07, t + 0.015);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
+    osc.connect(g); g.connect(ac.destination);
+    osc.start(t); osc.stop(t + 0.42);
+  });
+  // Warm sustained hum underneath
+  const hum = ac.createOscillator(); const hg = ac.createGain();
+  hum.type = 'sine'; hum.frequency.value = 220;
+  hg.gain.setValueAtTime(0.0001, now + 0.25);
+  hg.gain.exponentialRampToValueAtTime(0.045, now + 0.45);
+  hg.gain.setValueAtTime(0.045, now + 0.8);
+  hg.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
+  hum.connect(hg); hg.connect(ac.destination);
+  hum.start(now + 0.25); hum.stop(now + 1.65);
+}
+
+// 🍃 GROWTH STAGE — soft ascending chime (pentatonic, airy)
+function soundGrowth() {
+  const ac = getAC();
+  if (ac.state !== 'running') return;
+  const now = ac.currentTime;
+  const notes = [392, 440, 523, 587]; // G4 A4 C5 D5 — pentatonic feel
+  notes.forEach((freq, i) => {
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    const t = now + i * 0.13;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.07, t + 0.04);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+    // slight detune for warmth
+    const osc2 = ac.createOscillator();
+    const g2 = ac.createGain();
+    osc2.type = 'sine';
+    osc2.frequency.value = freq * 1.004;
+    g2.gain.setValueAtTime(0.0001, t);
+    g2.gain.exponentialRampToValueAtTime(0.03, t + 0.04);
+    g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
+    osc.connect(g); g.connect(ac.destination);
+    osc2.connect(g2); g2.connect(ac.destination);
+    osc.start(t); osc.stop(t + 0.65);
+    osc2.start(t); osc2.stop(t + 0.65);
+  });
+}
+
+// ✨ RARE UNLOCK — shimmering sparkle: quick ascending gliss + bell overtones
+function soundRare() {
+  const ac = getAC();
+  if (ac.state !== 'running') return;
+  const now = ac.currentTime;
+  // Gliss sweep
+  const osc = ac.createOscillator();
+  const g = ac.createGain();
+  osc.type = 'sine';
+  osc.frequency.setValueAtTime(300, now);
+  osc.frequency.exponentialRampToValueAtTime(1200, now + 0.35);
+  g.gain.setValueAtTime(0.0001, now);
+  g.gain.exponentialRampToValueAtTime(0.06, now + 0.05);
+  g.gain.exponentialRampToValueAtTime(0.0001, now + 0.36);
+  osc.connect(g); g.connect(ac.destination);
+  osc.start(now); osc.stop(now + 0.4);
+  // Bell tones
+  [523, 659, 784, 1047].forEach((freq, i) => {
+    const b = ac.createOscillator();
+    const bg = ac.createGain();
+    b.type = 'sine';
+    b.frequency.value = freq;
+    const t = now + 0.25 + i * 0.1;
+    bg.gain.setValueAtTime(0.0001, t);
+    bg.gain.exponentialRampToValueAtTime(0.065, t + 0.02);
+    bg.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
+    b.connect(bg); bg.connect(ac.destination);
+    b.start(t); b.stop(t + 0.75);
+  });
+}
+
+// 🌅 DAILY CARD — single soft low chime, like a temple bell
+function soundDailyCard() {
+  const ac = getAC();
+  if (ac.state !== 'running') return;
+  const now = ac.currentTime;
+  [196, 294].forEach((freq, i) => {
+    const osc = ac.createOscillator();
+    const g = ac.createGain();
+    osc.type = 'sine';
+    osc.frequency.value = freq;
+    const t = now + i * 0.18;
+    g.gain.setValueAtTime(0.0001, t);
+    g.gain.exponentialRampToValueAtTime(0.07, t + 0.03);
+    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
+    osc.connect(g); g.connect(ac.destination);
+    osc.start(t); osc.stop(t + 1.5);
+  });
+}
 
 // ===== INIT =====
 (function init() {
