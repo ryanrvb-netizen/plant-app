@@ -304,9 +304,97 @@
     .day-detail-plant { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--card-bg); border-radius: 10px; margin-bottom: 6px; font-size: 0.85rem; border: 1px solid var(--border); }
     .day-detail-plant:last-child { margin-bottom: 0; }
     .day-detail-empty { text-align: center; color: var(--text-light); font-size: 0.85rem; padding: 8px; }
+
+    /* ===== ONBOARDING ===== */
+    .onboarding-overlay {
+      position: fixed; inset: 0; z-index: 900;
+      background: linear-gradient(160deg, #2a1e12 0%, #3a2a1c 50%, #2e2318 100%);
+      display: flex; align-items: center; justify-content: center;
+      padding: 28px 24px; overflow-y: auto;
+      transition: opacity 0.6s ease, transform 0.6s ease;
+    }
+    .onboarding-overlay.hiding {
+      opacity: 0; transform: scale(1.03); pointer-events: none;
+    }
+    .onboarding-card {
+      max-width: 400px; width: 100%; text-align: center;
+      animation: obFadeUp 0.7s ease both;
+    }
+    @keyframes obFadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    .ob-leaf { font-size: 3rem; margin-bottom: 16px; display: block;
+      animation: leafSway 3s ease-in-out infinite; }
+    .ob-title {
+      font-size: 2.4rem; font-weight: 800; letter-spacing: -1.5px;
+      color: rgba(255,255,255,0.92); margin-bottom: 10px; line-height: 1.1;
+    }
+    .ob-title span { color: var(--sage); }
+    .ob-tagline {
+      font-size: 1rem; color: rgba(255,255,255,0.5); font-style: italic;
+      margin-bottom: 36px; line-height: 1.6;
+    }
+    .ob-divider {
+      width: 40px; height: 1px; margin: 0 auto 36px;
+      background: linear-gradient(90deg, transparent, rgba(193,122,90,0.5), transparent);
+    }
+    .ob-prompt {
+      font-size: 0.9rem; color: rgba(255,255,255,0.55);
+      margin-bottom: 10px; font-weight: 500; text-align: left;
+    }
+    .ob-input {
+      width: 100%; padding: 16px 18px; border-radius: 14px;
+      border: 1.5px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9);
+      font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;
+      transition: all 0.2s; outline: none;
+      font-family: inherit;
+    }
+    .ob-input::placeholder { color: rgba(255,255,255,0.25); font-weight: 400; }
+    .ob-input:focus { border-color: rgba(135,168,120,0.6); background: rgba(255,255,255,0.1);
+      box-shadow: 0 0 0 3px rgba(135,168,120,0.15); }
+    .ob-hint { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-bottom: 32px; font-style: italic; }
+    .ob-btn {
+      width: 100%; padding: 16px; border-radius: 14px; border: none; cursor: pointer;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%);
+      color: white; font-size: 1rem; font-weight: 700; letter-spacing: 0.2px;
+      box-shadow: 0 4px 20px rgba(107,143,94,0.35); transition: all 0.2s;
+      font-family: inherit;
+    }
+    .ob-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(107,143,94,0.45); }
+    .ob-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
+    .ob-skip {
+      display: block; margin-top: 18px; font-size: 0.8rem;
+      color: rgba(255,255,255,0.25); cursor: pointer; text-decoration: underline;
+      text-underline-offset: 3px; background: none; border: none;
+      width: auto; box-shadow: none; padding: 4px; font-family: inherit;
+    }
+    .ob-skip:hover { color: rgba(255,255,255,0.45); transform: none; box-shadow: none; background: none; }
+    .ob-footer {
+      margin-top: 40px; font-size: 0.72rem; color: rgba(255,255,255,0.18);
+      letter-spacing: 0.3px;
+    }
   </style>
 </head>
 <body>
+
+<!-- ===== ONBOARDING ===== -->
+<div class="onboarding-overlay" id="onboardingOverlay">
+  <div class="onboarding-card">
+    <span class="ob-leaf">🌱</span>
+    <div class="ob-title">Flor<span>ish</span></div>
+    <div class="ob-tagline">A quiet place for you and your plants.<br>No reminders. No pressure. Just ritual.</div>
+    <div class="ob-divider"></div>
+    <div class="ob-prompt">What should we call you?</div>
+    <input class="ob-input" id="obNameInput" type="text" placeholder="Your name…" maxlength="32" autocomplete="off">
+    <div class="ob-hint">Just your first name is plenty.</div>
+    <button class="ob-btn" id="obBtn" onclick="completeOnboarding()">Enter the garden</button>
+    <button class="ob-skip" onclick="completeOnboarding(true)">Skip for now</button>
+    <div class="ob-footer">Your data stays on your device. Always.</div>
+  </div>
+</div>
+
 <div class="container">
   <div class="app-header"><h1><span class="leaf-accent">🌱</span> Florish</h1></div>
 
@@ -456,6 +544,8 @@ function renderRitualGreeting() {
   if (plants.length === 0) { el.style.display='none'; return; }
   const tod = getTimeOfDay();
   const greetLine = ritualGreetings[tod][Math.floor(Math.random()*ritualGreetings[tod].length)];
+  const username = localStorage.getItem('florish_username');
+  const greeting = username ? `${greetLine} ${username}.` : `${greetLine} Your plants noticed.`;
   const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
   const lines = plants.map(p => {
     const pers = p.personality||getPlantPersonalityFallback(p.species);
@@ -465,7 +555,7 @@ function renderRitualGreeting() {
     return `<div class="ritual-plant-line"><span class="ritual-plant-emoji">${pe[pers]||'🌿'}</span><span class="ritual-plant-text"><strong>${p.nickname||p.species}:</strong> ${pool[seed]}</span></div>`;
   }).join('');
   el.style.display='block';
-  el.innerHTML=`<div class="ritual-greeting-header">${greetLine} Your plants noticed.</div>${lines}`;
+  el.innerHTML=`<div class="ritual-greeting-header">${greeting}</div>${lines}`;
 }
 
 // ===== PERSONALITY SELECTION =====
@@ -934,12 +1024,45 @@ function changePersonality(id) {
   showToast('renameToast',`${personalityEmojis[plant.personality]} ${plant.nickname||plant.species} is now ${plant.personality}`,2000);
 }
 
+// ===== ONBOARDING =====
+function completeOnboarding(skip=false) {
+  const nameVal = document.getElementById('obNameInput').value.trim();
+  if (!skip && nameVal) localStorage.setItem('florish_username', nameVal);
+  localStorage.setItem('florish_onboarded', '1');
+  const overlay = document.getElementById('onboardingOverlay');
+  overlay.classList.add('hiding');
+  setTimeout(() => overlay.remove(), 650);
+  // Personalise greeting if name given
+  if (nameVal) updateGreetingWithName(nameVal);
+}
+function updateGreetingWithName(name) {
+  // Stored, picked up by ritual greeting on next render
+  localStorage.setItem('florish_username', name);
+}
+// Allow Enter key to submit
+document.addEventListener('DOMContentLoaded', () => {
+  const inp = document.getElementById('obNameInput');
+  if (inp) {
+    inp.addEventListener('keydown', e => { if (e.key === 'Enter') completeOnboarding(); });
+    // Auto-focus after a beat
+    setTimeout(() => inp.focus(), 400);
+  }
+});
+
 // ===== INIT =====
-renderDailyCard();
-renderRitualGreeting();
-renderPlants();
-renderGardenSummary();
-if(localStorage.getItem('notifPref')==='granted')scheduleNotifications();
+(function init() {
+  // Show onboarding only on first visit
+  if (!localStorage.getItem('florish_onboarded')) {
+    document.getElementById('onboardingOverlay').style.display = 'flex';
+  } else {
+    document.getElementById('onboardingOverlay').remove();
+  }
+  renderDailyCard();
+  renderRitualGreeting();
+  renderPlants();
+  renderGardenSummary();
+  if (localStorage.getItem('notifPref') === 'granted') scheduleNotifications();
+})();
 </script>
 </body>
 </html>
