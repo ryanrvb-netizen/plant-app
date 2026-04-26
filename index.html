@@ -208,6 +208,40 @@
       margin-bottom: 16px; border-left: 3px solid var(--sage); line-height: 1.6;
     }
 
+    /* ✨ RARE MOMENT BANNER */
+    .rare-banner {
+      display: flex; align-items: center; gap: 10px;
+      background: linear-gradient(135deg, #2e2318 0%, #3a2a1c 100%);
+      border: 1px solid rgba(193,122,90,0.35);
+      border-radius: 14px; padding: 12px 16px; margin-bottom: 12px;
+      animation: rareFadeIn 0.5s ease both;
+      position: relative; overflow: hidden;
+    }
+    .rare-banner::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(ellipse at 20% 50%, rgba(193,122,90,0.12) 0%, transparent 70%);
+    }
+    @keyframes rareFadeIn {
+      0%  { opacity: 0; transform: translateY(-6px) scale(0.98); }
+      100%{ opacity: 1; transform: translateY(0) scale(1); }
+    }
+    .rare-spark { font-size: 1.2rem; flex-shrink: 0;
+      animation: sparkSpin 1.2s ease-in-out both; }
+    @keyframes sparkSpin {
+      0%  { transform: rotate(-20deg) scale(0.6); opacity: 0; }
+      60% { transform: rotate(8deg) scale(1.15); opacity: 1; }
+      100%{ transform: rotate(0deg) scale(1); }
+    }
+    .rare-text { flex: 1; }
+    .rare-label {
+      font-size: 0.62rem; font-weight: 700; letter-spacing: 1.5px;
+      text-transform: uppercase; color: rgba(193,122,90,0.85); margin-bottom: 3px;
+    }
+    .rare-line {
+      font-size: 0.9rem; font-style: italic; color: rgba(255,255,255,0.85);
+      line-height: 1.5;
+    }
+
     /* Action row */
     .card-actions { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; flex-wrap: wrap; }
     .water-btn { width: auto; padding: 12px 24px; background: var(--water); font-size: 0.9rem; border-radius: 12px; }
@@ -752,6 +786,13 @@ function confirmWater(id) {
   plant.lastWatered=getToday();
   plant.waterCount=(plant.waterCount||0)+1;
   plant._justWatered=true;
+  // Check rare milestone AFTER incrementing waterCount
+  const milestone = checkRareMilestone(plant);
+  if (milestone) {
+    plant._rareMilestone = milestone;
+  } else {
+    delete plant._rareMilestone;
+  }
   savePlants();renderPlants();renderGardenSummary();renderRitualGreeting();
   // animate both card and SVG wrap
   setTimeout(()=>{
@@ -959,6 +1000,46 @@ function buildPlantSVG(stage, mood) {
   </svg>`;
 }
 
+// ===== RARE UNLOCK LINES =====
+const rareLines = {
+  firstWatering: {
+    label: '✨ First watering',
+    Dramatic:   "And so it begins. The bond is formed. Don't let me down.",
+    Chill:      "Hey. Thanks for that. Means something.",
+    Resilient:  "First water logged. This is the start of something good.",
+    Diva:       "Finally. I knew you'd come through. Obviously.",
+    Mysterious: "The first drop. Everything changes from here.",
+    Cheerful:   "You watered me! This is literally the best day of my life!"
+  },
+  flowering: {
+    label: '✨ First bloom',
+    Dramatic:   "I have bloomed. Against all odds. Against all weather. I have bloomed.",
+    Chill:      "Oh. I'm flowering. Didn't see that coming. Pretty cool.",
+    Resilient:  "Flowering. The result of consistent effort. Well done, both of us.",
+    Diva:       "I'm in full bloom. You're welcome. This is what dedication looks like.",
+    Mysterious: "The bloom has arrived. Some things cannot be rushed. This was one of them.",
+    Cheerful:   "I'M FLOWERING! We did it! I'm so proud of us right now!"
+  }
+};
+
+function checkRareMilestone(plant) {
+  // Returns milestone key if this watering triggers one, else null
+  const wc = plant.waterCount || 0; // already incremented before this check
+  const prevStage = getGrowthStage({...plant, waterCount: wc - 1});
+  const newStage  = getGrowthStage(plant);
+
+  if (wc === 1) return 'firstWatering';
+  if (prevStage < 3 && newStage === 3) return 'flowering';
+  return null;
+}
+
+function getRareLine(milestoneKey, plant) {
+  const pool = rareLines[milestoneKey];
+  if (!pool) return null;
+  const pers = plant.personality || getPlantPersonalityFallback(plant.species);
+  return { label: pool.label, line: pool[pers] || pool.Cheerful };
+}
+
 // ===== RENDER PLANTS — voice first =====
 function renderPlants() {
   const list=document.getElementById('plantsList');
@@ -978,6 +1059,25 @@ function renderPlants() {
     const mood=getPlantMood(plant);
     const droopy=mood==='Droopy'||mood==='Struggling';
     const plantSVG=renderPlantSVG(plant,mood);
+    // Rare banner — shown for one render cycle after a milestone watering
+    let rareBanner = '';
+    if (plant._rareMilestone) {
+      const rare = getRareLine(plant._rareMilestone, plant);
+      if (rare) {
+        rareBanner = `<div class="rare-banner">
+          <div class="rare-spark">✨</div>
+          <div class="rare-text">
+            <div class="rare-label">${rare.label}</div>
+            <div class="rare-line">"${rare.line}"</div>
+          </div>
+        </div>`;
+        // Auto-clear after 8 seconds so it doesn't persist forever
+        setTimeout(() => {
+          const p = plants.find(x => x.id === plant.id);
+          if (p) { delete p._rareMilestone; savePlants(); }
+        }, 8000);
+      }
+    }
     return `
 <div class="plant-card ${isNew?'plant-card-new':''} ${droopy?'card-droopy':''}" data-plant-id="${plant.id}">
   <div class="plant-card-header">
@@ -988,6 +1088,7 @@ function renderPlants() {
     ${isWateredToday?'<span class="watered-badge watered-today">✓ Watered</span>':''}
   </div>
   ${plantSVG}
+  ${rareBanner}
   <div class="voice-message">"${voice}"</div>
   <div class="card-actions">
     <button class="water-btn ${isWateredToday?'watered':''}" onclick="waterPlant(${plant.id})">${isWateredToday?'✓ Watered Today':'💧 Water'}</button>
