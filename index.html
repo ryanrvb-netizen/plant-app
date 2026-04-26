@@ -174,6 +174,33 @@
     .personality-badge.mysterious { background: linear-gradient(135deg,#e0f7fa,#b2ebf2); color: #00838f; }
     .personality-badge.cheerful { background: linear-gradient(135deg,#fce4ec,#ffcdd2); color: #d81b60; }
 
+    /* PLANT GROWTH VISUAL */
+    .plant-growth-area {
+      display: flex; flex-direction: column; align-items: center;
+      margin-bottom: 14px; position: relative;
+    }
+    .plant-svg-wrap {
+      width: 120px; height: 110px; position: relative;
+      transition: filter 0.6s ease, transform 0.6s ease;
+    }
+    .plant-svg-wrap svg { width: 100%; height: 100%; overflow: visible; }
+    .plant-svg-wrap.droopy { filter: saturate(0.35) brightness(0.9); transform: scaleY(0.93); }
+    .plant-svg-wrap.struggling { filter: saturate(0.2) brightness(0.85); transform: scaleY(0.88) rotate(-2deg); }
+    @keyframes gentleSway {
+      0%,100% { transform: rotate(0deg); } 30% { transform: rotate(1.5deg); } 70% { transform: rotate(-1deg); }
+    }
+    @keyframes bloomPop {
+      0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); }
+    }
+    .plant-stage-label {
+      font-size: 0.66rem; color: var(--text-light); letter-spacing: 0.6px;
+      text-transform: uppercase; font-weight: 600; margin-top: 2px;
+    }
+    @keyframes perkWater {
+      0%{transform:scaleY(1)} 20%{transform:scaleY(1.06) translateY(-4px)} 50%{transform:scaleY(0.97) translateY(1px)} 70%{transform:scaleY(1.02) translateY(-1px)} 100%{transform:scaleY(1) translateY(0)}
+    }
+    .plant-svg-wrap.just-watered { animation: perkWater 0.7s ease forwards; }
+
     /* Voice message — heart of the card */
     .voice-message {
       font-style: italic; font-size: 0.98rem; color: var(--text);
@@ -599,7 +626,7 @@ function addPlant() {
   btn.classList.add('btn-bounce');setTimeout(()=>btn.classList.remove('btn-bounce'),400);
   const r=btn.getBoundingClientRect();
   for(let i=0;i<3;i++)setTimeout(()=>spawnLeaf(r.left+Math.random()*r.width,r.top+window.scrollY),i*120);
-  const plant={id:Date.now(),species,nickname:nickname||null,personality,waterDays:sg?.waterDays||7,lightNeeds:sg?.light||'Medium',soilType:sg?.soil||'Regular',waterMethod:sg?.waterMethod||'top',waterNotes:sg?.waterNotes||'Water thoroughly, let drain',soilDrynessCheck:sg?.soilDrynessCheck||'Check top inch; water when dry',leafSignals:sg?.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'},waterAmount:sg?.waterAmount||'moderate',lastWatered:null,isNew:true};
+  const plant={id:Date.now(),species,nickname:nickname||null,personality,waterDays:sg?.waterDays||7,lightNeeds:sg?.light||'Medium',soilType:sg?.soil||'Regular',waterMethod:sg?.waterMethod||'top',waterNotes:sg?.waterNotes||'Water thoroughly, let drain',soilDrynessCheck:sg?.soilDrynessCheck||'Check top inch; water when dry',leafSignals:sg?.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'},waterAmount:sg?.waterAmount||'moderate',lastWatered:null,waterCount:0,isNew:true};
   plants.push(plant);savePlants();renderPlants();renderGardenSummary();renderRitualGreeting();
   const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
   showToast('waterToast',`${pe[personality]||'🌱'} ${nickname||species} has joined your garden!`,2500);
@@ -633,8 +660,17 @@ function closeOverwaterDialog(){document.getElementById('overwaterOverlay')?.rem
 function confirmWater(id) {
   const plant=plants.find(p=>p.id===id);if(!plant)return;
   plant.lastWatered=getToday();
+  plant.waterCount=(plant.waterCount||0)+1;
+  plant._justWatered=true;
   savePlants();renderPlants();renderGardenSummary();renderRitualGreeting();
-  setTimeout(()=>{const c=document.querySelector(`[data-plant-id="${id}"]`);if(c){c.classList.add('card-perked');setTimeout(()=>c.classList.remove('card-perked'),600);}},50);
+  // animate both card and SVG wrap
+  setTimeout(()=>{
+    const c=document.querySelector(`[data-plant-id="${id}"]`);
+    if(c){c.classList.add('card-perked');setTimeout(()=>c.classList.remove('card-perked'),600);}
+    const sw=document.getElementById(`svg-wrap-${id}`);
+    if(sw){sw.classList.add('just-watered');setTimeout(()=>sw.classList.remove('just-watered'),700);}
+    plant._justWatered=false;
+  },50);
   const name=plant.nickname||plant.species,per=plant.personality||getPlantPersonalityFallback(plant.species);
   const r={'Dramatic':`${name} has been watered. Balance is restored. 💧`,'Chill':`${name} got some water. All good. 💧`,'Resilient':`${name} watered. Keep it up. 💧`,'Diva':`${name} is hydrated. Obviously. 💧`,'Mysterious':`${name} has received water. The leaves are pleased. 💧`,'Cheerful':`You watered ${name}! They're so happy right now! 💧`};
   showToast('waterToast',r[per]||`You watered ${name} 💧`);
@@ -690,6 +726,149 @@ function renderGardenSummary() {
   el.innerHTML=`<div class="summary-stat"><div class="summary-stat-value">${plants.length}</div><div class="summary-stat-label">Plants</div></div><div class="summary-stat ${nc>0?'needs-care':''}"><div class="summary-stat-value">${nc}</div><div class="summary-stat-label">Need Water</div></div><div class="summary-stat garden-mood"><div class="summary-stat-value">${emoji}</div><div class="summary-stat-label">Garden Mood</div></div>`;
 }
 
+// ===== PLANT GROWTH SYSTEM =====
+function getGrowthStage(plant) {
+  // Score = days alive (40%) + watering consistency (60%)
+  const now = new Date();
+  const born = new Date(plant.id); // id is Date.now() at creation
+  const daysAlive = Math.max(0, Math.floor((now - born) / 86400000));
+  const waterCount = plant.waterCount || 0;
+  const expectedWaterings = Math.max(1, Math.floor(daysAlive / (plant.waterDays || 7)));
+  const consistency = Math.min(1, waterCount / expectedWaterings);
+  // Weighted score 0–100
+  const ageScore = Math.min(40, daysAlive * 1.2);      // caps at ~33 days
+  const careScore = consistency * 60;
+  const total = ageScore + careScore;
+  if (total < 18) return 0;   // sprout
+  if (total < 42) return 1;   // stem
+  if (total < 72) return 2;   // leafy
+  return 3;                   // flowering
+}
+const stageLabels = ['Sprouting', 'Growing', 'Thriving', 'Flowering'];
+
+function renderPlantSVG(plant, mood) {
+  const stage = getGrowthStage(plant);
+  const droopyClass = mood === 'Droopy' ? 'droopy' : mood === 'Struggling' ? 'struggling' : '';
+  const wateredClass = plant._justWatered ? 'just-watered' : '';
+  const svg = buildPlantSVG(stage, mood);
+  return `
+    <div class="plant-growth-area">
+      <div class="plant-svg-wrap ${droopyClass} ${wateredClass}" id="svg-wrap-${plant.id}">${svg}</div>
+      <div class="plant-stage-label">${stageLabels[stage]}</div>
+    </div>`;
+}
+
+function buildPlantSVG(stage, mood) {
+  // Color palette shifts with mood
+  const healthy = mood === 'Thriving' || mood === 'Happy';
+  const okay = mood === 'Okay';
+  const stressed = mood === 'Droopy' || mood === 'Struggling';
+
+  const stemC  = stressed ? '#9aad8a' : okay ? '#7a9e6e' : '#5a8a48';
+  const leaf1  = stressed ? '#a8bc98' : okay ? '#7fb86a' : '#5ea63c';
+  const leaf2  = stressed ? '#9aad8a' : okay ? '#6da85a' : '#4e9430';
+  const leaf3  = stressed ? '#b8c8a8' : okay ? '#8fc87a' : '#68b84a';
+  const potC   = '#c17a5a';
+  const potRim = '#d4906e';
+  const soilC  = '#7a5230';
+  const bloomC = '#e8b4b8';
+  const bloom2 = '#f4c9cc';
+  const centerC= '#f9e4a0';
+
+  // Stage 0 — Sprout: tiny stem + two baby leaves
+  if (stage === 0) return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
+    <!-- pot -->
+    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
+    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
+    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
+    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
+    <!-- stem -->
+    <line x1="60" y1="80" x2="60" y2="58" stroke="${stemC}" stroke-width="3" stroke-linecap="round"/>
+    <!-- baby leaves -->
+    <ellipse cx="50" cy="62" rx="10" ry="6" fill="${leaf1}" transform="rotate(-30 50 62)" opacity="0.9"/>
+    <ellipse cx="70" cy="60" rx="10" ry="6" fill="${leaf2}" transform="rotate(25 70 60)" opacity="0.9"/>
+    <!-- soil bump -->
+    <ellipse cx="60" cy="81" rx="10" ry="3" fill="${soilC}" opacity="0.6"/>
+  </svg>`;
+
+  // Stage 1 — Stem: taller stem + 3 leaves
+  if (stage === 1) return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
+    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
+    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
+    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
+    <!-- stem with slight curve -->
+    <path d="M60 80 Q58 65 60 42" stroke="${stemC}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
+    <!-- leaves -->
+    <ellipse cx="44" cy="66" rx="16" ry="8" fill="${leaf1}" transform="rotate(-35 44 66)" opacity="0.92"/>
+    <ellipse cx="76" cy="60" rx="16" ry="8" fill="${leaf2}" transform="rotate(30 76 60)" opacity="0.92"/>
+    <ellipse cx="52" cy="48" rx="13" ry="7" fill="${leaf3}" transform="rotate(-15 52 48)" opacity="0.88"/>
+  </svg>`;
+
+  // Stage 2 — Leafy: full plant, 5 leaves
+  if (stage === 2) return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
+    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
+    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
+    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
+    <!-- main stem -->
+    <path d="M60 80 Q56 62 60 35" stroke="${stemC}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <!-- branch stems -->
+    <path d="M58 68 Q46 58 38 56" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M60 58 Q72 50 80 48" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- leaves -->
+    <ellipse cx="36" cy="52" rx="18" ry="9" fill="${leaf1}" transform="rotate(-20 36 52)" opacity="0.93"/>
+    <ellipse cx="82" cy="44" rx="18" ry="9" fill="${leaf2}" transform="rotate(18 82 44)" opacity="0.93"/>
+    <ellipse cx="44" cy="58" rx="14" ry="7" fill="${leaf3}" transform="rotate(-40 44 58)"/>
+    <ellipse cx="76" cy="54" rx="14" ry="7" fill="${leaf1}" transform="rotate(35 76 54)"/>
+    <ellipse cx="58" cy="36" rx="13" ry="7" fill="${leaf2}" transform="rotate(-8 58 36)" opacity="0.9"/>
+    <!-- gentle leaf sway on top leaf -->
+    <animateTransform attributeName="transform" type="rotate" values="-8 58 36;-10 58 36;-8 58 36" dur="4s" repeatCount="indefinite" additive="sum"/>
+  </svg>`;
+
+  // Stage 3 — Flowering: full plant + blooms
+  return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
+    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
+    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
+    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
+    <!-- main stem -->
+    <path d="M60 80 Q56 62 60 32" stroke="${stemC}" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <path d="M58 66 Q46 56 38 54" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <path d="M60 56 Q72 48 80 46" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+    <!-- leaves -->
+    <ellipse cx="36" cy="50" rx="18" ry="9" fill="${leaf1}" transform="rotate(-20 36 50)" opacity="0.93"/>
+    <ellipse cx="82" cy="42" rx="18" ry="9" fill="${leaf2}" transform="rotate(18 82 42)" opacity="0.93"/>
+    <ellipse cx="42" cy="57" rx="13" ry="7" fill="${leaf3}" transform="rotate(-40 42 57)"/>
+    <ellipse cx="76" cy="52" rx="13" ry="7" fill="${leaf1}" transform="rotate(35 76 52)"/>
+    <!-- bloom 1 — top center -->
+    <g style="animation: bloomPop 0.5s ease 0.1s both;">
+      <circle cx="60" cy="22" r="8" fill="${bloomC}" opacity="0.95"/>
+      <circle cx="60" cy="14" r="5" fill="${bloomC}" opacity="0.8"/>
+      <circle cx="68" cy="18" r="5" fill="${bloom2}" opacity="0.8"/>
+      <circle cx="52" cy="18" r="5" fill="${bloom2}" opacity="0.8"/>
+      <circle cx="60" cy="30" r="5" fill="${bloomC}" opacity="0.75"/>
+      <circle cx="60" cy="22" r="4" fill="${centerC}"/>
+    </g>
+    <!-- bloom 2 — right -->
+    <g style="animation: bloomPop 0.5s ease 0.3s both;">
+      <circle cx="86" cy="34" r="6" fill="${bloomC}" opacity="0.9"/>
+      <circle cx="86" cy="28" r="4" fill="${bloom2}" opacity="0.75"/>
+      <circle cx="92" cy="32" r="4" fill="${bloomC}" opacity="0.75"/>
+      <circle cx="80" cy="32" r="4" fill="${bloom2}" opacity="0.75"/>
+      <circle cx="86" cy="34" r="3" fill="${centerC}"/>
+    </g>
+    <!-- bloom 3 — left, smaller -->
+    <g style="animation: bloomPop 0.5s ease 0.5s both;">
+      <circle cx="34" cy="38" r="5" fill="${bloom2}" opacity="0.85"/>
+      <circle cx="34" cy="33" r="3.5" fill="${bloomC}" opacity="0.7"/>
+      <circle cx="39" cy="36" r="3.5" fill="${bloom2}" opacity="0.7"/>
+      <circle cx="29" cy="36" r="3.5" fill="${bloomC}" opacity="0.7"/>
+      <circle cx="34" cy="38" r="2.5" fill="${centerC}"/>
+    </g>
+  </svg>`;
+}
+
 // ===== RENDER PLANTS — voice first =====
 function renderPlants() {
   const list=document.getElementById('plantsList');
@@ -708,6 +887,7 @@ function renderPlants() {
     const isNew=plant.isNew;if(plant.isNew)plant.isNew=false;
     const mood=getPlantMood(plant);
     const droopy=mood==='Droopy'||mood==='Struggling';
+    const plantSVG=renderPlantSVG(plant,mood);
     return `
 <div class="plant-card ${isNew?'plant-card-new':''} ${droopy?'card-droopy':''}" data-plant-id="${plant.id}">
   <div class="plant-card-header">
@@ -717,6 +897,7 @@ function renderPlants() {
     </div>
     ${isWateredToday?'<span class="watered-badge watered-today">✓ Watered</span>':''}
   </div>
+  ${plantSVG}
   <div class="voice-message">"${voice}"</div>
   <div class="card-actions">
     <button class="water-btn ${isWateredToday?'watered':''}" onclick="waterPlant(${plant.id})">${isWateredToday?'✓ Watered Today':'💧 Water'}</button>
