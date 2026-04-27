@@ -161,6 +161,7 @@
     .plant-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
     .plant-info { flex: 1; }
     .plant-name { font-weight: 700; font-size: 1.2rem; color: var(--text); display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
+    .plant-species-inline { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-left: 8px; }
     .name-edit-btn { background: none; border: none; padding: 2px 6px; cursor: pointer; font-size: 0.85rem; opacity: 0.4; transition: opacity 0.2s; width: auto; box-shadow: none; }
     .name-edit-btn:hover { opacity: 1; transform: none; box-shadow: none; background: none; }
     .watered-badge { background: var(--water); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
@@ -1093,7 +1094,7 @@ function renderPlants() {
   <div class="plant-card-header">
     <div class="plant-info">
       <span class="personality-badge ${pers.toLowerCase()}" onclick="changePersonality(${plant.id})" title="Tap to cycle personality">${pEmoji} ${pers} ✎</span>
-      <div class="plant-name">${displayName}<button class="name-edit-btn" onclick="startRename(${plant.id})" title="Rename">✏️</button></div>
+      <div class="plant-name">${displayName}${hasNick?`<span class="plant-species-inline">${plant.species}</span>`:''}<button class="name-edit-btn" onclick="startRename(${plant.id})" title="Rename">✏️</button></div>
     </div>
     ${isWateredToday?'<span class="watered-badge watered-today">✓ Watered</span>':''}
   </div>
