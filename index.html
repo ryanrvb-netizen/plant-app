@@ -161,7 +161,6 @@
     .plant-card-header { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
     .plant-info { flex: 1; }
     .plant-name { font-weight: 700; font-size: 1.2rem; color: var(--text); display: flex; align-items: center; gap: 8px; margin-bottom: 4px; }
-    .plant-species-inline { font-size: 0.78rem; color: var(--text-light); font-style: italic; margin-left: 8px; }
     .name-edit-btn { background: none; border: none; padding: 2px 6px; cursor: pointer; font-size: 0.85rem; opacity: 0.4; transition: opacity 0.2s; width: auto; box-shadow: none; }
     .name-edit-btn:hover { opacity: 1; transform: none; box-shadow: none; background: none; }
     .watered-badge { background: var(--water); color: white; padding: 6px 14px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; flex-shrink: 0; }
@@ -175,72 +174,11 @@
     .personality-badge.mysterious { background: linear-gradient(135deg,#e0f7fa,#b2ebf2); color: #00838f; }
     .personality-badge.cheerful { background: linear-gradient(135deg,#fce4ec,#ffcdd2); color: #d81b60; }
 
-    /* PLANT GROWTH VISUAL */
-    .plant-growth-area {
-      display: flex; flex-direction: column; align-items: center;
-      margin-bottom: 14px; position: relative;
-    }
-    .plant-svg-wrap {
-      width: 120px; height: 110px; position: relative;
-      transition: filter 0.6s ease, transform 0.6s ease;
-    }
-    .plant-svg-wrap svg { width: 100%; height: 100%; overflow: visible; }
-    .plant-svg-wrap.droopy { filter: saturate(0.35) brightness(0.9); transform: scaleY(0.93); }
-    .plant-svg-wrap.struggling { filter: saturate(0.2) brightness(0.85); transform: scaleY(0.88) rotate(-2deg); }
-    @keyframes gentleSway {
-      0%,100% { transform: rotate(0deg); } 30% { transform: rotate(1.5deg); } 70% { transform: rotate(-1deg); }
-    }
-    @keyframes bloomPop {
-      0% { transform: scale(0); opacity: 0; } 60% { transform: scale(1.15); opacity: 1; } 100% { transform: scale(1); }
-    }
-    .plant-stage-label {
-      font-size: 0.66rem; color: var(--text-light); letter-spacing: 0.6px;
-      text-transform: uppercase; font-weight: 600; margin-top: 2px;
-    }
-    @keyframes perkWater {
-      0%{transform:scaleY(1)} 20%{transform:scaleY(1.06) translateY(-4px)} 50%{transform:scaleY(0.97) translateY(1px)} 70%{transform:scaleY(1.02) translateY(-1px)} 100%{transform:scaleY(1) translateY(0)}
-    }
-    .plant-svg-wrap.just-watered { animation: perkWater 0.7s ease forwards; }
-
     /* Voice message — heart of the card */
     .voice-message {
       font-style: italic; font-size: 0.98rem; color: var(--text);
       padding: 13px 16px; background: var(--cream); border-radius: 14px;
       margin-bottom: 16px; border-left: 3px solid var(--sage); line-height: 1.6;
-    }
-
-    /* ✨ RARE MOMENT BANNER */
-    .rare-banner {
-      display: flex; align-items: center; gap: 10px;
-      background: linear-gradient(135deg, #2e2318 0%, #3a2a1c 100%);
-      border: 1px solid rgba(193,122,90,0.35);
-      border-radius: 14px; padding: 12px 16px; margin-bottom: 12px;
-      animation: rareFadeIn 0.5s ease both;
-      position: relative; overflow: hidden;
-    }
-    .rare-banner::before {
-      content: ''; position: absolute; inset: 0; pointer-events: none;
-      background: radial-gradient(ellipse at 20% 50%, rgba(193,122,90,0.12) 0%, transparent 70%);
-    }
-    @keyframes rareFadeIn {
-      0%  { opacity: 0; transform: translateY(-6px) scale(0.98); }
-      100%{ opacity: 1; transform: translateY(0) scale(1); }
-    }
-    .rare-spark { font-size: 1.2rem; flex-shrink: 0;
-      animation: sparkSpin 1.2s ease-in-out both; }
-    @keyframes sparkSpin {
-      0%  { transform: rotate(-20deg) scale(0.6); opacity: 0; }
-      60% { transform: rotate(8deg) scale(1.15); opacity: 1; }
-      100%{ transform: rotate(0deg) scale(1); }
-    }
-    .rare-text { flex: 1; }
-    .rare-label {
-      font-size: 0.62rem; font-weight: 700; letter-spacing: 1.5px;
-      text-transform: uppercase; color: rgba(193,122,90,0.85); margin-bottom: 3px;
-    }
-    .rare-line {
-      font-size: 0.9rem; font-style: italic; color: rgba(255,255,255,0.85);
-      line-height: 1.5;
     }
 
     /* Action row */
@@ -339,97 +277,9 @@
     .day-detail-plant { display: flex; align-items: center; gap: 8px; padding: 8px 10px; background: var(--card-bg); border-radius: 10px; margin-bottom: 6px; font-size: 0.85rem; border: 1px solid var(--border); }
     .day-detail-plant:last-child { margin-bottom: 0; }
     .day-detail-empty { text-align: center; color: var(--text-light); font-size: 0.85rem; padding: 8px; }
-
-    /* ===== ONBOARDING ===== */
-    .onboarding-overlay {
-      position: fixed; inset: 0; z-index: 900;
-      background: linear-gradient(160deg, #2a1e12 0%, #3a2a1c 50%, #2e2318 100%);
-      display: flex; align-items: center; justify-content: center;
-      padding: 28px 24px; overflow-y: auto;
-      transition: opacity 0.6s ease, transform 0.6s ease;
-    }
-    .onboarding-overlay.hiding {
-      opacity: 0; transform: scale(1.03); pointer-events: none;
-    }
-    .onboarding-card {
-      max-width: 400px; width: 100%; text-align: center;
-      animation: obFadeUp 0.7s ease both;
-    }
-    @keyframes obFadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to   { opacity: 1; transform: translateY(0); }
-    }
-    .ob-leaf { font-size: 3rem; margin-bottom: 16px; display: block;
-      animation: leafSway 3s ease-in-out infinite; }
-    .ob-title {
-      font-size: 2.4rem; font-weight: 800; letter-spacing: -1.5px;
-      color: rgba(255,255,255,0.92); margin-bottom: 10px; line-height: 1.1;
-    }
-    .ob-title span { color: var(--sage); }
-    .ob-tagline {
-      font-size: 1rem; color: rgba(255,255,255,0.5); font-style: italic;
-      margin-bottom: 36px; line-height: 1.6;
-    }
-    .ob-divider {
-      width: 40px; height: 1px; margin: 0 auto 36px;
-      background: linear-gradient(90deg, transparent, rgba(193,122,90,0.5), transparent);
-    }
-    .ob-prompt {
-      font-size: 0.9rem; color: rgba(255,255,255,0.55);
-      margin-bottom: 10px; font-weight: 500; text-align: left;
-    }
-    .ob-input {
-      width: 100%; padding: 16px 18px; border-radius: 14px;
-      border: 1.5px solid rgba(255,255,255,0.12);
-      background: rgba(255,255,255,0.07); color: rgba(255,255,255,0.9);
-      font-size: 1.1rem; font-weight: 600; margin-bottom: 8px;
-      transition: all 0.2s; outline: none;
-      font-family: inherit;
-    }
-    .ob-input::placeholder { color: rgba(255,255,255,0.25); font-weight: 400; }
-    .ob-input:focus { border-color: rgba(135,168,120,0.6); background: rgba(255,255,255,0.1);
-      box-shadow: 0 0 0 3px rgba(135,168,120,0.15); }
-    .ob-hint { font-size: 0.78rem; color: rgba(255,255,255,0.3); margin-bottom: 32px; font-style: italic; }
-    .ob-btn {
-      width: 100%; padding: 16px; border-radius: 14px; border: none; cursor: pointer;
-      background: linear-gradient(135deg, var(--primary) 0%, var(--sage-dark) 100%);
-      color: white; font-size: 1rem; font-weight: 700; letter-spacing: 0.2px;
-      box-shadow: 0 4px 20px rgba(107,143,94,0.35); transition: all 0.2s;
-      font-family: inherit;
-    }
-    .ob-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(107,143,94,0.45); }
-    .ob-btn:disabled { opacity: 0.4; cursor: default; transform: none; }
-    .ob-skip {
-      display: block; margin-top: 18px; font-size: 0.8rem;
-      color: rgba(255,255,255,0.25); cursor: pointer; text-decoration: underline;
-      text-underline-offset: 3px; background: none; border: none;
-      width: auto; box-shadow: none; padding: 4px; font-family: inherit;
-    }
-    .ob-skip:hover { color: rgba(255,255,255,0.45); transform: none; box-shadow: none; background: none; }
-    .ob-footer {
-      margin-top: 40px; font-size: 0.72rem; color: rgba(255,255,255,0.18);
-      letter-spacing: 0.3px;
-    }
   </style>
 </head>
 <body>
-
-<!-- ===== ONBOARDING ===== -->
-<div class="onboarding-overlay" id="onboardingOverlay">
-  <div class="onboarding-card">
-    <span class="ob-leaf">🌱</span>
-    <div class="ob-title">Flor<span>ish</span></div>
-    <div class="ob-tagline">A quiet place for you and your plants.<br>No reminders. No pressure. Just growth.</div>
-    <div class="ob-divider"></div>
-    <div class="ob-prompt">What should we call you?</div>
-    <input class="ob-input" id="obNameInput" type="text" placeholder="Your name…" maxlength="32" autocomplete="off">
-    <div class="ob-hint">Just your first name is plenty.</div>
-    <button class="ob-btn" id="obBtn" onclick="completeOnboarding()">Enter the garden</button>
-    <button class="ob-skip" onclick="completeOnboarding(true)">Skip for now</button>
-    <div class="ob-footer">Your data stays on your device. Always.</div>
-  </div>
-</div>
-
 <div class="container">
   <div class="app-header"><h1><span class="leaf-accent">🌱</span> Florish</h1></div>
 
@@ -553,11 +403,6 @@ function renderDailyCard() {
     <div class="daily-card-quote">${card.quote}</div>
     <div class="daily-card-divider"></div>
     <div class="daily-card-sub">${card.sub}</div>`;
-  // Play once per day — store last played date
-  const todayKey = today.toDateString();
-  if (localStorage.getItem('florish_card_sound') !== todayKey) {
-    setTimeout(() => { soundDailyCard(); localStorage.setItem('florish_card_sound', todayKey); }, 600);
-  }
 }
 
 // ===== RITUAL GREETING =====
@@ -584,8 +429,6 @@ function renderRitualGreeting() {
   if (plants.length === 0) { el.style.display='none'; return; }
   const tod = getTimeOfDay();
   const greetLine = ritualGreetings[tod][Math.floor(Math.random()*ritualGreetings[tod].length)];
-  const username = localStorage.getItem('florish_username');
-  const greeting = username ? `${greetLine} ${username}.` : `${greetLine} Your plants noticed.`;
   const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
   const lines = plants.map(p => {
     const pers = p.personality||getPlantPersonalityFallback(p.species);
@@ -595,7 +438,7 @@ function renderRitualGreeting() {
     return `<div class="ritual-plant-line"><span class="ritual-plant-emoji">${pe[pers]||'🌿'}</span><span class="ritual-plant-text"><strong>${p.nickname||p.species}:</strong> ${pool[seed]}</span></div>`;
   }).join('');
   el.style.display='block';
-  el.innerHTML=`<div class="ritual-greeting-header">${greeting}</div>${lines}`;
+  el.innerHTML=`<div class="ritual-greeting-header">${greetLine} Your plants noticed.</div>${lines}`;
 }
 
 // ===== PERSONALITY SELECTION =====
@@ -756,7 +599,7 @@ function addPlant() {
   btn.classList.add('btn-bounce');setTimeout(()=>btn.classList.remove('btn-bounce'),400);
   const r=btn.getBoundingClientRect();
   for(let i=0;i<3;i++)setTimeout(()=>spawnLeaf(r.left+Math.random()*r.width,r.top+window.scrollY),i*120);
-  const plant={id:Date.now(),species,nickname:nickname||null,personality,waterDays:sg?.waterDays||7,lightNeeds:sg?.light||'Medium',soilType:sg?.soil||'Regular',waterMethod:sg?.waterMethod||'top',waterNotes:sg?.waterNotes||'Water thoroughly, let drain',soilDrynessCheck:sg?.soilDrynessCheck||'Check top inch; water when dry',leafSignals:sg?.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'},waterAmount:sg?.waterAmount||'moderate',lastWatered:null,waterCount:0,isNew:true};
+  const plant={id:Date.now(),species,nickname:nickname||null,personality,waterDays:sg?.waterDays||7,lightNeeds:sg?.light||'Medium',soilType:sg?.soil||'Regular',waterMethod:sg?.waterMethod||'top',waterNotes:sg?.waterNotes||'Water thoroughly, let drain',soilDrynessCheck:sg?.soilDrynessCheck||'Check top inch; water when dry',leafSignals:sg?.leafSignals||{underwater:'Wilting leaves',overwater:'Yellow leaves'},waterAmount:sg?.waterAmount||'moderate',lastWatered:null,isNew:true};
   plants.push(plant);savePlants();renderPlants();renderGardenSummary();renderRitualGreeting();
   const pe={'Dramatic':'🎭','Chill':'😌','Resilient':'💪','Diva':'👑','Mysterious':'🔮','Cheerful':'☀️'};
   showToast('waterToast',`${pe[personality]||'🌱'} ${nickname||species} has joined your garden!`,2500);
@@ -790,29 +633,8 @@ function closeOverwaterDialog(){document.getElementById('overwaterOverlay')?.rem
 function confirmWater(id) {
   const plant=plants.find(p=>p.id===id);if(!plant)return;
   plant.lastWatered=getToday();
-  plant.waterCount=(plant.waterCount||0)+1;
-  plant._justWatered=true;
-  soundWater();
-  // Check rare milestone AFTER incrementing waterCount
-  const prevStageCheck = getGrowthStage({...plant, waterCount: (plant.waterCount||1) - 1});
-  const newStageCheck  = getGrowthStage(plant);
-  if (newStageCheck > prevStageCheck) setTimeout(soundGrowth, 200);
-  const milestone = checkRareMilestone(plant);
-  if (milestone) {
-    plant._rareMilestone = milestone;
-    setTimeout(soundRare, 400);
-  } else {
-    delete plant._rareMilestone;
-  }
   savePlants();renderPlants();renderGardenSummary();renderRitualGreeting();
-  // animate both card and SVG wrap
-  setTimeout(()=>{
-    const c=document.querySelector(`[data-plant-id="${id}"]`);
-    if(c){c.classList.add('card-perked');setTimeout(()=>c.classList.remove('card-perked'),600);}
-    const sw=document.getElementById(`svg-wrap-${id}`);
-    if(sw){sw.classList.add('just-watered');setTimeout(()=>sw.classList.remove('just-watered'),700);}
-    plant._justWatered=false;
-  },50);
+  setTimeout(()=>{const c=document.querySelector(`[data-plant-id="${id}"]`);if(c){c.classList.add('card-perked');setTimeout(()=>c.classList.remove('card-perked'),600);}},50);
   const name=plant.nickname||plant.species,per=plant.personality||getPlantPersonalityFallback(plant.species);
   const r={'Dramatic':`${name} has been watered. Balance is restored. 💧`,'Chill':`${name} got some water. All good. 💧`,'Resilient':`${name} watered. Keep it up. 💧`,'Diva':`${name} is hydrated. Obviously. 💧`,'Mysterious':`${name} has received water. The leaves are pleased. 💧`,'Cheerful':`You watered ${name}! They're so happy right now! 💧`};
   showToast('waterToast',r[per]||`You watered ${name} 💧`);
@@ -868,189 +690,6 @@ function renderGardenSummary() {
   el.innerHTML=`<div class="summary-stat"><div class="summary-stat-value">${plants.length}</div><div class="summary-stat-label">Plants</div></div><div class="summary-stat ${nc>0?'needs-care':''}"><div class="summary-stat-value">${nc}</div><div class="summary-stat-label">Need Water</div></div><div class="summary-stat garden-mood"><div class="summary-stat-value">${emoji}</div><div class="summary-stat-label">Garden Mood</div></div>`;
 }
 
-// ===== PLANT GROWTH SYSTEM =====
-function getGrowthStage(plant) {
-  // Score = days alive (40%) + watering consistency (60%)
-  const now = new Date();
-  const born = new Date(plant.id); // id is Date.now() at creation
-  const daysAlive = Math.max(0, Math.floor((now - born) / 86400000));
-  const waterCount = plant.waterCount || 0;
-  const expectedWaterings = Math.max(1, Math.floor(daysAlive / (plant.waterDays || 7)));
-  const consistency = Math.min(1, waterCount / expectedWaterings);
-  // Weighted score 0–100
-  const ageScore = Math.min(40, daysAlive * 1.2);      // caps at ~33 days
-  const careScore = consistency * 60;
-  const total = ageScore + careScore;
-  if (total < 18) return 0;   // sprout
-  if (total < 42) return 1;   // stem
-  if (total < 72) return 2;   // leafy
-  return 3;                   // flowering
-}
-const stageLabels = ['Sprouting', 'Growing', 'Thriving', 'Flowering'];
-
-function renderPlantSVG(plant, mood) {
-  const stage = getGrowthStage(plant);
-  const droopyClass = mood === 'Droopy' ? 'droopy' : mood === 'Struggling' ? 'struggling' : '';
-  const wateredClass = plant._justWatered ? 'just-watered' : '';
-  const svg = buildPlantSVG(stage, mood);
-  return `
-    <div class="plant-growth-area">
-      <div class="plant-svg-wrap ${droopyClass} ${wateredClass}" id="svg-wrap-${plant.id}">${svg}</div>
-      <div class="plant-stage-label">${stageLabels[stage]}</div>
-    </div>`;
-}
-
-function buildPlantSVG(stage, mood) {
-  // Color palette shifts with mood
-  const healthy = mood === 'Thriving' || mood === 'Happy';
-  const okay = mood === 'Okay';
-  const stressed = mood === 'Droopy' || mood === 'Struggling';
-
-  const stemC  = stressed ? '#9aad8a' : okay ? '#7a9e6e' : '#5a8a48';
-  const leaf1  = stressed ? '#a8bc98' : okay ? '#7fb86a' : '#5ea63c';
-  const leaf2  = stressed ? '#9aad8a' : okay ? '#6da85a' : '#4e9430';
-  const leaf3  = stressed ? '#b8c8a8' : okay ? '#8fc87a' : '#68b84a';
-  const potC   = '#c17a5a';
-  const potRim = '#d4906e';
-  const soilC  = '#7a5230';
-  const bloomC = '#e8b4b8';
-  const bloom2 = '#f4c9cc';
-  const centerC= '#f9e4a0';
-
-  // Stage 0 — Sprout: tiny stem + two baby leaves
-  if (stage === 0) return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
-    <!-- pot -->
-    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
-    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
-    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
-    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
-    <!-- stem -->
-    <line x1="60" y1="80" x2="60" y2="58" stroke="${stemC}" stroke-width="3" stroke-linecap="round"/>
-    <!-- baby leaves -->
-    <ellipse cx="50" cy="62" rx="10" ry="6" fill="${leaf1}" transform="rotate(-30 50 62)" opacity="0.9"/>
-    <ellipse cx="70" cy="60" rx="10" ry="6" fill="${leaf2}" transform="rotate(25 70 60)" opacity="0.9"/>
-    <!-- soil bump -->
-    <ellipse cx="60" cy="81" rx="10" ry="3" fill="${soilC}" opacity="0.6"/>
-  </svg>`;
-
-  // Stage 1 — Stem: taller stem + 3 leaves
-  if (stage === 1) return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
-    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
-    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
-    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
-    <!-- stem with slight curve -->
-    <path d="M60 80 Q58 65 60 42" stroke="${stemC}" stroke-width="3.5" fill="none" stroke-linecap="round"/>
-    <!-- leaves -->
-    <ellipse cx="44" cy="66" rx="16" ry="8" fill="${leaf1}" transform="rotate(-35 44 66)" opacity="0.92"/>
-    <ellipse cx="76" cy="60" rx="16" ry="8" fill="${leaf2}" transform="rotate(30 76 60)" opacity="0.92"/>
-    <ellipse cx="52" cy="48" rx="13" ry="7" fill="${leaf3}" transform="rotate(-15 52 48)" opacity="0.88"/>
-  </svg>`;
-
-  // Stage 2 — Leafy: full plant, 5 leaves
-  if (stage === 2) return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
-    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
-    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
-    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
-    <!-- main stem -->
-    <path d="M60 80 Q56 62 60 35" stroke="${stemC}" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <!-- branch stems -->
-    <path d="M58 68 Q46 58 38 56" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <path d="M60 58 Q72 50 80 48" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <!-- leaves -->
-    <ellipse cx="36" cy="52" rx="18" ry="9" fill="${leaf1}" transform="rotate(-20 36 52)" opacity="0.93"/>
-    <ellipse cx="82" cy="44" rx="18" ry="9" fill="${leaf2}" transform="rotate(18 82 44)" opacity="0.93"/>
-    <ellipse cx="44" cy="58" rx="14" ry="7" fill="${leaf3}" transform="rotate(-40 44 58)"/>
-    <ellipse cx="76" cy="54" rx="14" ry="7" fill="${leaf1}" transform="rotate(35 76 54)"/>
-    <ellipse cx="58" cy="36" rx="13" ry="7" fill="${leaf2}" transform="rotate(-8 58 36)" opacity="0.9"/>
-    <!-- gentle leaf sway on top leaf -->
-    <animateTransform attributeName="transform" type="rotate" values="-8 58 36;-10 58 36;-8 58 36" dur="4s" repeatCount="indefinite" additive="sum"/>
-  </svg>`;
-
-  // Stage 3 — Flowering: full plant + blooms
-  return `<svg viewBox="0 0 120 110" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="60" cy="96" rx="28" ry="6" fill="${soilC}" opacity="0.5"/>
-    <rect x="38" y="80" width="44" height="22" rx="6" fill="${potC}"/>
-    <rect x="35" y="78" width="50" height="8" rx="4" fill="${potRim}"/>
-    <ellipse cx="60" cy="83" rx="22" ry="4" fill="${soilC}"/>
-    <!-- main stem -->
-    <path d="M60 80 Q56 62 60 32" stroke="${stemC}" stroke-width="4" fill="none" stroke-linecap="round"/>
-    <path d="M58 66 Q46 56 38 54" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <path d="M60 56 Q72 48 80 46" stroke="${stemC}" stroke-width="2.5" fill="none" stroke-linecap="round"/>
-    <!-- leaves -->
-    <ellipse cx="36" cy="50" rx="18" ry="9" fill="${leaf1}" transform="rotate(-20 36 50)" opacity="0.93"/>
-    <ellipse cx="82" cy="42" rx="18" ry="9" fill="${leaf2}" transform="rotate(18 82 42)" opacity="0.93"/>
-    <ellipse cx="42" cy="57" rx="13" ry="7" fill="${leaf3}" transform="rotate(-40 42 57)"/>
-    <ellipse cx="76" cy="52" rx="13" ry="7" fill="${leaf1}" transform="rotate(35 76 52)"/>
-    <!-- bloom 1 — top center -->
-    <g style="animation: bloomPop 0.5s ease 0.1s both;">
-      <circle cx="60" cy="22" r="8" fill="${bloomC}" opacity="0.95"/>
-      <circle cx="60" cy="14" r="5" fill="${bloomC}" opacity="0.8"/>
-      <circle cx="68" cy="18" r="5" fill="${bloom2}" opacity="0.8"/>
-      <circle cx="52" cy="18" r="5" fill="${bloom2}" opacity="0.8"/>
-      <circle cx="60" cy="30" r="5" fill="${bloomC}" opacity="0.75"/>
-      <circle cx="60" cy="22" r="4" fill="${centerC}"/>
-    </g>
-    <!-- bloom 2 — right -->
-    <g style="animation: bloomPop 0.5s ease 0.3s both;">
-      <circle cx="86" cy="34" r="6" fill="${bloomC}" opacity="0.9"/>
-      <circle cx="86" cy="28" r="4" fill="${bloom2}" opacity="0.75"/>
-      <circle cx="92" cy="32" r="4" fill="${bloomC}" opacity="0.75"/>
-      <circle cx="80" cy="32" r="4" fill="${bloom2}" opacity="0.75"/>
-      <circle cx="86" cy="34" r="3" fill="${centerC}"/>
-    </g>
-    <!-- bloom 3 — left, smaller -->
-    <g style="animation: bloomPop 0.5s ease 0.5s both;">
-      <circle cx="34" cy="38" r="5" fill="${bloom2}" opacity="0.85"/>
-      <circle cx="34" cy="33" r="3.5" fill="${bloomC}" opacity="0.7"/>
-      <circle cx="39" cy="36" r="3.5" fill="${bloom2}" opacity="0.7"/>
-      <circle cx="29" cy="36" r="3.5" fill="${bloomC}" opacity="0.7"/>
-      <circle cx="34" cy="38" r="2.5" fill="${centerC}"/>
-    </g>
-  </svg>`;
-}
-
-// ===== RARE UNLOCK LINES =====
-const rareLines = {
-  firstWatering: {
-    label: '✨ First watering',
-    Dramatic:   "And so it begins. The bond is formed. Don't let me down.",
-    Chill:      "Hey. Thanks for that. Means something.",
-    Resilient:  "First water logged. This is the start of something good.",
-    Diva:       "Finally. I knew you'd come through. Obviously.",
-    Mysterious: "The first drop. Everything changes from here.",
-    Cheerful:   "You watered me! This is literally the best day of my life!"
-  },
-  flowering: {
-    label: '✨ First bloom',
-    Dramatic:   "I have bloomed. Against all odds. Against all weather. I have bloomed.",
-    Chill:      "Oh. I'm flowering. Didn't see that coming. Pretty cool.",
-    Resilient:  "Flowering. The result of consistent effort. Well done, both of us.",
-    Diva:       "I'm in full bloom. You're welcome. This is what dedication looks like.",
-    Mysterious: "The bloom has arrived. Some things cannot be rushed. This was one of them.",
-    Cheerful:   "I'M FLOWERING! We did it! I'm so proud of us right now!"
-  }
-};
-
-function checkRareMilestone(plant) {
-  // Returns milestone key if this watering triggers one, else null
-  const wc = plant.waterCount || 0; // already incremented before this check
-  const prevStage = getGrowthStage({...plant, waterCount: wc - 1});
-  const newStage  = getGrowthStage(plant);
-
-  if (wc === 1) return 'firstWatering';
-  if (prevStage < 3 && newStage === 3) return 'flowering';
-  return null;
-}
-
-function getRareLine(milestoneKey, plant) {
-  const pool = rareLines[milestoneKey];
-  if (!pool) return null;
-  const pers = plant.personality || getPlantPersonalityFallback(plant.species);
-  return { label: pool.label, line: pool[pers] || pool.Cheerful };
-}
-
 // ===== RENDER PLANTS — voice first =====
 function renderPlants() {
   const list=document.getElementById('plantsList');
@@ -1069,37 +708,15 @@ function renderPlants() {
     const isNew=plant.isNew;if(plant.isNew)plant.isNew=false;
     const mood=getPlantMood(plant);
     const droopy=mood==='Droopy'||mood==='Struggling';
-    const plantSVG=renderPlantSVG(plant,mood);
-    // Rare banner — shown for one render cycle after a milestone watering
-    let rareBanner = '';
-    if (plant._rareMilestone) {
-      const rare = getRareLine(plant._rareMilestone, plant);
-      if (rare) {
-        rareBanner = `<div class="rare-banner">
-          <div class="rare-spark">✨</div>
-          <div class="rare-text">
-            <div class="rare-label">${rare.label}</div>
-            <div class="rare-line">"${rare.line}"</div>
-          </div>
-        </div>`;
-        // Auto-clear after 8 seconds so it doesn't persist forever
-        setTimeout(() => {
-          const p = plants.find(x => x.id === plant.id);
-          if (p) { delete p._rareMilestone; savePlants(); }
-        }, 8000);
-      }
-    }
     return `
 <div class="plant-card ${isNew?'plant-card-new':''} ${droopy?'card-droopy':''}" data-plant-id="${plant.id}">
   <div class="plant-card-header">
     <div class="plant-info">
       <span class="personality-badge ${pers.toLowerCase()}" onclick="changePersonality(${plant.id})" title="Tap to cycle personality">${pEmoji} ${pers} ✎</span>
-      <div class="plant-name">${displayName}${hasNick?`<span class="plant-species-inline">${plant.species}</span>`:''}<button class="name-edit-btn" onclick="startRename(${plant.id})" title="Rename">✏️</button></div>
+      <div class="plant-name">${displayName}<button class="name-edit-btn" onclick="startRename(${plant.id})" title="Rename">✏️</button></div>
     </div>
     ${isWateredToday?'<span class="watered-badge watered-today">✓ Watered</span>':''}
   </div>
-  ${plantSVG}
-  ${rareBanner}
   <div class="voice-message">"${voice}"</div>
   <div class="card-actions">
     <button class="water-btn ${isWateredToday?'watered':''}" onclick="waterPlant(${plant.id})">${isWateredToday?'✓ Watered Today':'💧 Water'}</button>
@@ -1136,175 +753,12 @@ function changePersonality(id) {
   showToast('renameToast',`${personalityEmojis[plant.personality]} ${plant.nickname||plant.species} is now ${plant.personality}`,2000);
 }
 
-// ===== ONBOARDING =====
-function completeOnboarding(skip=false) {
-  const nameVal = document.getElementById('obNameInput').value.trim();
-  if (!skip && nameVal) localStorage.setItem('florish_username', nameVal);
-  localStorage.setItem('florish_onboarded', '1');
-  const overlay = document.getElementById('onboardingOverlay');
-  overlay.classList.add('hiding');
-  setTimeout(() => overlay.remove(), 650);
-  // Personalise greeting if name given
-  if (nameVal) updateGreetingWithName(nameVal);
-}
-function updateGreetingWithName(name) {
-  // Stored, picked up by ritual greeting on next render
-  localStorage.setItem('florish_username', name);
-}
-// Allow Enter key to submit
-document.addEventListener('DOMContentLoaded', () => {
-  const inp = document.getElementById('obNameInput');
-  if (inp) {
-    inp.addEventListener('keydown', e => { if (e.key === 'Enter') completeOnboarding(); });
-    // Auto-focus after a beat
-    setTimeout(() => inp.focus(), 400);
-  }
-});
-
-// ===== SOUND ENGINE =====
-// All sounds synthesized via Web Audio API — no external files.
-// Respects device silent mode: AudioContext stays suspended if device is muted.
-let _ac = null;
-function getAC() {
-  if (!_ac) _ac = new (window.AudioContext || window.webkitAudioContext)();
-  return _ac;
-}
-// Resume context on first user gesture (required by browsers)
-document.addEventListener('click', () => { if (_ac && _ac.state === 'suspended') _ac.resume(); }, { once: true });
-
-function soundEnabled() {
-  // Don't play if context suspended (device silent / not yet interacted)
-  const ac = getAC();
-  return ac.state === 'running';
-}
-
-// Shared envelope helper
-function ramp(param, from, to, start, dur, ac) {
-  param.setValueAtTime(from, start);
-  param.exponentialRampToValueAtTime(Math.max(to, 0.0001), start + dur);
-}
-
-// 🌊 WATER — ripple: 3 quick rising pings then warm sustained hum
-function soundWater() {
-  const ac = getAC();
-  if (ac.state !== 'running') return;
-  const now = ac.currentTime;
-  // Three rising pings
-  [440, 554, 659].forEach((freq, i) => {
-    const t = now + i * 0.1;
-    const osc = ac.createOscillator(); const g = ac.createGain();
-    osc.type = 'sine'; osc.frequency.value = freq;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.07, t + 0.015);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.38);
-    osc.connect(g); g.connect(ac.destination);
-    osc.start(t); osc.stop(t + 0.42);
-  });
-  // Warm sustained hum underneath
-  const hum = ac.createOscillator(); const hg = ac.createGain();
-  hum.type = 'sine'; hum.frequency.value = 220;
-  hg.gain.setValueAtTime(0.0001, now + 0.25);
-  hg.gain.exponentialRampToValueAtTime(0.045, now + 0.45);
-  hg.gain.setValueAtTime(0.045, now + 0.8);
-  hg.gain.exponentialRampToValueAtTime(0.0001, now + 1.6);
-  hum.connect(hg); hg.connect(ac.destination);
-  hum.start(now + 0.25); hum.stop(now + 1.65);
-}
-
-// 🍃 GROWTH STAGE — soft ascending chime (pentatonic, airy)
-function soundGrowth() {
-  const ac = getAC();
-  if (ac.state !== 'running') return;
-  const now = ac.currentTime;
-  const notes = [392, 440, 523, 587]; // G4 A4 C5 D5 — pentatonic feel
-  notes.forEach((freq, i) => {
-    const osc = ac.createOscillator();
-    const g = ac.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
-    const t = now + i * 0.13;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.07, t + 0.04);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
-    // slight detune for warmth
-    const osc2 = ac.createOscillator();
-    const g2 = ac.createGain();
-    osc2.type = 'sine';
-    osc2.frequency.value = freq * 1.004;
-    g2.gain.setValueAtTime(0.0001, t);
-    g2.gain.exponentialRampToValueAtTime(0.03, t + 0.04);
-    g2.gain.exponentialRampToValueAtTime(0.0001, t + 0.6);
-    osc.connect(g); g.connect(ac.destination);
-    osc2.connect(g2); g2.connect(ac.destination);
-    osc.start(t); osc.stop(t + 0.65);
-    osc2.start(t); osc2.stop(t + 0.65);
-  });
-}
-
-// ✨ RARE UNLOCK — shimmering sparkle: quick ascending gliss + bell overtones
-function soundRare() {
-  const ac = getAC();
-  if (ac.state !== 'running') return;
-  const now = ac.currentTime;
-  // Gliss sweep
-  const osc = ac.createOscillator();
-  const g = ac.createGain();
-  osc.type = 'sine';
-  osc.frequency.setValueAtTime(300, now);
-  osc.frequency.exponentialRampToValueAtTime(1200, now + 0.35);
-  g.gain.setValueAtTime(0.0001, now);
-  g.gain.exponentialRampToValueAtTime(0.06, now + 0.05);
-  g.gain.exponentialRampToValueAtTime(0.0001, now + 0.36);
-  osc.connect(g); g.connect(ac.destination);
-  osc.start(now); osc.stop(now + 0.4);
-  // Bell tones
-  [523, 659, 784, 1047].forEach((freq, i) => {
-    const b = ac.createOscillator();
-    const bg = ac.createGain();
-    b.type = 'sine';
-    b.frequency.value = freq;
-    const t = now + 0.25 + i * 0.1;
-    bg.gain.setValueAtTime(0.0001, t);
-    bg.gain.exponentialRampToValueAtTime(0.065, t + 0.02);
-    bg.gain.exponentialRampToValueAtTime(0.0001, t + 0.7);
-    b.connect(bg); bg.connect(ac.destination);
-    b.start(t); b.stop(t + 0.75);
-  });
-}
-
-// 🌅 DAILY CARD — single soft low chime, like a temple bell
-function soundDailyCard() {
-  const ac = getAC();
-  if (ac.state !== 'running') return;
-  const now = ac.currentTime;
-  [196, 294].forEach((freq, i) => {
-    const osc = ac.createOscillator();
-    const g = ac.createGain();
-    osc.type = 'sine';
-    osc.frequency.value = freq;
-    const t = now + i * 0.18;
-    g.gain.setValueAtTime(0.0001, t);
-    g.gain.exponentialRampToValueAtTime(0.07, t + 0.03);
-    g.gain.exponentialRampToValueAtTime(0.0001, t + 1.4);
-    osc.connect(g); g.connect(ac.destination);
-    osc.start(t); osc.stop(t + 1.5);
-  });
-}
-
 // ===== INIT =====
-(function init() {
-  // Show onboarding only on first visit
-  if (!localStorage.getItem('florish_onboarded')) {
-    document.getElementById('onboardingOverlay').style.display = 'flex';
-  } else {
-    document.getElementById('onboardingOverlay').remove();
-  }
-  renderDailyCard();
-  renderRitualGreeting();
-  renderPlants();
-  renderGardenSummary();
-  if (localStorage.getItem('notifPref') === 'granted') scheduleNotifications();
-})();
+renderDailyCard();
+renderRitualGreeting();
+renderPlants();
+renderGardenSummary();
+if(localStorage.getItem('notifPref')==='granted')scheduleNotifications();
 </script>
 </body>
 </html>
