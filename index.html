@@ -295,6 +295,7 @@
       justify-content: center;
       padding: 40px 32px;
       text-align: center;
+      transition: opacity 0.5s ease;
     }
 
     .onboarding-screen.hidden {
@@ -1547,17 +1548,22 @@
     function enterGarden() {
       const screen = document.getElementById('onboardingScreen');
       const app = document.getElementById('appContainer');
-      screen.style.transition = 'opacity 0.5s ease';
       screen.style.opacity = '0';
+      screen.style.pointerEvents = 'none';
       app.style.opacity = '1';
-      localStorage.setItem('florish_welcomed', 'true');
-      setTimeout(() => { screen.style.display = 'none'; }, 520);
+      try { localStorage.setItem('florish_welcomed', 'true'); } catch(e) {}
+      setTimeout(() => { screen.style.display = 'none'; }, 600);
     }
 
     function checkOnboarding() {
       const screen = document.getElementById('onboardingScreen');
       const app = document.getElementById('appContainer');
-      if (localStorage.getItem('florish_welcomed')) {
+      try {
+        if (localStorage.getItem('florish_welcomed')) {
+          screen.style.display = 'none';
+          app.style.opacity = '1';
+        }
+      } catch(e) {
         screen.style.display = 'none';
         app.style.opacity = '1';
       }
