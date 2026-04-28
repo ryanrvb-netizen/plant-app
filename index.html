@@ -617,7 +617,7 @@
     </div>
   </div>
 
-  <div class="container" id="appContainer">
+  <div class="container" id="appContainer" style="opacity:0;transition:opacity 0.5s ease;">
 
     <div class="app-header">
       <div class="wordmark" style="display:flex;align-items:center;justify-content:center;padding:8px 0 4px;">
@@ -1547,22 +1547,19 @@
     function enterGarden() {
       const screen = document.getElementById('onboardingScreen');
       const app = document.getElementById('appContainer');
-      screen.style.opacity = '0';
       screen.style.transition = 'opacity 0.5s ease';
-      setTimeout(() => {
-        screen.style.display = 'none';
-        app.style.opacity = '1';
-        localStorage.setItem('florish_welcomed', 'true');
-      }, 520);
+      screen.style.opacity = '0';
+      app.style.opacity = '1';
+      localStorage.setItem('florish_welcomed', 'true');
+      setTimeout(() => { screen.style.display = 'none'; }, 520);
     }
 
     function checkOnboarding() {
+      const screen = document.getElementById('onboardingScreen');
       const app = document.getElementById('appContainer');
       if (localStorage.getItem('florish_welcomed')) {
-        document.getElementById('onboardingScreen').style.display = 'none';
+        screen.style.display = 'none';
         app.style.opacity = '1';
-      } else {
-        app.style.opacity = '0';
       }
     }
 
