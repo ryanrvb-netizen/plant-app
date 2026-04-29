@@ -619,7 +619,7 @@
         <span class="onboarding-pill">🔮 Mysterious</span>
         <span class="onboarding-pill">☀️ Cheerful</span>
       </div>
-      <button id="enterGardenBtn" class="onboarding-btn">Enter the garden →</button>
+      <button id="enterGardenBtn" class="onboarding-btn" onclick="document.getElementById('onboardingScreen').style.opacity='0';document.getElementById('onboardingScreen').style.pointerEvents='none';document.getElementById('appContainer').style.opacity='1';document.getElementById('appContainer').style.pointerEvents='all';setTimeout(function(){document.getElementById('onboardingScreen').style.display='none';},600);try{localStorage.setItem('florish_welcomed','true');}catch(e){}">Enter the garden →</button>
     </div>
   </div>
 
