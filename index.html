@@ -619,7 +619,7 @@
         <span class="onboarding-pill">🔮 Mysterious</span>
         <span class="onboarding-pill">☀️ Cheerful</span>
       </div>
-      <button id="enterGardenBtn" class="onboarding-btn" onclick="document.getElementById('onboardingScreen').style.opacity='0';document.getElementById('onboardingScreen').style.pointerEvents='none';document.getElementById('appContainer').style.opacity='1';document.getElementById('appContainer').style.pointerEvents='all';setTimeout(function(){document.getElementById('onboardingScreen').style.display='none';renderDailyCard();},600);try{localStorage.setItem('florish_welcomed','true');}catch(e){}">Enter the garden →</button>
+      <button id="enterGardenBtn" class="onboarding-btn" onclick="document.getElementById('onboardingScreen').style.opacity='0';document.getElementById('onboardingScreen').style.pointerEvents='none';document.getElementById('appContainer').style.opacity='1';document.getElementById('appContainer').style.pointerEvents='all';setTimeout(function(){document.getElementById('onboardingScreen').style.display='none';renderDailyCard();renderRitualGreeting();renderGardenSummary();},600);try{localStorage.setItem('florish_welcomed','true');}catch(e){}">Enter the garden →</button>
     </div>
   </div>
 
@@ -1578,13 +1578,13 @@
     // =============================================
     // INIT
     // =============================================
-    checkOnboarding();
+    try { checkOnboarding(); } catch(e) { console.error('checkOnboarding error:', e); }
     document.getElementById('enterGardenBtn').addEventListener('click', function() { enterGarden(); });
-    renderDailyCard();
-    renderRitualGreeting();
-    renderPlants();
-    renderGardenSummary();
-    updateNotifBell();
+    try { renderDailyCard(); } catch(e) { console.error('renderDailyCard error:', e); }
+    try { renderRitualGreeting(); } catch(e) { console.error('renderRitualGreeting error:', e); }
+    try { renderPlants(); } catch(e) { console.error('renderPlants error:', e); }
+    try { renderGardenSummary(); } catch(e) { console.error('renderGardenSummary error:', e); }
+    try { updateNotifBell(); } catch(e) { console.error('updateNotifBell error:', e); }
     if(localStorage.getItem('notifPref')==='granted') scheduleNotifications();
   </script>
 </body>
