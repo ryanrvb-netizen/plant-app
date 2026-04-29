@@ -614,7 +614,7 @@
         <span class="onboarding-pill">🔮 Mysterious</span>
         <span class="onboarding-pill">☀️ Cheerful</span>
       </div>
-      <button class="onboarding-btn" onclick="enterGarden()">Enter the garden →</button>
+      <button id="enterGardenBtn" class="onboarding-btn">Enter the garden →</button>
     </div>
   </div>
 
@@ -731,8 +731,6 @@
         </div>
       </div>
     </div>
-  </div>
-
   </div><!-- end appContainer -->
 
   <div id="waterToast"></div>
@@ -1573,6 +1571,7 @@
     // INIT
     // =============================================
     checkOnboarding();
+    document.getElementById('enterGardenBtn').addEventListener('click', function() { enterGarden(); });
     renderDailyCard();
     renderRitualGreeting();
     renderPlants();
