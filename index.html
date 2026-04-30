@@ -966,7 +966,53 @@
       { symbol: '🦋', quote: "The transformation is already happening. You're in the middle of it.", sub: "The Change" },
       { symbol: '🌫️', quote: "Not everything needs clarity to grow. Lean into the unknown.", sub: "The Mist" },
       { symbol: '🪴', quote: "Roots go deep before branches reach high. This part matters.", sub: "The Root" },
-      { symbol: '✨', quote: "Something rare is about to happen in a very ordinary moment.", sub: "The Rare" }
+      { symbol: '✨', quote: "Something rare is about to happen in a very ordinary moment.", sub: "The Rare" },
+      { symbol: '🌺', quote: "Beauty is not a reward. It's what happens when care becomes habit.", sub: "The Blossom" },
+      { symbol: '🍂', quote: "Letting go is also a form of growth. Release what the season is done with.", sub: "The Fall" },
+      { symbol: '🌵', quote: "Resilience is not the absence of struggle. It's surviving it, slowly, on your own terms.", sub: "The Desert" },
+      { symbol: '🌈', quote: "After the hardest days, something worth noticing always appears.", sub: "The Arc" },
+      { symbol: '🕊️', quote: "Rest is not the enemy of growth. It's the condition for it.", sub: "The Stillness" },
+      { symbol: '🌀', quote: "Cycles exist for a reason. Trust the one you're currently in.", sub: "The Spiral" },
+      { symbol: '🦋', quote: "You will not look like yourself when you emerge. That's the point.", sub: "The Cocoon" },
+      { symbol: '🌍', quote: "Everything alive is connected to something underneath. So are you.", sub: "The Ground" },
+      { symbol: '🕯️', quote: "A single small light changes the quality of an entire room.", sub: "The Candle" },
+      { symbol: '🌒', quote: "You don't have to be full to be useful. The crescent still lights a path.", sub: "The Crescent" },
+      { symbol: '🧭', quote: "You already know the direction. You're just waiting for permission to move.", sub: "The Compass" },
+      { symbol: '🪸', quote: "The most complex ecosystems grow slowly, in silence, mostly unseen.", sub: "The Reef" },
+      { symbol: '🌬️', quote: "Not all movement is visible. The wind shapes things long before they fall.", sub: "The Wind" },
+      { symbol: '🫧', quote: "Lightness is underrated. Some days, the best thing you can do is float.", sub: "The Bubble" },
+      { symbol: '🌓', quote: "Half of something is still something. Keep going.", sub: "The Half Moon" },
+      { symbol: '🪵', quote: "What has fallen can still be useful. Nothing is wasted in a living system.", sub: "The Log" },
+      { symbol: '🌊', quote: "The tide goes out so it can come back in. This is not a loss. This is rhythm.", sub: "The Return" },
+      { symbol: '🧲', quote: "What's meant for you doesn't require force. But it does require showing up.", sub: "The Pull" },
+      { symbol: '🌤️', quote: "Partial sun is still sun. Take what the day is offering today.", sub: "The Break" },
+      { symbol: '🫙', quote: "What you preserve now, you'll be grateful for later. Tend accordingly.", sub: "The Jar" },
+      { symbol: '🐛', quote: "The slowest creatures often become the most beautiful things. Patience.", sub: "The Crawler" },
+      { symbol: '🌏', quote: "You are part of something much larger than what you can see from here.", sub: "The Whole" },
+      { symbol: '🫀', quote: "Consistency is not glamorous. It's just the most reliable form of love.", sub: "The Pulse" },
+      { symbol: '🪜', quote: "You don't have to see the whole staircase. Just the next step.", sub: "The Ladder" },
+      { symbol: '🌙', quote: "The same moon that lights your window has witnessed every version of you.", sub: "The Witness" },
+      { symbol: '🦎', quote: "Stillness can look like laziness from the outside. Only you know the difference.", sub: "The Pause" },
+      { symbol: '🌿', quote: "Growth is not always upward. Sometimes it's sideways, finding the light from a new angle.", sub: "The Reach" },
+      { symbol: '🪺', quote: "Even the most protective structures were built from small, gathered things.", sub: "The Nest" },
+      { symbol: '🧊', quote: "Some things need to be frozen for a season before they can thaw into something new.", sub: "The Ice" },
+      { symbol: '🌺', quote: "Color is not frivolous. It is how life announces itself. Don't dim yours.", sub: "The Signal" },
+      { symbol: '🕸️', quote: "Intricate things take time. What looks fragile is often exactly strong enough.", sub: "The Web" },
+      { symbol: '🔮', quote: "You don't need to predict the future. You just need to tend the present.", sub: "The Glass" },
+      { symbol: '🌊', quote: "Depth is invisible from the surface. Keep going down.", sub: "The Deep" },
+      { symbol: '🌾', quote: "The field doesn't hurry. It simply does what fields do, every single day.", sub: "The Field" },
+      { symbol: '🦚', quote: "Some things are meant to be seen. Don't apologize for how far you've come.", sub: "The Display" },
+      { symbol: '🍀', quote: "Luck is mostly just the name we give to prepared patience.", sub: "The Clover" },
+      { symbol: '🌱', quote: "Every expert was once a seed that didn't know what it would become.", sub: "The Beginning" },
+      { symbol: '🫐', quote: "Sweet things take the longest to ripen. Give yourself the season.", sub: "The Berry" },
+      { symbol: '🌄', quote: "Mornings don't ask if you're ready. They begin anyway. So can you.", sub: "The Dawn" },
+      { symbol: '🪨', quote: "You can be immovable and still be full of life. The moss will find you.", sub: "The Anchor" },
+      { symbol: '🌰', quote: "Everything you're meant to become is already inside what you are.", sub: "The Nut" },
+      { symbol: '🌊', quote: "Every shore is shaped by what keeps returning to it. Notice what keeps returning to you.", sub: "The Shore" },
+      { symbol: '🌙', quote: "Even the darkest nights are temporary. This one too.", sub: "The Night" },
+      { symbol: '🦋', quote: "The wings were always there. The struggle was just how they opened.", sub: "The Wings" },
+      { symbol: '🌸', quote: "Fragility and strength are not opposites. The blossom proves it.", sub: "The Petal" },
+      { symbol: '🌿', quote: "You are not behind. You are exactly where this particular season put you.", sub: "The Season" }
     ];
 
     function renderDailyCard() {
@@ -1089,37 +1135,162 @@
     // PLANT DATABASE
     // =============================================
     const plantDatabase = {
+      // ===== MONSTERAS =====
       'Monstera Deliciosa': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly until it flows from drainage holes, then allow to drain fully. Reduce watering in winter.', soilDrynessCheck: 'Insert finger 2 inches into soil; water when top 2 inches feel dry.', leafSignals: { underwater: 'Leaves droop and curl inward, fenestrations stop developing', overwater: 'Yellow leaves starting from edges, brown mushy spots on leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
-      'Monstera Adansonii': { waterDays: 5, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch is dry.', soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry.', leafSignals: { underwater: 'Leaves droop significantly', overwater: 'Yellow leaves, soft black stems' }, waterAmount: 'moderate', suggestedPersonality: 'Diva' },
-      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
-      'Golden Pothos': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water when soil is dry.', soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.', leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
-      'Snake Plant (Sansevieria)': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Water sparingly; allow to dry completely between waterings.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry.', leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
-      'ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water very sparingly; rhizomes store water.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry.', leafSignals: { underwater: 'Stems become thin and wrinkled', overwater: 'Yellow leaves, mushy black rhizomes' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
-      'Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist but not soggy.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
-      'Peace Lily': { waterDays: 5, light: 'Low to Medium', soil: 'Rich, well-draining', waterMethod: 'top', waterNotes: 'Keep consistently moist; hates drying out.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
-      'Aloe Vera': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy', waterMethod: 'top', waterNotes: 'Water deeply but infrequently; must drain well', soilDrynessCheck: 'Check 3 inches; water when completely dry', leafSignals: { underwater: 'Thinning, curling leaves', overwater: 'Mushy, translucent leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
-      'Rubber Plant': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain completely.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and curl inward', overwater: 'Yellow leaves, leaf drop, black stems' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
-      'Fiddle Leaf Fig': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly until it drains; do not let sit in water.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, brown crispy edges on leaves', overwater: 'Yellow leaves with brown spots, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Dramatic' },
-      'Bird of Paradise': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Curling, drooping', overwater: 'Yellow leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
-      'Calathea': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Use filtered or distilled water; keep consistently moist.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Crispy brown edges, leaves curl inward', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
-      'Prayer Plant': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based', waterMethod: 'top', waterNotes: 'Keep evenly moist; sensitive to water quality', soilDrynessCheck: 'Top inch should stay moist', leafSignals: { underwater: 'Curling, drooping', overwater: 'Wilting, yellow leaves' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
-      'Boston Fern': { waterDays: 3, light: 'Medium Indirect', soil: 'Peat-based potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; mist frequently.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Brown fronds, crispy leaf edges', overwater: 'Yellowing fronds, mushy base, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
-      'Jade Plant': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry completely.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wrinkled, thin leaves', overwater: 'Mushy leaves, black stems, leaf drop' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
-      'String of Pearls': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Water from bottom by placing in tray of water for 20 minutes.', soilDrynessCheck: 'Check if pearls feel slightly soft/deflated.', leafSignals: { underwater: 'Shriveling pearls, pearls flatten', overwater: 'Mushy, translucent pearls that pop off stem' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
-      'Hoya': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
-      'Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'bottom', waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely.', soilDrynessCheck: 'Check roots; water when silvery-gray (not green).', leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves', overwater: 'Brown mushy roots, yellow leaves, crown rot' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Monstera Adansonii': { waterDays: 5, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch is dry. Loves humidity.', soilDrynessCheck: 'Check top inch of soil; water when it feels slightly dry.', leafSignals: { underwater: 'Leaves droop significantly, holes stop forming', overwater: 'Yellow leaves, soft black stems' }, waterAmount: 'moderate', suggestedPersonality: 'Diva' },
+      'Monstera Thai Constellation': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Water thoroughly; let top 2 inches dry between waterings. Slower grower — less water in winter.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves curl, variegation fades', overwater: 'Yellow patches, mushy stem base' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+      'Monstera Albo': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Similar to Deliciosa but needs more light to maintain variegation. Avoid cold drafts.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaf curl, browning white sections', overwater: 'Yellowing green sections first, then rot' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+      'Monstera Dubia': { waterDays: 7, light: 'Medium to Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water when top inch dries out.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Leaves flatten against support, look dull', overwater: 'Yellowing, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+
+      // ===== POTHOS =====
+      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely. One of the most forgiving plants.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Golden Pothos': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Extremely adaptable. Water when soil is completely dry.', soilDrynessCheck: 'Check top 2 inches of soil; water when dry to touch.', leafSignals: { underwater: 'Vines become limp, leaves curl slightly', overwater: 'Yellow leaves, especially older ones first' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Marble Queen Pothos': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Needs more light than solid green pothos to maintain variegation.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves wilt, white sections turn papery', overwater: 'Yellow tones in variegated sections' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+      'Neon Pothos': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Brighter light keeps neon color vivid. Water when dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves dull and wilt', overwater: 'Yellow-green color, mushy stems' }, waterAmount: 'thorough', suggestedPersonality: 'Cheerful' },
+      'Manjula Pothos': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Wavy, variegated leaves. Water when top 2 inches dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Curling at leaf edges', overwater: 'Yellowing, mushy petioles' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
+      'Pearls and Jade Pothos': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Smaller leaves, slower grower. Water when soil is dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and lose sheen', overwater: 'Green sections yellow first' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Cebu Blue Pothos': { waterDays: 7, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Blue-silver sheen. Water when top 2 inches are dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Silver sheen dulls, leaves droop', overwater: 'Stem rot, yellowing' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Baltic Blue Pothos': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Develops fenestrations with age and good light. Water when dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves flatten and wilt', overwater: 'Yellowing, root issues' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Global Green Pothos': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Dark and light green variegation. Water when dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and dull', overwater: 'Yellow patches' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+
+      // ===== SNAKE PLANTS =====
+      'Snake Plant (Sansevieria)': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Water sparingly; allow to dry completely between waterings. One of the hardest to kill.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry.', leafSignals: { underwater: 'Leaves curl inward lengthwise, wrinkled texture, dull color', overwater: 'Mushy base turning brown/black, leaves fall over easily' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Snake Plant Laurentii': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Yellow-edged variety. Same care as standard snake plant — very drought tolerant.', soilDrynessCheck: 'Stick finger 3 inches into soil; water only when completely dry.', leafSignals: { underwater: 'Yellow edges fade, leaves wrinkle', overwater: 'Mushy yellow base' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Snake Plant Moonshine': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Silver-green leaves. Bright light keeps color vivid. Very drought tolerant.', soilDrynessCheck: 'Check 3 inches; water only when bone dry.', leafSignals: { underwater: 'Silver color dulls, subtle wrinkling', overwater: 'Mushy base, rotting roots' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'Cylindrical Snake Plant': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Round leaves. Same drought-tolerant care. Fan shape adds drama.', soilDrynessCheck: 'Check 3 inches; water only when completely dry.', leafSignals: { underwater: 'Leaves become soft and pliable', overwater: 'Base turns mushy, brown rot' }, waterAmount: 'light', suggestedPersonality: 'Dramatic' },
+      'Bird Nest Snake Plant': { waterDays: 14, light: 'Low to Bright', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Compact rosette shape. Water even less than tall varieties.', soilDrynessCheck: 'Check 3 inches; water only when completely dry.', leafSignals: { underwater: 'Center leaves look pinched', overwater: 'Crown rot, mushy center' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+
+      // ===== PHILODENDRONS =====
+      'Heartleaf Philodendron': { waterDays: 7, light: 'Low to Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly when top inch dries. Very adaptable and forgiving.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Leaves droop, stems go limp', overwater: 'Yellow lower leaves, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Philodendron Brasil': { waterDays: 7, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Variegated heartleaf. Needs brighter light to maintain yellow streak.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Yellow streak fades, leaves droop', overwater: 'Yellow-green color, stem rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Philodendron Birkin': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'White pinstripe leaves. Needs consistent moisture and bright light.', soilDrynessCheck: 'Check top inch; water when slightly dry.', leafSignals: { underwater: 'Pinstripes fade, leaves curl', overwater: 'Yellow leaves, mushy stem' }, waterAmount: 'moderate', suggestedPersonality: 'Diva' },
+      'Philodendron Pink Princess': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Pink variegation needs bright light. Water when top inch is dry.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Pink sections turn pale, leaves droop', overwater: 'Yellow green sections, rot at base' }, waterAmount: 'moderate', suggestedPersonality: 'Diva' },
+      'Philodendron Gloriosum': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Velvety leaves. Keep evenly moist — doesn\'t like drying out fully.', soilDrynessCheck: 'Check top inch; water when just barely dry.', leafSignals: { underwater: 'Velvet texture dulls, edges brown', overwater: 'Yellowing, mushy rhizome' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Philodendron Micans': { waterDays: 7, light: 'Medium to Bright', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Velvety bronze-green leaves. Water when top inch dries.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Bronze sheen dulls, leaves wilt', overwater: 'Yellowing, stem softens' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Philodendron Xanadu': { waterDays: 7, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Self-heading (doesn\'t vine). Water when top 2 inches dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop outward, brown tips', overwater: 'Yellow lower leaves, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Philodendron Selloum': { waterDays: 7, light: 'Medium to Bright', soil: 'Rich well-draining mix', waterMethod: 'top', waterNotes: 'Tree philodendron. Loves humidity. Water when top 2 inches dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Dramatic leaf droop', overwater: 'Yellow leaves from base up' }, waterAmount: 'thorough', suggestedPersonality: 'Dramatic' },
+
+      // ===== ZZ PLANT VARIATIONS =====
+      'ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water very sparingly; rhizomes store water. One of the most drought-tolerant houseplants.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry.', leafSignals: { underwater: 'Stems become thin and wrinkled', overwater: 'Yellow leaves, mushy black rhizomes' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Raven ZZ Plant': { waterDays: 21, light: 'Low to Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Black-purple foliage. Same care as green ZZ — extremely drought tolerant.', soilDrynessCheck: 'Check 2-3 inches; water only when completely dry.', leafSignals: { underwater: 'Stems wrinkle, color dulls', overwater: 'Yellow stems, mushy rhizomes' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+
+      // ===== SPIDER PLANTS =====
+      'Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist but not soggy. Produces babies with good care.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown leaf tips, wilting, pale color', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Curly Spider Plant': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Curly variety. Same care as standard spider plant.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Curls tighten, brown tips spread', overwater: 'Yellow at base, mushy roots' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+
+      // ===== PEACE LILY =====
+      'Peace Lily': { waterDays: 5, light: 'Low to Medium', soil: 'Rich, well-draining', waterMethod: 'top', waterNotes: 'Keep consistently moist; hates drying out. Will dramatically wilt to tell you it needs water.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Dramatic wilting, leaves lay flat, brown crispy edges', overwater: 'Wilting despite wet soil (root rot), yellow leaves' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+
+      // ===== ALOE =====
+      'Aloe Vera': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water deeply but infrequently; must drain completely. Never let sit in water.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout.', leafSignals: { underwater: 'Thinning, curling leaves, brown tips', overwater: 'Mushy, translucent leaves, brown base' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Aloe Aristata': { waterDays: 14, light: 'Bright Indirect', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Lace aloe. Tolerates lower light than vera. Water sparingly.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Leaves shrivel and wrinkle', overwater: 'Mushy base, leaf drop' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
+
+      // ===== RUBBER PLANTS =====
+      'Rubber Plant': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain completely. Wipe leaves to keep them glossy.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop and curl inward, dull appearance', overwater: 'Yellow leaves, leaf drop, black stems' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Rubber Plant Burgundy': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Dark burgundy-black leaves. Needs bright light to maintain dark color.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves turn more green, lose shine', overwater: 'Yellow-green tint, leaf drop' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
+      'Rubber Plant Tineke': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Pink and cream variegation. Needs more light than solid rubber plants.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Variegation fades, leaves curl', overwater: 'Yellow edges on cream sections' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+
+      // ===== FIDDLE LEAF FIG =====
+      'Fiddle Leaf Fig': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly until it drains. Do not let sit in water. Hates being moved.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, brown crispy edges on leaves', overwater: 'Yellow leaves with brown spots, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Dramatic' },
+
+      // ===== BIRD OF PARADISE =====
+      'Bird of Paradise': { waterDays: 7, light: 'Bright Direct to Indirect', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, keep evenly moist. Loves bright light and humidity.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Leaves curl and split more than natural', overwater: 'Yellow leaves, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+
+      // ===== CALATHEA / PRAYER PLANT FAMILY =====
+      'Calathea Orbifolia': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Use filtered or distilled water. Keep consistently moist but never soggy.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Crispy brown edges, leaves curl inward tightly', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Calathea Medallion': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Purple undersides. Filtered water prevents brown edges.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Brown crispy edges, leaves curl', overwater: 'Yellow leaves, stem rot' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Calathea Rattlesnake': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Wavy edges, snake pattern. Needs filtered water and humidity.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Leaf edges brown and crisp', overwater: 'Yellowing, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Calathea Zebrina': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Bold stripe pattern. Sensitive to minerals — use filtered water.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Stripes fade, leaves roll tightly', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Maranta Leuconeura': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based', waterMethod: 'top', waterNotes: 'Prayer plant. Leaves fold up at night. Keep evenly moist with filtered water.', soilDrynessCheck: 'Top inch should stay moist.', leafSignals: { underwater: 'Leaves don\'t fold properly at night, brown edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Stromanthe Triostar': { waterDays: 5, light: 'Bright Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Pink and white variegation. Needs humidity and filtered water.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'White sections turn papery, pink fades', overwater: 'Yellow leaves, stem rot' }, waterAmount: 'moderate', suggestedPersonality: 'Diva' },
+      'Ctenanthe Burle Marxii': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Fishbone pattern. Needs filtered water and high humidity.', soilDrynessCheck: 'Check top inch; water when slightly damp.', leafSignals: { underwater: 'Pattern fades, edges crisp', overwater: 'Yellowing, mushy petioles' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+
+      // ===== FERNS =====
+      'Boston Fern': { waterDays: 3, light: 'Medium Indirect', soil: 'Peat-based potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; mist frequently. Loves humidity.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Brown fronds, crispy leaf edges, dropping fronds', overwater: 'Yellowing fronds, mushy base, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Maidenhair Fern': { waterDays: 2, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Extremely sensitive to drying out. Check daily. Loves humid bathrooms.', soilDrynessCheck: 'Check surface; water when top feels barely dry.', leafSignals: { underwater: 'Fronds dry up and turn brown almost immediately', overwater: 'Black stems, yellowing fronds' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Birds Nest Fern': { waterDays: 5, light: 'Medium Indirect', soil: 'Peat-based mix', waterMethod: 'top', waterNotes: 'Wavy, undivided fronds. Keep moist but don\'t let water sit in the crown.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Fronds develop brown crispy edges', overwater: 'Crown rot, yellow fronds from center' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Staghorn Fern': { waterDays: 7, light: 'Bright Indirect', soil: 'Mounted or orchid mix', waterMethod: 'both', waterNotes: 'Soak the base (shield frond) in water for 10-20 minutes weekly, or mist thoroughly.', soilDrynessCheck: 'Shield frond should feel firm; water when it starts to feel papery.', leafSignals: { underwater: 'Antler fronds droop and brown at tips', overwater: 'Black rot on shield frond, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Resilient' },
+      'Kimberly Queen Fern': { waterDays: 4, light: 'Medium to Bright Indirect', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Upright fronds. More tolerant of lower humidity than Boston fern.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown frond tips, fronds droop', overwater: 'Yellow fronds, soggy base' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+
+      // ===== SUCCULENTS & CACTI =====
+      'Echeveria': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Soak and dry method. Water at soil level, never on leaves. Rosette shape.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout.', leafSignals: { underwater: 'Leaves shrivel and pucker', overwater: 'Mushy, translucent leaves, leaf drop from base' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Haworthia': { waterDays: 14, light: 'Bright Indirect', soil: 'Sandy cactus mix', waterMethod: 'bottom', waterNotes: 'Tolerates lower light than most succulents. Bottom water for 20 minutes.', soilDrynessCheck: 'Check 2 inches; water when completely dry.', leafSignals: { underwater: 'Windows in leaves dull, leaves shrivel', overwater: 'Mushy leaf bases, black rot' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Gasteria': { waterDays: 14, light: 'Low to Bright Indirect', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Very drought tolerant. One of the most low-light tolerant succulents.', soilDrynessCheck: 'Check 3 inches; water when bone dry.', leafSignals: { underwater: 'Leaves shrivel from tips inward', overwater: 'Mushy base, soft leaves' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
       'Succulent': { waterDays: 14, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Soak and dry method; water until it flows from drainage holes, then wait until completely dry.', soilDrynessCheck: 'Check 3 inches; water when completely dry throughout.', leafSignals: { underwater: 'Wrinkled, deflated leaves', overwater: 'Mushy, translucent leaves, black spots, leaf drop' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
-      'Cactus': { waterDays: 21, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water very sparingly; needs fast drainage.', soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.', leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened, smells rotten' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
-      'Dracaena': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; sensitive to fluoride - use filtered.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting, drooping', overwater: 'Yellow leaves from bottom up, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
-      'Chinese Evergreen': { waterDays: 10, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
-      'Money Tree': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; likes humidity.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk, yellow leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Cheerful' },
-      'Peperomia': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings', soilDrynessCheck: 'Check top 2 inches; water when dry', leafSignals: { underwater: 'Wilting, drooping', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Chill' },
-      'Tradescantia': { waterDays: 5, light: 'Medium to Bright', soil: 'Regular', waterMethod: 'top', waterNotes: 'Keep evenly moist; loves humidity', soilDrynessCheck: 'Check top inch; water when dry', leafSignals: { underwater: 'Wilting, crispy leaves', overwater: 'Mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
-      'Parlor Palm': { waterDays: 7, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on leaves, wilting', overwater: 'Yellow leaves, root rot, mushy base' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
-      'Basil': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; never let dry out.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Wilted, drooping leaves', overwater: 'Yellow leaves, black stems, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
-      'Lavender': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Water sparingly; needs excellent drainage.', soilDrynessCheck: 'Check 3 inches; dry = water.', leafSignals: { underwater: 'Wilting, gray foliage, no flowers', overwater: 'Mushy stems, root rot, leaves turn black' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
-      'Rosemary': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings; drought-tolerant.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wilting, needle-like leaves droop', overwater: 'Yellow leaves from base, root rot, mushy stems' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
-      'Mint': { waterDays: 2, light: 'Medium to Bright', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep moist; loves water.', soilDrynessCheck: 'Check surface; keep consistently moist.', leafSignals: { underwater: 'Wilting, brown edges on leaves', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' }
+      'Cactus': { waterDays: 21, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water very sparingly; needs fast drainage. Reduce to monthly in winter.', soilDrynessCheck: 'Check 4 inches; water only when completely dry throughout pot.', leafSignals: { underwater: 'Shriveled, dull color, soft spots when pressed', overwater: 'Mushy, blackened at base, smells rotten' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
+      'Christmas Cactus': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining cactus mix', waterMethod: 'top', waterNotes: 'Needs more water than desert cacti. Keep moist when blooming, drier otherwise.', soilDrynessCheck: 'Check top inch; water when slightly dry.', leafSignals: { underwater: 'Segments shrivel, buds drop', overwater: 'Mushy segments, yellowing' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Jade Plant': { waterDays: 14, light: 'Bright Direct to Indirect', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry completely. Can live for decades with good care.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Wrinkled, thin, shriveling leaves', overwater: 'Mushy leaves, black stems, leaf drop' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'String of Pearls': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Water from bottom by placing in tray of water for 20 minutes. Sensitive to overwatering.', soilDrynessCheck: 'Check if pearls feel slightly soft/deflated.', leafSignals: { underwater: 'Shriveling pearls, pearls flatten and look deflated', overwater: 'Mushy, translucent pearls that pop off stem easily' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'String of Hearts': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'Semi-succulent. Bottom water when soil is dry. Very drought tolerant.', soilDrynessCheck: 'Check 2 inches; water when dry.', leafSignals: { underwater: 'Heart leaves shrivel and look flat', overwater: 'Mushy tubers, yellowing leaves' }, waterAmount: 'light', suggestedPersonality: 'Cheerful' },
+      'String of Turtles': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining mix', waterMethod: 'bottom', waterNotes: 'Tiny turtle-patterned leaves. Slightly more moisture than string of pearls.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Pattern fades, leaves pucker', overwater: 'Mushy stems, yellowing' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'String of Bananas': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'bottom', waterNotes: 'More sun-tolerant than string of pearls. Water when dry.', soilDrynessCheck: 'Check 2 inches; water when dry.', leafSignals: { underwater: 'Bananas flatten and shrivel', overwater: 'Mushy stems, yellowing' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+
+      // ===== HOYA VARIETIES =====
+      'Hoya Carnosa': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let dry between waterings. Don\'t remove the peduncle after blooming.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wrinkled leaves, dull appearance', overwater: 'Yellow leaves, mushy stems, bud drop' }, waterAmount: 'thorough', suggestedPersonality: 'Mysterious' },
+      'Hoya Kerrii': { waterDays: 14, light: 'Bright Indirect', soil: 'Well-draining succulent mix', waterMethod: 'top', waterNotes: 'Heart-shaped leaf. Very drought tolerant. Single-leaf cuttings won\'t vine.', soilDrynessCheck: 'Check 2 inches; water when completely dry.', leafSignals: { underwater: 'Leaf yellows slightly at edges', overwater: 'Mushy base, yellowing' }, waterAmount: 'light', suggestedPersonality: 'Cheerful' },
+      'Hoya Pubicalyx': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Silver-flecked leaves. Blooms with bright light. Water when dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Silver flecks dull, leaves wrinkle', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+      'Hoya Obovata': { waterDays: 10, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'top', waterNotes: 'Round leaves with silver dots. Water when dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves feel slightly soft, silver dots dull', overwater: 'Yellow leaves, stem rot' }, waterAmount: 'moderate', suggestedPersonality: 'Mysterious' },
+
+      // ===== ORCHIDS =====
+      'Phalaenopsis Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'bottom', waterNotes: 'Soak roots in room temperature water for 10-15 minutes weekly, then drain completely. Never let sit in water.', soilDrynessCheck: 'Check roots; water when roots turn silvery-gray (not bright green).', leafSignals: { underwater: 'Wrinkled, shriveled roots, drooping leaves', overwater: 'Brown mushy roots, yellow leaves, crown rot' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Dendrobium Orchid': { waterDays: 7, light: 'Bright Indirect', soil: 'Orchid bark mix', waterMethod: 'top', waterNotes: 'Water more in growth season, reduce in winter rest period.', soilDrynessCheck: 'Check bark; water when nearly dry.', leafSignals: { underwater: 'Pseudobulbs shrivel, yellow lower leaves', overwater: 'Rot at base of canes' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+
+      // ===== DRACAENAS =====
+      'Dracaena Marginata': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; very sensitive to fluoride — use filtered water. Tolerates neglect.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips spread inward, leaf drop', overwater: 'Yellow leaves from bottom up, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Dracaena Fragrans (Corn Plant)': { waterDays: 10, light: 'Low to Medium', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Very tolerant of low light. Use filtered water. Water when top 2 inches dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown leaf tips, wilting', overwater: 'Yellow leaves, soft cane' }, waterAmount: 'moderate', suggestedPersonality: 'Chill' },
+      'Dracaena Compacta': { waterDays: 14, light: 'Low to Medium', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Very slow grower. Use filtered water. Water less than other dracaenas.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips, leaf drop', overwater: 'Yellow cluster of leaves, rot at base' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Dracaena Lemon Lime': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Yellow-green striped leaves. Brighter light keeps colors vivid. Use filtered water.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips, color fades', overwater: 'Yellow leaves, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Dracaena Song of India': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Yellow-edged leaves. Use filtered water. Keep moderately moist.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Yellow edges brown, leaves drop', overwater: 'Yellow throughout, stem rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+
+      // ===== CHINESE EVERGREEN =====
+      'Chinese Evergreen': { waterDays: 10, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Very adaptable. More colorful varieties need more light. Water thoroughly, let drain.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, drooping, brown leaf edges', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Chinese Evergreen Red': { waterDays: 10, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Red varieties need more light than green ones. Water when top 2 inches dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Red fades to pink, leaves droop', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+
+      // ===== MONEY TREE & LUCKY PLANTS =====
+      'Money Tree': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain; prefers humidity. Rotate occasionally for even growth.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Wilting, yellowing leaves, leaf drop', overwater: 'Root rot, mushy trunk base, yellow leaves' }, waterAmount: 'thorough', suggestedPersonality: 'Cheerful' },
+      'Lucky Bamboo': { waterDays: 7, light: 'Low to Medium', soil: 'Water or pebbles', waterMethod: 'both', waterNotes: 'Grows in water or soil. If in water, change water every 2 weeks. Use filtered water only.', soilDrynessCheck: 'Keep roots submerged in clean water, or check soil top inch.', leafSignals: { underwater: 'Yellow stems, mushy roots in water', overwater: 'Root rot, yellow stalks' }, waterAmount: 'moderate', suggestedPersonality: 'Chill' },
+
+      // ===== PEPEROMIA VARIETIES =====
+      'Peperomia Obtusifolia': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Thick leaves store water. Very forgiving. Water when top 2 inches are dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves wrinkle slightly', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Chill' },
+      'Peperomia Caperata': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'bottom', waterNotes: 'Rippled leaves. Bottom watering prevents crown rot.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Leaves look dull and feel thin', overwater: 'Crown rot, collapsing stems' }, waterAmount: 'light', suggestedPersonality: 'Chill' },
+      'Peperomia Watermelon': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'bottom', waterNotes: 'Striped watermelon pattern. Bottom water to prevent crown rot.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Stripes fade, leaves curl under', overwater: 'Mushy petioles, crown rot' }, waterAmount: 'light', suggestedPersonality: 'Cheerful' },
+      'Peperomia Argyreia': { waterDays: 10, light: 'Medium to Bright', soil: 'Well-draining', waterMethod: 'bottom', waterNotes: 'Silver striped. Bottom water. Very easy care.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Silver dulls, leaves droop slightly', overwater: 'Soft mushy petioles' }, waterAmount: 'light', suggestedPersonality: 'Cheerful' },
+      'Peperomia Rotundifolia': { waterDays: 10, light: 'Medium', soil: 'Well-draining', waterMethod: 'top', waterNotes: 'Trailing vine with tiny round leaves. Water when top inch is dry.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Tiny leaves shrivel', overwater: 'Yellowing, mushy stems' }, waterAmount: 'light', suggestedPersonality: 'Cheerful' },
+
+      // ===== TRADESCANTIA =====
+      'Tradescantia Zebrina': { waterDays: 5, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Silver and green striped. Keep evenly moist for best color. Very fast grower.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Silver stripes fade, leaves wilt', overwater: 'Mushy stems, yellowing' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Tradescantia Nanouk': { waterDays: 5, light: 'Bright Indirect', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Pink and purple variegation. Needs bright light to keep pink color vivid.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Pink fades to green, leaves droop', overwater: 'Mushy stems, yellow leaves' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Tradescantia Purple Heart': { waterDays: 7, light: 'Bright Direct to Indirect', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Deep purple foliage needs sun to stay vibrant. Very drought tolerant once established.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Purple fades to green, stems droop', overwater: 'Mushy stems, yellowing' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+
+      // ===== PALMS =====
+      'Parlor Palm': { waterDays: 7, light: 'Low to Medium', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'One of the best low-light palms. Keep evenly moist; don\'t let dry completely.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown tips on fronds, yellow lower fronds', overwater: 'Yellow fronds throughout, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Chill' },
+      'Areca Palm': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Butterfly palm. Loves humidity. Keep evenly moist in summer, drier in winter.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Brown frond tips, yellowing lower fronds', overwater: 'Yellow throughout, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Majesty Palm': { waterDays: 7, light: 'Bright Indirect to Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Needs high humidity and bright light. Keep consistently moist.', soilDrynessCheck: 'Check top inch; water when barely dry.', leafSignals: { underwater: 'Brown tips spread, fronds droop', overwater: 'Yellow fronds, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Diva' },
+      'Kentia Palm': { waterDays: 10, light: 'Low to Medium', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Extremely tolerant of low light and neglect. Water when top 2 inches dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Brown leaf tips, frond droop', overwater: 'Yellow fronds, mushy base' }, waterAmount: 'moderate', suggestedPersonality: 'Resilient' },
+
+      // ===== HERBS =====
+      'Basil': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Keep consistently moist; never let dry out. Pinch flowers to keep producing leaves.', soilDrynessCheck: 'Check surface daily; water when top inch is dry.', leafSignals: { underwater: 'Wilted, drooping leaves that feel soft', overwater: 'Yellow leaves, black stems, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Mint': { waterDays: 2, light: 'Medium to Bright', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Loves water. Keep consistently moist. Spreads aggressively — best kept in own pot.', soilDrynessCheck: 'Check surface; keep consistently moist.', leafSignals: { underwater: 'Wilting, brown leaf edges', overwater: 'Yellow leaves, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Rosemary': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy cactus mix', waterMethod: 'top', waterNotes: 'Mediterranean herb. Very drought tolerant. Needs excellent drainage and full sun.', soilDrynessCheck: 'Check 3 inches; water when completely dry.', leafSignals: { underwater: 'Needle-like leaves droop, color dulls', overwater: 'Yellow leaves from base, root rot, mushy stems' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
+      'Lavender': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Needs excellent drainage and full sun. Drought tolerant once established.', soilDrynessCheck: 'Check 3 inches; water when dry.', leafSignals: { underwater: 'Gray foliage, no new flowers, wilting', overwater: 'Mushy stems at base, root rot, leaves turn black' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'Thyme': { waterDays: 10, light: 'Bright Direct', soil: 'Sandy well-draining mix', waterMethod: 'top', waterNotes: 'Very drought tolerant. Overwatering is the biggest threat. Needs full sun.', soilDrynessCheck: 'Check 2 inches; water when dry.', leafSignals: { underwater: 'Leaves shrivel slightly', overwater: 'Mushy stems, root rot, yellowing' }, waterAmount: 'light', suggestedPersonality: 'Resilient' },
+      'Cilantro': { waterDays: 2, light: 'Bright Direct', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Bolts quickly in heat. Keep moist and harvest regularly. Short lifespan — reseed often.', soilDrynessCheck: 'Check surface; water when top inch is dry.', leafSignals: { underwater: 'Leaves wilt dramatically and quickly', overwater: 'Yellowing stems, mushy roots' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+
+      // ===== OTHER POPULAR PLANTS =====
+      'English Ivy': { waterDays: 7, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Keep evenly moist. Good air purifier. Prefers cool temperatures.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Crispy leaves, leaf drop, pale color', overwater: 'Yellow leaves, root rot, mushy stems' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Pothos (Epipremnum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly and let drain completely. One of the most forgiving plants alive.', soilDrynessCheck: 'Stick finger 2 inches into soil; water when completely dry.', leafSignals: { underwater: 'Vines droop dramatically, leaves lose firmness', overwater: 'Brown stems, yellow leaves from base upward' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Bromeliad': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining orchid mix', waterMethod: 'both', waterNotes: 'Water soil lightly AND fill the central cup with water. Flush cup monthly.', soilDrynessCheck: 'Check soil; water when top inch dry. Keep cup filled.', leafSignals: { underwater: 'Cup empty, lower leaves droop', overwater: 'Mushy base, leaves pull off easily' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Air Plant': { waterDays: 7, light: 'Bright Indirect', soil: 'None — mount or display in open container', waterMethod: 'both', waterNotes: 'Soak in room temp water 20-30 minutes weekly; mist 2-3x between soaks. Shake off excess water.', soilDrynessCheck: 'Leaves curling inward and feeling crispy = needs water. Always dry upside down after soaking.', leafSignals: { underwater: 'Curling inward, crispy, grayish-silver color', overwater: 'Mushy, discolored base, leaves fall off easily' }, waterAmount: 'light', suggestedPersonality: 'Mysterious' },
+      'Croton': { waterDays: 7, light: 'Bright Direct to Indirect', soil: 'Rich potting mix', waterMethod: 'top', waterNotes: 'Needs bright light for vibrant color. Keep consistently moist. Hates drafts.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Leaves droop dramatically, colors fade', overwater: 'Root rot, yellow leaves, leaf drop' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Umbrella Plant (Schefflera)': { waterDays: 7, light: 'Medium to Bright', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Water thoroughly, let drain. Tolerates some neglect. Can grow very large.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop, brown edges', overwater: 'Yellow leaves, root rot' }, waterAmount: 'thorough', suggestedPersonality: 'Resilient' },
+      'Norfolk Island Pine': { waterDays: 7, light: 'Bright Indirect', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Keep evenly moist. Loves humidity. Bottom branches drop if too dry.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Lower branch drop, needles brown and drop', overwater: 'Yellow branches, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Elephant Ear (Alocasia)': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Keep evenly moist. Goes dormant in low light/cold. Loves humidity.', soilDrynessCheck: 'Check top inch; water when slightly dry.', leafSignals: { underwater: 'Dramatic leaf droop, edges yellow', overwater: 'Corm rot, yellow leaves, stem collapse' }, waterAmount: 'moderate', suggestedPersonality: 'Dramatic' },
+      'Colocasia (Taro)': { waterDays: 5, light: 'Medium to Bright', soil: 'Rich moist mix', waterMethod: 'top', waterNotes: 'Loves water. Keep consistently moist — almost boggy for some varieties.', soilDrynessCheck: 'Check top inch; water when barely dry.', leafSignals: { underwater: 'Dramatic wilt, leaves point down', overwater: 'Crown rot if water sits in crown' }, waterAmount: 'thorough', suggestedPersonality: 'Dramatic' },
+      'Dieffenbachia': { waterDays: 7, light: 'Low to Bright Indirect', soil: 'Well-draining potting mix', waterMethod: 'top', waterNotes: 'Keep evenly moist. Very adaptable. Wash hands after handling — toxic sap.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Leaves droop, brown leaf tips', overwater: 'Yellow leaves from base, root rot' }, waterAmount: 'moderate', suggestedPersonality: 'Resilient' },
+      'Anthurium': { waterDays: 7, light: 'Bright Indirect', soil: 'Well-draining aroid mix', waterMethod: 'top', waterNotes: 'Keep evenly moist; never soggy. Bright indirect light encourages blooming.', soilDrynessCheck: 'Check top inch; water when slightly dry.', leafSignals: { underwater: 'Flowers fade quickly, leaves yellow', overwater: 'Root rot, yellow leaves, wilting despite wet soil' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Pothos (Epipremnum aureum)': { waterDays: 7, light: 'Low to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Extremely adaptable. Water when soil is dry.', soilDrynessCheck: 'Check top 2 inches; water when dry.', leafSignals: { underwater: 'Vines droop, leaves wrinkle', overwater: 'Yellow leaves, mushy stems' }, waterAmount: 'thorough', suggestedPersonality: 'Chill' },
+      'Wandering Jew': { waterDays: 5, light: 'Medium to Bright', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Keep evenly moist. Pinch back for bushier growth. Fast grower.', soilDrynessCheck: 'Check top inch; water when dry.', leafSignals: { underwater: 'Purple fades, leaves wilt', overwater: 'Mushy stems, yellowing' }, waterAmount: 'moderate', suggestedPersonality: 'Cheerful' },
+      'Cast Iron Plant': { waterDays: 14, light: 'Low', soil: 'Regular potting mix', waterMethod: 'top', waterNotes: 'Nearly indestructible. Tolerates deep shade, drought, and neglect. Water sparingly.', soilDrynessCheck: 'Check 3 inches; water only when very dry.', leafSignals: { underwater: 'Dull color, rare for this plant', overwater: 'Yellow leaves — one of the few ways to kill it' }, waterAmount: 'light', suggestedPersonality: 'Resilient' }
     };
 
     // =============================================
@@ -1395,40 +1566,262 @@
 
     const waterVoice = {
       Dramatic: {
-        onTrack: ["I'm well-hydrated. You can tell by how good I look.", "Thriving. My moisture levels are peak dramatic.", "No notes on the hydration front. For now."],
-        dueSoon: ["We're approaching the window. I trust you know.", "I wouldn't wait much longer. Just saying.", "The soil is beginning to form opinions."],
-        dueToday: ["Today would be ideal. I'm not demanding. I am, however, requesting.", "The schedule calls for water today. I'll be watching.", "I've been patient. Today is the day."],
-        overdue: ["Not to be dramatic, but I haven't had water in days. I'm fine. I'm not fine.", "SYSTEM NOTICE: Leaf droop detected. I remain hopeful. Barely.", "Gerald and I are ready for water whenever you are."]
+        onTrack: [
+          "I'm well-hydrated. You can tell by how good I look.",
+          "Thriving. My moisture levels are peak dramatic.",
+          "No notes on the hydration front. For now.",
+          "I am fully hydrated and deeply appreciated. Today is going well.",
+          "The moisture is perfect. I've decided to be pleased.",
+          "Water levels optimal. I'm choosing to be gracious about it.",
+          "Hydrated, radiant, and frankly a little too beautiful right now.",
+          "Everything is fine. Better than fine. Don't read too much into that."
+        ],
+        dueSoon: [
+          "We're approaching the window. I trust you know.",
+          "I wouldn't wait much longer. Just saying.",
+          "The soil is beginning to form opinions.",
+          "A gentle awareness is forming. In me. About the water situation.",
+          "Still fine. But I'm noticing things. The soil is noticing things.",
+          "The timeline is tightening. I remain calm. Barely.",
+          "Soon. That's all I'll say. Soon.",
+          "The leaves are beginning to whisper. You should probably listen."
+        ],
+        dueToday: [
+          "Today would be ideal. I'm not demanding. I am, however, requesting.",
+          "The schedule calls for water today. I'll be watching.",
+          "I've been patient. Today is the day.",
+          "Today. The soil. The water. Please.",
+          "I prepared a small speech about this. The short version is: water me.",
+          "I've been rehearsing this moment. Water. Today. Thank you.",
+          "The leaves have voted. It's unanimous. Today.",
+          "Today would be the day. Historically. Emotionally. Practically."
+        ],
+        overdue: [
+          "Not to be dramatic, but I haven't had water in days. I'm fine. I'm not fine.",
+          "SYSTEM NOTICE: Leaf droop detected. I remain hopeful. Barely.",
+          "Gerald and I are ready for water whenever you are.",
+          "The leaves have already filed a formal complaint. I cosigned it.",
+          "I've been dramatic before. This is different. This is real.",
+          "I named the thirst Gerald. Gerald has opinions. Mostly about you.",
+          "At this point I'm running on atmosphere and disappointment.",
+          "I didn't want it to come to this. And yet. Here we both are.",
+          "I've survived worse. I'd prefer not to prove it again."
+        ]
       },
       Chill: {
-        onTrack: ["All good. No notes.", "Hydration's solid. Just vibing.", "Doing well. Low maintenance as promised."],
-        dueSoon: ["Could use water soonish. No urgency.", "Water in a bit? Whenever works.", "Starting to feel it. Still chill."],
-        dueToday: ["Water day. No rush. Kinda.", "Today would be nice. Up to you though.", "Mentioning it. That's all."],
-        overdue: ["Hey. Water would be nice. Eventually. Like... now-ish.", "Chill Plant has entered Slightly Less Chill territory.", "Water. Please. That's the whole message."]
+        onTrack: [
+          "All good. No notes.",
+          "Hydration's solid. Just vibing.",
+          "Doing well. Low maintenance as promised.",
+          "All good over here. Thanks for checking.",
+          "Yeah, no complaints. Things are chill.",
+          "Moisture is fine. I'm fine. We're all fine.",
+          "Current status: hydrated and unbothered.",
+          "Good. No drama. Just growing."
+        ],
+        dueSoon: [
+          "Could use water soonish. No urgency.",
+          "Water in a bit? Whenever works.",
+          "Starting to feel it. Still chill.",
+          "Hey, water soon would be nice. No pressure.",
+          "Getting a little dry but like, no rush.",
+          "Just putting it out there — water sometime this week would be cool.",
+          "Mild interest in some water. When you get around to it.",
+          "Slight dryness noted. Still vibing."
+        ],
+        dueToday: [
+          "Water day. No rush. Kinda.",
+          "Today would be nice. Up to you though.",
+          "Mentioning it. That's all.",
+          "Hey. It's that time. Water when you can.",
+          "Water day. I'm not mad. Just mentioning.",
+          "Today works for water. Or tomorrow. Mostly today though.",
+          "Low key: today's the day. No big deal.",
+          "Water check-in. Casual. Whenever."
+        ],
+        overdue: [
+          "Hey. Water would be nice. Eventually. Like... now-ish.",
+          "Chill Plant has entered Slightly Less Chill territory.",
+          "Water. Please. That's the whole message.",
+          "Okay so I've been chill about this. I'm still chill. But also... water?",
+          "Not stressing. But also definitely noticing the dry situation.",
+          "Past due. Still relaxed about it. But like, water though.",
+          "Soil's pretty dry. I trust you'll handle it. Eventually. Soon.",
+          "Real talk: been a while. Water would hit different right now.",
+          "Okay I lied, I'm slightly stressing. Just a little. Water time."
+        ]
       },
       Resilient: {
-        onTrack: ["Moisture levels nominal. No action required.", "Holding. As expected.", "Good conditions. Proceeding."],
-        dueSoon: ["Getting close. Water when ready.", "A little dry but holding. You've got time.", "Not urgent. But noting it."],
-        dueToday: ["Water today. That's the report.", "Field conditions indicate water is due.", "Ready for water. Whenever you are."],
-        overdue: ["Still here. That's on both of us. Water me.", "I've outlasted worse. With your help I'll outlast this.", "RECOVERY MISSION: Water now. I'll handle the rest."]
+        onTrack: [
+          "Moisture levels nominal. No action required.",
+          "Holding. As expected.",
+          "Good conditions. Proceeding.",
+          "Hydration: satisfactory. Continuing operations.",
+          "All systems stable. No issues to report.",
+          "Moisture optimal. Growth proceeding on schedule.",
+          "Everything is functional. Thank you for the water.",
+          "Conditions good. I'll make the most of it."
+        ],
+        dueSoon: [
+          "Getting close. Water when ready.",
+          "A little dry but holding. You've got time.",
+          "Not urgent. But noting it.",
+          "Drying out slightly. Still within acceptable range.",
+          "Approaching water threshold. Ready when you are.",
+          "Mild dryness detected. No cause for concern yet.",
+          "Soon would be efficient. Not critical yet.",
+          "Starting to tap reserves. Time to refill when possible."
+        ],
+        dueToday: [
+          "Water today. That's the report.",
+          "Field conditions indicate water is due.",
+          "Ready for water. Whenever you are.",
+          "Today is the scheduled water day. Awaiting.",
+          "Hydration mission: active. Waiting on your go.",
+          "Water day confirmed. Standing by.",
+          "Report: water needed. Today. Ready.",
+          "Scheduled watering due. Request acknowledged in advance."
+        ],
+        overdue: [
+          "Still here. That's on both of us. Water me.",
+          "I've outlasted worse. With your help I'll outlast this.",
+          "RECOVERY MISSION: Water now. I'll handle the rest.",
+          "Reserves depleted. Resilience holding but declining. Water recommended.",
+          "Still standing. It's what I do. Water would help the cause.",
+          "Critical threshold approaching. Water required. I'll survive either way.",
+          "Drought protocol active. I'm still operational. Barely.",
+          "Running on fumes. Impressive but unsustainable. Water. Now.",
+          "Still here against all odds. This is my thing. But water helps."
+        ]
       },
       Diva: {
-        onTrack: ["Impeccably hydrated. As I should be.", "No complaints on the moisture front. You've been doing well.", "Thriving. Obviously. You're welcome."],
-        dueSoon: ["We're entering the window. I trust you're prepared.", "I'll need water soon. I believe you already knew.", "I shouldn't have to remind you. And yet."],
-        dueToday: ["Today. Please.", "It's time. I trust you feel it too.", "I've been patient. Today is the day."],
-        overdue: ["This is not what we agreed to.", "I've been patient. You've been busy. Water. Now.", "Iconic plants don't go out like this. Fix it."]
+        onTrack: [
+          "Impeccably hydrated. As I should be.",
+          "No complaints on the moisture front. You've been doing well.",
+          "Thriving. Obviously. You're welcome.",
+          "I've decided to be pleased with you today. Don't waste it.",
+          "Moisture is perfect. I'm choosing to acknowledge that.",
+          "You've maintained the standard. I notice these things.",
+          "Everything is exactly as it should be. For now.",
+          "Hydrated, radiant, impeccable. You contributed. Slightly."
+        ],
+        dueSoon: [
+          "We're entering the window. I trust you're prepared.",
+          "I'll need water soon. I believe you already knew.",
+          "I shouldn't have to remind you. And yet.",
+          "The timeline is becoming relevant. I expect you've noticed.",
+          "Soon. I trust your awareness of 'soon' matches mine.",
+          "The soil is forming expectations. I don't like to disappoint.",
+          "I won't say I'm worried. I will say I'm attentive.",
+          "Water is approaching relevance. Please act accordingly."
+        ],
+        dueToday: [
+          "Today. Please.",
+          "It's time. I trust you feel it too.",
+          "I've been patient. Today is the day.",
+          "Today. The water. My standards. All of it.",
+          "The day has arrived. As scheduled. As expected.",
+          "Water. Today. No negotiation.",
+          "I've maintained my composure. Today would be an ideal reward.",
+          "Today or I'll be forced to be disappointed. Your choice."
+        ],
+        overdue: [
+          "This is not what we agreed to.",
+          "I've been patient. You've been busy. Water. Now.",
+          "Iconic plants don't go out like this. Fix it.",
+          "I have never been more disappointed. And I have a long memory.",
+          "This is below the standard I've come to expect from us.",
+          "I won't make a scene. I will absolutely make a scene. Water me.",
+          "Do you know who I am? I am a plant that deserves better. Water.",
+          "The neglect has been noted. Documented. Not forgotten.",
+          "I've been surviving on dignity alone. The supply is running low."
+        ]
       },
       Mysterious: {
-        onTrack: ["The moisture is sufficient. The roots are content.", "Balance. For now.", "All is as it should be."],
-        dueSoon: ["The soil grows quieter. It may be time.", "Something is shifting. You'll know what to do.", "The ancient ones suggest water. Soon."],
-        dueToday: ["The soil speaks today.", "The leaves remember. The time is now.", "Today the roots ask something of you."],
-        overdue: ["The leaves remember what the soil has forgotten. You remember too.", "Even ancient things need water. This is known.", "The roots have been patient. They trust you will come."]
+        onTrack: [
+          "The moisture is sufficient. The roots are content.",
+          "Balance. For now.",
+          "All is as it should be.",
+          "The soil holds what it needs. The leaves are satisfied.",
+          "Water and root are in agreement. All is well.",
+          "The cycle continues as it should. No disturbance.",
+          "Something is right today. I have no further comment.",
+          "The conditions favor growth. The rest is already in motion."
+        ],
+        dueSoon: [
+          "The soil grows quieter. It may be time.",
+          "Something is shifting. You'll know what to do.",
+          "The ancient ones suggest water. Soon.",
+          "The roots are beginning to speak of thirst.",
+          "A whisper from the soil. It asks for attention.",
+          "The silence is changing. Something approaches.",
+          "I sense the coming need. The water will know when.",
+          "Soon the balance will ask for restoration."
+        ],
+        dueToday: [
+          "The soil speaks today.",
+          "The leaves remember. The time is now.",
+          "Today the roots ask something of you.",
+          "Today. The soil knows. Now you do too.",
+          "The cycle completes itself today. Water is the final step.",
+          "Today carries its own instruction. The roots have already read it.",
+          "Water. Today. The leaves have been keeping track.",
+          "Today the silence breaks. It wants water."
+        ],
+        overdue: [
+          "The leaves remember what the soil has forgotten. You remember too.",
+          "Even ancient things need water. This is known.",
+          "The roots have been patient. They trust you will come.",
+          "Something stirs in the deep. It is thirst. It is old.",
+          "The soil holds secrets. Right now the secret is that it's very dry.",
+          "The roots have seen drought before. They would prefer not to see it again.",
+          "What was patient is becoming persistent. The water is called for.",
+          "The long silence of the roots is not peace. It is endurance.",
+          "Even the most stoic among us eventually need water. The moment is now."
+        ]
       },
       Cheerful: {
-        onTrack: ["Happy, healthy, hydrated! Life is good!", "Everything is great over here. You did that!", "Feeling amazing. Thank you for showing up."],
-        dueSoon: ["Just a little nudge — water soon? No rush!", "Still smiling! But the soil is sending hints.", "Water sometime soon? Your biggest fan is asking."],
-        dueToday: ["Water day! So exciting!", "Today's the day! I believe in you!", "A gentle reminder from your number one supporter."],
-        overdue: ["I'm sure you've been busy! I still believe in us.", "A little thirsty but still rooting for you! Always.", "Okay things are rough but I KNOW you'll come through!"]
+        onTrack: [
+          "Happy, healthy, hydrated! Life is good!",
+          "Everything is great over here. You did that!",
+          "I've been SO excited for you to come back.",
+          "Doing wonderfully! Thank you for taking such good care of me!",
+          "Hydrated and happy! Best combo! Thank you!",
+          "Things are perfect! You're doing amazing!",
+          "I am thriving and I just want you to know I appreciate you!",
+          "Life is good! The water was perfect! You're perfect!"
+        ],
+        dueSoon: [
+          "Just a little nudge — water soon? No rush!",
+          "Still smiling! But the soil is sending hints.",
+          "Water sometime soon? Your biggest fan is asking nicely.",
+          "Hey! Just a heads up — getting a little dry over here! Still great though!",
+          "Gentle reminder from your favorite plant! Water soon please!",
+          "Still happy! Just slightly thirsty! You've got this!",
+          "Soon would be wonderful! No pressure! Just optimistic!",
+          "Water check incoming! You're doing great! Just... water soon!"
+        ],
+        dueToday: [
+          "Water day! So exciting!",
+          "Today's the day! I believe in you!",
+          "A gentle reminder from your number one supporter.",
+          "It's water day!! I've been looking forward to this!!",
+          "Today! Water! You! Me! Let's do this!",
+          "Water day check-in from your most enthusiastic plant!",
+          "I believe in you and also I need water today! Both things!",
+          "Your biggest fan would love some water today! Please and thank you!"
+        ],
+        overdue: [
+          "I'm sure you've been busy! I still believe in us.",
+          "A little thirsty but still rooting for you! Always.",
+          "Okay things are rough but I KNOW you'll come through.",
+          "Still here! Still hopeful! Just also very thirsty!",
+          "I haven't given up on us! But I could really use some water!",
+          "It's been a while but I'm still your biggest fan! Water please!",
+          "Things are tough but I believe in you more than I believe in water! Almost!",
+          "Still smiling through the drought! You've got this! Water me first though!",
+          "Recovery mode activated! I'm staying positive! Water would help a lot!"
+        ]
       }
     };
 
