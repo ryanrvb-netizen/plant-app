@@ -790,6 +790,7 @@
     }
 
     function showRareBadge(icon, title, msg) {
+      soundRareUnlock();
       const badge = document.createElement('div');
       badge.className = 'rare-badge';
       badge.innerHTML = `
@@ -1032,6 +1033,13 @@
         <div class="daily-card-divider"></div>
         <div class="daily-card-sub">${card.sub}</div>
       `;
+      // Play once per day only
+      try {
+        const todayKey = today.toDateString();
+        if (localStorage.getItem('florish_card_sound') !== todayKey) {
+          setTimeout(() => { soundDailyCard(); localStorage.setItem('florish_card_sound', todayKey); }, 800);
+        }
+      } catch(e) {}
     }
 
     // =============================================
@@ -1517,6 +1525,10 @@
       const newStage = getStage(plant.waterCount).id;
       const justLeveledUp = oldStage !== newStage;
 
+      // Play sounds
+      soundWater();
+      if (justLeveledUp) setTimeout(soundGrowth, 400);
+
       savePlants(); renderPlants(); updateNotifBell(); renderGardenSummary(); renderRitualGreeting();
 
       setTimeout(() => {
@@ -1936,6 +1948,127 @@
       savePlants(); renderPlants(); renderRitualGreeting();
       const pe = { 'Dramatic': '🎭', 'Chill': '😌', 'Resilient': '💪', 'Diva': '👑', 'Mysterious': '🔮', 'Cheerful': '☀️' };
       showToast('renameToast', `${pe[plant.personality]} ${plant.nickname || plant.species} is now ${plant.personality}`, 2000);
+    }
+
+    // =============================================
+    // SOUND ENGINE
+    // Synthesized via Web Audio API — no external files
+    // Respects device silent mode automatically
+    // =============================================
+    let _ac = null;
+    function getAC() {
+      if (!_ac) {
+        try { _ac = new (window.AudioContext || window.webkitAudioContext)(); } catch(e) {}
+      }
+      if (_ac && _ac.state === 'suspended') _ac.resume();
+      return _ac;
+    }
+
+    function soundWater() {
+      try {
+        const ac = getAC(); if (!ac) return;
+        // White noise pour
+        const bufLen = ac.sampleRate * 0.4;
+        const buf = ac.createBuffer(1, bufLen, ac.sampleRate);
+        const data = buf.getChannelData(0);
+        for (let i = 0; i < bufLen; i++) data[i] = (Math.random() * 2 - 1) * (1 - i / bufLen);
+        const noise = ac.createBufferSource();
+        noise.buffer = buf;
+        const filter = ac.createBiquadFilter();
+        filter.type = 'bandpass';
+        filter.frequency.value = 800;
+        filter.Q.value = 0.8;
+        const gainN = ac.createGain();
+        gainN.gain.setValueAtTime(0, ac.currentTime);
+        gainN.gain.linearRampToValueAtTime(0.06, ac.currentTime + 0.05);
+        gainN.gain.linearRampToValueAtTime(0, ac.currentTime + 0.4);
+        noise.connect(filter); filter.connect(gainN); gainN.connect(ac.destination);
+        noise.start();
+        // Three drip tones
+        [0.1, 0.22, 0.34].forEach((t, i) => {
+          const osc = ac.createOscillator();
+          const g = ac.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = 900 - i * 80;
+          g.gain.setValueAtTime(0, ac.currentTime + t);
+          g.gain.linearRampToValueAtTime(0.12, ac.currentTime + t + 0.02);
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + t + 0.18);
+          osc.connect(g); g.connect(ac.destination);
+          osc.start(ac.currentTime + t);
+          osc.stop(ac.currentTime + t + 0.2);
+        });
+      } catch(e) {}
+    }
+
+    function soundGrowth() {
+      try {
+        const ac = getAC(); if (!ac) return;
+        // Ascending pentatonic chime: G A C D
+        const freqs = [392, 440, 523, 587];
+        freqs.forEach((freq, i) => {
+          const osc = ac.createOscillator();
+          const g = ac.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = freq;
+          // Slight detune for warmth
+          osc.detune.value = (Math.random() - 0.5) * 8;
+          const t = ac.currentTime + i * 0.12;
+          g.gain.setValueAtTime(0, t);
+          g.gain.linearRampToValueAtTime(0.14, t + 0.04);
+          g.gain.exponentialRampToValueAtTime(0.001, t + 0.6);
+          osc.connect(g); g.connect(ac.destination);
+          osc.start(t); osc.stop(t + 0.65);
+        });
+      } catch(e) {}
+    }
+
+    function soundRareUnlock() {
+      try {
+        const ac = getAC(); if (!ac) return;
+        // Gliss sweep up
+        const sweep = ac.createOscillator();
+        const sweepGain = ac.createGain();
+        sweep.type = 'sine';
+        sweep.frequency.setValueAtTime(200, ac.currentTime);
+        sweep.frequency.exponentialRampToValueAtTime(800, ac.currentTime + 0.3);
+        sweepGain.gain.setValueAtTime(0, ac.currentTime);
+        sweepGain.gain.linearRampToValueAtTime(0.08, ac.currentTime + 0.05);
+        sweepGain.gain.linearRampToValueAtTime(0, ac.currentTime + 0.3);
+        sweep.connect(sweepGain); sweepGain.connect(ac.destination);
+        sweep.start(); sweep.stop(ac.currentTime + 0.32);
+        // Four cascading bell tones
+        [0.35, 0.5, 0.65, 0.8].forEach((t, i) => {
+          const osc = ac.createOscillator();
+          const g = ac.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = [523, 659, 784, 1047][i];
+          g.gain.setValueAtTime(0, ac.currentTime + t);
+          g.gain.linearRampToValueAtTime(0.15, ac.currentTime + t + 0.03);
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + t + 0.7);
+          osc.connect(g); g.connect(ac.destination);
+          osc.start(ac.currentTime + t);
+          osc.stop(ac.currentTime + t + 0.75);
+        });
+      } catch(e) {}
+    }
+
+    function soundDailyCard() {
+      try {
+        const ac = getAC(); if (!ac) return;
+        // Two deep temple bell tones
+        [0, 0.45].forEach((t, i) => {
+          const osc = ac.createOscillator();
+          const g = ac.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = i === 0 ? 220 : 293;
+          g.gain.setValueAtTime(0, ac.currentTime + t);
+          g.gain.linearRampToValueAtTime(0.12, ac.currentTime + t + 0.04);
+          g.gain.exponentialRampToValueAtTime(0.001, ac.currentTime + t + 1.2);
+          osc.connect(g); g.connect(ac.destination);
+          osc.start(ac.currentTime + t);
+          osc.stop(ac.currentTime + t + 1.3);
+        });
+      } catch(e) {}
     }
 
     // =============================================
